@@ -8,6 +8,7 @@ import { oauthRouter } from "./modules/auth/oauth-router.js";
 import { authRouter } from "./modules/auth/router.js";
 import { cartRouter } from "./modules/cart/router.js";
 import { productRouter } from "./modules/product/router.js";
+import { subscriptionRouter } from "./modules/subscription/router.js";
 import { healthRouter } from "./routes/health.js";
 
 export function createApp() {
@@ -24,6 +25,7 @@ export function createApp() {
   app.use(oauthRouter);
   app.use(productRouter);
   app.use(cartRouter);
+  app.use(subscriptionRouter);
 
   app.use((_req, res) => {
     res.status(404).json({ error: { code: "NOT_FOUND", message: "요청한 경로가 없습니다." } });
