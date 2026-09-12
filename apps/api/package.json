@@ -14,7 +14,8 @@
     "prisma:deploy": "prisma migrate deploy",
     "prisma:studio": "prisma studio",
     "postinstall": "prisma generate",
-    "test:migrate": "DATABASE_URL=postgresql://routinebox:routinebox@localhost:5433/routinebox_test?schema=public prisma migrate deploy"
+    "test:migrate": "DATABASE_URL=postgresql://routinebox:routinebox@localhost:5433/routinebox_test?schema=public prisma migrate deploy",
+    "db:seed": "prisma db seed"
   },
   "dependencies": {
     "@prisma/client": "6.19.3",
@@ -40,5 +41,8 @@
     "supertest": "^7.2.2",
     "typescript": "^5.9.3",
     "vitest": "^5.0.0"
+  },
+  "prisma": {
+    "seed": "tsx prisma/seed.ts"
   }
 }
