@@ -8,6 +8,7 @@ import styles from "./ProductCard.module.scss";
 export function ProductThumb({ product, className }: { product: ProductDto; className?: string }) {
   return (
     <div className={cx(styles.thumb, styles[`cat-${product.category}`], className)} aria-hidden>
+      {/* eslint-disable-next-line @next/next/no-img-element -- 외부 URL 자리표시자, 최적화는 이미지 업로드 도입 시 */}
       {product.imageUrl ? <img src={product.imageUrl} alt="" /> : <span className={styles.thumbLabel}>{product.name}</span>}
     </div>
   );

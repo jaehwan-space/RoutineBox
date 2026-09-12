@@ -32,15 +32,15 @@ export function useSubscriptionActions() {
     void qc.invalidateQueries({ queryKey: SUBS_KEY });
   };
   const fail = (err: unknown, fallback: string) => toast.error(err instanceof ApiError ? err.message : fallback);
-  const make = <TArgs,>(fn: (args: TArgs) => Promise<SubscriptionDto>, success: (s: SubscriptionDto) => string, fallback: string) =>
+  const useAction = <TArgs,>(fn: (args: TArgs) => Promise<SubscriptionDto>, success: (s: SubscriptionDto) => string, fallback: string) =>
     useMutation({ mutationFn: fn, onSuccess: (s) => { replace(s); toast.success(success(s)); }, onError: (e) => fail(e, fallback) });
 
   return {
-    skip: make((id: string) => subscriptionApi.skip(id), (s) => `이번 회차를 건너뛰었어요. 다음 결제일은 ${s.nextBillingDate} 입니다.`, "건너뛰기를 적용하지 못했어요."),
-    pause: make((id: string) => subscriptionApi.pause(id), () => "구독을 일시정지했어요. 재개할 때까지 결제되지 않아요.", "일시정지하지 못했어요."),
-    resume: make((id: string) => subscriptionApi.resume(id), (s) => `구독을 재개했어요. 다음 결제일은 ${s.nextBillingDate} 입니다.`, "재개하지 못했어요."),
-    cancel: make((id: string) => subscriptionApi.cancel(id), () => "구독을 해지했어요.", "해지하지 못했어요."),
-    activate: make((v: { id: string; paymentMethodId: string }) => subscriptionApi.activate(v.id, { paymentMethodId: v.paymentMethodId }), (s) => `구독을 시작했어요. 첫 결제일은 ${s.nextBillingDate} 입니다.`, "구독을 시작하지 못했어요."),
-    update: make((v: { id: string; quantity?: number; cycleDays?: number }) => subscriptionApi.update(v.id, { quantity: v.quantity, cycleDays: v.cycleDays }), () => "주기·수량을 변경했어요.", "변경하지 못했어요."),
+    skip: useAction((id: string) => subscriptionApi.skip(id), (s) => `이번 회차를 건너뛰었어요. 다음 결제일은 ${s.nextBillingDate} 입니다.`, "건너뛰기를 적용하지 못했어요."),
+    pause: useAction((id: string) => subscriptionApi.pause(id), () => "구독을 일시정지했어요. 재개할 때까지 결제되지 않아요.", "일시정지하지 못했어요."),
+    resume: useAction((id: string) => subscriptionApi.resume(id), (s) => `구독을 재개했어요. 다음 결제일은 ${s.nextBillingDate} 입니다.`, "재개하지 못했어요."),
+    cancel: useAction((id: string) => subscriptionApi.cancel(id), () => "구독을 해지했어요.", "해지하지 못했어요."),
+    activate: useAction((v: { id: string; paymentMethodId: string }) => subscriptionApi.activate(v.id, { paymentMethodId: v.paymentMethodId }), (s) => `구독을 시작했어요. 첫 결제일은 ${s.nextBillingDate} 입니다.`, "구독을 시작하지 못했어요."),
+    update: useAction((v: { id: string; quantity?: number; cycleDays?: number }) => subscriptionApi.update(v.id, { quantity: v.quantity, cycleDays: v.cycleDays }), () => "주기·수량을 변경했어요.", "변경하지 못했어요."),
   };
 }
