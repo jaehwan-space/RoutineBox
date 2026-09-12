@@ -1,35 +1,86 @@
-// 색상 (계획서 화면 목업 기준)
-$color-primary: #2a78d6;
-$color-primary-dark: #1c5cab;
-$color-primary-soft: #e8f0fb;
-$color-accent: #eb6834;
-$color-success: #1baf7a;
-$color-warning: #eda100;
-$color-danger: #d03b3b;
-$color-ink: #0b0b0b;
-$color-text: #1f1f1d;
-$color-text-secondary: #52514e;
-$color-muted: #8a8a86;
-$color-border: #d9d8d2;
-$color-surface: #f5f4f0;
-$color-bg: #ffffff;
+// 컴포넌트에서 쓰는 별칭. 색은 항상 의미 토큰(CSS 변수)을 가리켜 테마에 따라 바뀐다.
+@use "sass:map";
+@use "tokens" as t;
 
-// 간격·크기
-$space-1: 4px;
-$space-2: 8px;
-$space-3: 12px;
-$space-4: 16px;
-$space-5: 24px;
-$space-6: 32px;
-$space-7: 48px;
-$radius-sm: 6px;
-$radius-md: 10px;
-$radius-lg: 16px;
+// ---- 색 (의미 토큰) ----
+$color-bg: var(--color-bg);
+$color-surface: var(--color-surface);
+$color-surface-raised: var(--color-surface-raised);
+$color-surface-sunken: var(--color-surface-sunken);
+$color-text: var(--color-text);
+$color-ink: var(--color-text);
+$color-text-secondary: var(--color-text-secondary);
+$color-muted: var(--color-text-muted);
+$color-on-primary: var(--color-text-on-primary);
+$color-border: var(--color-border);
+$color-border-strong: var(--color-border-strong);
+$color-primary: var(--color-primary);
+$color-primary-hover: var(--color-primary-hover);
+$color-primary-dark: var(--color-primary-hover); // 구 이름 호환
+$color-primary-active: var(--color-primary-active);
+$color-primary-soft: var(--color-primary-soft);
+$color-primary-text: var(--color-primary-text);
+$color-accent: var(--color-accent);
+$color-accent-soft: var(--color-accent-soft);
+$color-accent-text: var(--color-accent-text);
+$color-success: var(--color-success);
+$color-success-soft: var(--color-success-soft);
+$color-success-text: var(--color-success-text);
+$color-warning: var(--color-warning);
+$color-warning-soft: var(--color-warning-soft);
+$color-warning-text: var(--color-warning-text);
+$color-danger: var(--color-danger);
+$color-danger-hover: var(--color-danger-hover);
+$color-danger-soft: var(--color-danger-soft);
+$color-danger-text: var(--color-danger-text);
+$color-overlay: var(--color-overlay);
+$focus-ring: var(--focus-ring);
+$shadow-raised: var(--shadow-raised);
+$shadow-float: var(--shadow-float);
+
+// ---- 타이포 ----
+$font-sans: var(--font-sans), -apple-system, BlinkMacSystemFont, "Apple SD Gothic Neo", "Segoe UI", Roboto, "Noto Sans KR", sans-serif;
+$font-xs: map.get(t.$font-sizes, xs);
+$font-sm: map.get(t.$font-sizes, sm);
+$font-base: map.get(t.$font-sizes, base);
+$font-md: map.get(t.$font-sizes, md);
+$font-lg: map.get(t.$font-sizes, lg);
+$font-xl: map.get(t.$font-sizes, xl);
+$font-2xl: map.get(t.$font-sizes, 2xl);
+$font-3xl: map.get(t.$font-sizes, 3xl);
+$font-4xl: map.get(t.$font-sizes, 4xl);
+$lh-tight: map.get(t.$line-heights, tight);
+$lh-snug: map.get(t.$line-heights, snug);
+$lh-normal: map.get(t.$line-heights, normal);
+
+// ---- 간격·반경·레이어 ----
+$space-1: map.get(t.$spaces, 1);
+$space-2: map.get(t.$spaces, 2);
+$space-3: map.get(t.$spaces, 3);
+$space-4: map.get(t.$spaces, 4);
+$space-5: map.get(t.$spaces, 5);
+$space-6: map.get(t.$spaces, 6);
+$space-7: map.get(t.$spaces, 7);
+$space-8: map.get(t.$spaces, 8);
+$space-9: map.get(t.$spaces, 9);
+$space-10: map.get(t.$spaces, 10);
+$radius-sm: map.get(t.$radii, sm);   // 버튼·입력
+$radius-md: map.get(t.$radii, md);   // 카드
+$radius-lg: map.get(t.$radii, lg);   // 시트·배너
+$radius-full: map.get(t.$radii, full);
+$z-header: map.get(t.$z, header);
+$z-dropdown: map.get(t.$z, dropdown);
+$z-dialog: map.get(t.$z, dialog);
+$z-toast: map.get(t.$z, toast);
 $container-max: 1240px;
 $header-height: 60px;
+$touch-min: 44px;
+$duration-fast: t.$duration-fast;
+$duration-base: t.$duration-base;
+$ease: t.$ease-standard;
 
-// 브레이크포인트 (모바일 우선)
-$bp-sm: 480px;
-$bp-md: 768px;
-$bp-lg: 1024px;
-$bp-xl: 1240px;
+// ---- 브레이크포인트 ----
+$bp-sm: map.get(t.$breakpoints, sm);
+$bp-md: map.get(t.$breakpoints, md);
+$bp-lg: map.get(t.$breakpoints, lg);
+$bp-xl: map.get(t.$breakpoints, xl);
