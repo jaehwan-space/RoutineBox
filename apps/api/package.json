@@ -13,7 +13,8 @@
     "prisma:migrate": "prisma migrate dev",
     "prisma:deploy": "prisma migrate deploy",
     "prisma:studio": "prisma studio",
-    "postinstall": "prisma generate"
+    "postinstall": "prisma generate",
+    "test:migrate": "DATABASE_URL=postgresql://routinebox:routinebox@localhost:5433/routinebox_test?schema=public prisma migrate deploy"
   },
   "dependencies": {
     "@prisma/client": "6.19.3",
