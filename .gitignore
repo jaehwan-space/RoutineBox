@@ -1,0 +1,23 @@
+# dependencies / build
+node_modules/
+.pnpm-store/
+dist/
+.next/
+out/
+coverage/
+*.tsbuildinfo
+
+# env & secrets (예시 파일만 커밋)
+.env
+.env.*
+!.env.example
+
+# OS / editor
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
+*.log
+
+# 계획서·보고서 원본(연락처 등 개인정보 포함) — 공개 저장소에 올리지 않음
+RoutineBox_계획서/
