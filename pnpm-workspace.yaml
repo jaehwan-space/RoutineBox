@@ -1,3 +1,12 @@
 packages:
   - "apps/*"
   - "packages/*"
+
+# pnpm 10+ 는 의존성의 postinstall 을 기본 차단한다. 필요한 것만 명시적으로 허용.
+onlyBuiltDependencies:
+  - "@prisma/client"
+  - "@prisma/engines"
+  - prisma
+  - esbuild
+  - unrs-resolver
+  - "@parcel/watcher"
