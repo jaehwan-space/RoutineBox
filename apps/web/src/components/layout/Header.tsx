@@ -1,5 +1,6 @@
 import Link from "next/link";
-import { Bell, Box, ShoppingCart, User } from "lucide-react";
+import { Bell, Box, ShoppingCart } from "lucide-react";
+import { HeaderUser } from "./HeaderUser";
 import styles from "./Header.module.scss";
 
 export function Header() {
@@ -19,7 +20,7 @@ export function Header() {
         <div className={styles.actions}>
           <Bell size={20} aria-hidden />
           <Link href="/cart" aria-label="장바구니"><ShoppingCart size={20} /></Link>
-          <Link href="/login" className={styles.login}><User size={16} /> 로그인</Link>
+          <HeaderUser />
         </div>
       </div>
     </header>
