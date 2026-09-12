@@ -1,0 +1,28 @@
+@use "../../../styles/variables" as v;
+@use "../../../styles/mixins" as *;
+
+.stepper {
+  display: inline-flex; align-items: stretch;
+  border: 1px solid v.$color-border-strong;
+  border-radius: v.$radius-sm;
+  background: v.$color-surface;
+  overflow: hidden;
+}
+.control {
+  display: inline-flex; align-items: center; justify-content: center;
+  width: v.$touch-min; min-height: v.$touch-min;
+  background: transparent; border: 0; cursor: pointer; color: v.$color-text-secondary;
+  svg { width: 18px; height: 18px; }
+  &:hover:not(:disabled) { background: v.$color-surface-sunken; color: v.$color-text; }
+  &:disabled { opacity: 0.4; cursor: not-allowed; }
+  @include focus-visible;
+}
+.value {
+  min-width: 44px; padding: 0 v.$space-2;
+  display: inline-flex; align-items: center; justify-content: center;
+  font-weight: 700; @include tabular-nums;
+  border-left: 1px solid v.$color-border; border-right: 1px solid v.$color-border;
+  @include focus-visible;
+}
+.sm { .control { width: 36px; min-height: 36px; svg { width: 16px; height: 16px; } } .value { min-width: 36px; font-size: v.$font-sm; } }
+.disabled { opacity: 0.6; }

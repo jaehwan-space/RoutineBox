@@ -1,5 +1,6 @@
 import type { Metadata, Viewport } from "next";
 import { Header } from "@/components/layout/Header";
+import { ToastProvider } from "@/components/ui";
 import { pretendard } from "@/design/fonts";
 import { ThemeProvider, themeInitScript } from "@/design/theme";
 import { QueryProvider } from "@/lib/query-client";
@@ -27,8 +28,10 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
       <body>
         <ThemeProvider>
           <QueryProvider>
-            <Header />
-            <main>{children}</main>
+            <ToastProvider>
+              <Header />
+              <main>{children}</main>
+            </ToastProvider>
           </QueryProvider>
         </ThemeProvider>
       </body>
