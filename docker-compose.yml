@@ -1,0 +1,62 @@
+# 로컬 개발: `docker compose up -d db` 로 DB만 띄우고 pnpm dev 실행
+# 전체 스택 확인: `docker compose up --build` 후 http://localhost
+services:
+  db:
+    image: postgres:16-alpine
+    container_name: routinebox-db
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER:-routinebox}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-routinebox}
+      POSTGRES_DB: ${POSTGRES_DB:-routinebox}
+    ports:
+      - "5432:5432"
+    volumes:
+      - db-data:/var/lib/postgresql/data
+      - ./scripts/init-test-db.sql:/docker-entrypoint-initdb.d/10-test-db.sql:ro
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER:-routinebox} -d ${POSTGRES_DB:-routinebox}"]
+      interval: 5s
+      timeout: 3s
+      retries: 10
+
+  api:
+    build:
+      context: .
+      dockerfile: apps/api/Dockerfile
+    container_name: routinebox-api
+    env_file: .env
+    environment:
+      DATABASE_URL: postgresql://${POSTGRES_USER:-routinebox}:${POSTGRES_PASSWORD:-routinebox}@db:5432/${POSTGRES_DB:-routinebox}?schema=public
+      API_PORT: 4000
+    depends_on:
+      db:
+        condition: service_healthy
+    expose:
+      - "4000"
+
+  web:
+    build:
+      context: .
+      dockerfile: apps/web/Dockerfile
+    container_name: routinebox-web
+    environment:
+      API_INTERNAL_URL: http://api:4000
+      NEXT_PUBLIC_API_BASE: /api
+    depends_on:
+      - api
+    expose:
+      - "3000"
+
+  nginx:
+    image: nginx:1.27-alpine
+    container_name: routinebox-nginx
+    ports:
+      - "80:80"
+    volumes:
+      - ./nginx/local.conf:/etc/nginx/conf.d/default.conf:ro
+    depends_on:
+      - web
+      - api
+
+volumes:
+  db-data:
