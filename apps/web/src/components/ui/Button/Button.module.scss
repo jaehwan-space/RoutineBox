@@ -1,0 +1,52 @@
+@use "../../../styles/variables" as v;
+@use "../../../styles/mixins" as *;
+
+.button {
+  @include button-base;
+  position: relative;
+}
+.label { display: inline-block; }
+.icon { display: inline-flex; align-items: center; svg { width: 18px; height: 18px; } }
+
+// 크기
+.sm { min-height: 36px; padding: 0 v.$space-3; font-size: v.$font-sm; .icon svg { width: 16px; height: 16px; } }
+.md { min-height: v.$touch-min; }
+.lg { min-height: 52px; padding: 0 v.$space-5; font-size: v.$font-md; }
+.fullWidth { width: 100%; }
+
+// 종류
+.primary {
+  background: v.$color-primary;
+  color: v.$color-on-primary;
+  &:hover:not(:disabled) { background: v.$color-primary-hover; }
+  &:active:not(:disabled) { background: v.$color-primary-active; }
+}
+.secondary {
+  background: v.$color-surface;
+  color: v.$color-text;
+  border-color: v.$color-border-strong;
+  &:hover:not(:disabled) { background: v.$color-surface-sunken; }
+}
+.ghost {
+  background: transparent;
+  color: v.$color-primary-text;
+  &:hover:not(:disabled) { background: v.$color-primary-soft; }
+}
+.danger {
+  background: v.$color-danger;
+  color: #fff;
+  &:hover:not(:disabled) { background: v.$color-danger-hover; }
+}
+
+// 로딩
+.loading .label, .loading .icon { visibility: hidden; }
+.spinner {
+  position: absolute;
+  width: 18px; height: 18px;
+  border: 2px solid currentColor;
+  border-right-color: transparent;
+  border-radius: 50%;
+  animation: spin 0.7s linear infinite;
+  @include reduced-motion { animation-duration: 1.4s; }
+}
+@keyframes spin { to { transform: rotate(360deg); } }

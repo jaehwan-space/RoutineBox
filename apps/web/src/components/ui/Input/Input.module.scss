@@ -1,0 +1,19 @@
+@use "../../../styles/variables" as v;
+@use "../../../styles/mixins" as *;
+
+.field { display: flex; flex-direction: column; gap: v.$space-1; }
+.label { font-size: v.$font-sm; font-weight: 600; color: v.$color-text-secondary; }
+.control { position: relative; display: flex; align-items: center; }
+.input { @include field-base; }
+.hasLeading .input { padding-left: 40px; }
+.hasTrailing .input { padding-right: 40px; }
+.leading, .trailing {
+  position: absolute; top: 0; bottom: 0;
+  display: inline-flex; align-items: center;
+  color: v.$color-muted;
+  svg { width: 18px; height: 18px; }
+}
+.leading { left: v.$space-3; pointer-events: none; }
+.trailing { right: v.$space-2; }
+.helper { font-size: v.$font-sm; color: v.$color-muted; }
+.error { font-size: v.$font-sm; color: v.$color-danger-text; }

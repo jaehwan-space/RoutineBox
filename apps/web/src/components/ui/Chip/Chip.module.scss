@@ -1,0 +1,26 @@
+@use "../../../styles/variables" as v;
+@use "../../../styles/mixins" as *;
+
+.chip {
+  display: inline-flex; align-items: center; gap: v.$space-1;
+  border: 1px solid v.$color-border-strong;
+  border-radius: v.$radius-full;
+  background: v.$color-surface;
+  color: v.$color-text-secondary;
+  font-weight: 600;
+  cursor: pointer;
+  white-space: nowrap;
+  transition: background-color v.$duration-fast v.$ease, color v.$duration-fast v.$ease, border-color v.$duration-fast v.$ease;
+  @include focus-visible;
+  &:hover:not(:disabled) { background: v.$color-surface-sunken; color: v.$color-text; }
+  &:disabled { opacity: 0.5; cursor: not-allowed; }
+}
+.sm { min-height: 32px; padding: 0 v.$space-3; font-size: v.$font-sm; }
+.md { min-height: 40px; padding: 0 v.$space-4; font-size: v.$font-base; }
+.selected {
+  background: v.$color-text;
+  border-color: v.$color-text;
+  color: v.$color-bg;
+  &:hover:not(:disabled) { background: v.$color-text; color: v.$color-bg; }
+}
+.icon { display: inline-flex; svg { width: 16px; height: 16px; } }
