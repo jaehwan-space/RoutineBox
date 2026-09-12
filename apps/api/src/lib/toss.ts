@@ -1,10 +1,12 @@
+import { tossBillingKeyProblem } from "@routinebox/shared";
 import { config } from "../config.js";
 import { AppError } from "./errors.js";
 
 const BASE = "https://api.tosspayments.com";
 
 function authHeader(): string {
-  if (!config.TOSS_SECRET_KEY) throw new AppError("INTERNAL", "토스페이먼츠 시크릿 키가 설정되지 않았습니다.");
+  const problem = tossBillingKeyProblem(config.TOSS_SECRET_KEY, "secret", "TOSS_SECRET_KEY");
+  if (problem) throw new AppError("INTERNAL", problem);
   return `Basic ${Buffer.from(`${config.TOSS_SECRET_KEY}:`).toString("base64")}`;
 }
 
@@ -26,3 +28,12 @@ export async function issueBillingKey(authKey: string, customerKey: string): Pro
 }
 
 export const isTossConfigured = () => Boolean(config.TOSS_SECRET_KEY);
+
+/** 서버 시작 시 출력할 키 설정 경고. 키가 비어 있는 것은 (결제 연동 전이라) 경고하지 않고, 종류가 틀린 키만 알린다. */
+export function tossKeyWarnings(): string[] {
+  const checks = [
+    ["TOSS_SECRET_KEY", config.TOSS_SECRET_KEY, "secret"],
+    ["TOSS_CLIENT_KEY", config.TOSS_CLIENT_KEY, "client"],
+  ] as const;
+  return checks.flatMap(([envName, key, role]) => (key ? [tossBillingKeyProblem(key, role, envName)] : [])).filter((m): m is string => Boolean(m));
+}
