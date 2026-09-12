@@ -21,3 +21,6 @@ Thumbs.db
 
 # 계획서·보고서 원본(연락처 등 개인정보 포함) — 공개 저장소에 올리지 않음
 RoutineBox_계획서/
+
+# Claude Code 로컬 실행 설정
+.claude/launch.json
