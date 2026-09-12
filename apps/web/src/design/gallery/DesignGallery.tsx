@@ -59,7 +59,7 @@ export function DesignGallery() {
 
       <Section id="color" title="색 (의미 토큰)">
         <div className={styles.twoThemes}>
-          <div className={styles.themeCol}><h3>라이트</h3><Swatches /></div>
+          <div className={styles.themeCol} data-theme="light"><h3>라이트</h3><Swatches /></div>
           <div className={styles.themeCol} data-theme="dark"><h3>다크</h3><Swatches /></div>
         </div>
       </Section>

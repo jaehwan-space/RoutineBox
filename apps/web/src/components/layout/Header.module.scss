@@ -7,7 +7,7 @@
   background: v.$color-surface;
   border-bottom: 1px solid v.$color-border;
 }
-.inner { @include container; height: 100%; display: flex; align-items: center; gap: v.$space-4; }
+.inner { @include container; height: 100%; display: flex; align-items: center; gap: v.$space-3; @include up(md) { gap: v.$space-4; } }
 .brand {
   display: flex; align-items: center; gap: v.$space-2;
   font-weight: 800; font-size: v.$font-lg; letter-spacing: -0.02em; color: v.$color-text;
@@ -21,7 +21,8 @@
   @include up(md) { display: flex; }
 }
 .spacer { flex: 1; }
-.actions { display: flex; align-items: center; gap: v.$space-1; }
+.actions { display: flex; align-items: center; gap: 0; @include up(md) { gap: v.$space-1; } }
+.desktopOnly { display: none !important; @include up(md) { display: inline-flex !important; } }
 .iconLink {
   display: inline-flex; align-items: center; justify-content: center;
   width: v.$touch-min; height: v.$touch-min; border-radius: v.$radius-sm;

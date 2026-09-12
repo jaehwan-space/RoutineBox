@@ -20,7 +20,7 @@ export function Header() {
         <div className={styles.spacer} />
         <div className={styles.actions}>
           <ThemeToggle />
-          <Link href="/notifications" className={styles.iconLink} aria-label="알림"><Bell /></Link>
+          <Link href="/notifications" className={`${styles.iconLink} ${styles.desktopOnly}`} aria-label="알림"><Bell /></Link>
           <Link href="/cart" className={styles.iconLink} aria-label="장바구니"><ShoppingCart /></Link>
           <HeaderUser />
         </div>

@@ -2,7 +2,7 @@
 @use "variables" as v;
 @use "mixins" as *;
 
-:root { @include t.light; }
+:root, [data-theme="light"] { @include t.light; }
 [data-theme="dark"] { @include t.dark; }
 @media (prefers-color-scheme: dark) {
   :root:not([data-theme="light"]) { @include t.dark; }
