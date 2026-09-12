@@ -23,6 +23,8 @@ pnpm db:migrate                 # Prisma 마이그레이션
 pnpm dev                        # web :3000, api :4000
 ```
 
+개발 중에는 `PAYMENTS_MOCK=true`(API)와 `NEXT_PUBLIC_PAYMENTS_MOCK=true`(web)로 모의 카드를 등록해 결제 연동 없이 구독 흐름을 확인할 수 있다. 상품 시드는 `pnpm db:seed`.
+
 전체 스택을 컨테이너로 실행하려면 `docker compose up --build` 후 http://localhost 로 접속합니다.
 
 ## 브랜치

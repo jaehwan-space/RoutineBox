@@ -21,33 +21,37 @@
 ## 상품 `/products`
 | 메서드 | 경로 | 설명 |
 |---|---|---|
-| GET | /products?category=&q=&page= | 목록·검색 (정가, 구독가, 추천 주기) |
-| GET | /products/:id | 상세 |
-| POST | /products 🛡 | 등록 |
-| PATCH | /products/:id 🛡 | 수정·품절 |
+| GET | /products?category=&q=&page=&pageSize= | 목록·검색 → `{ items, page, pageSize, total }`. 각 항목에 `subscriptionPrice`(할인 적용, 10원 단위 내림) 포함. 활성 상품만 |
+| GET | /products/:id | 상세 (비활성·없음 404) |
+| POST | /products 🛡 | 등록 (관리자 주차) |
+| PATCH | /products/:id 🛡 | 수정·품절 (관리자 주차) |
 
 ## 장바구니 `/cart` 🔒
-| GET | /cart | 내 장바구니 |
-| PUT | /cart/items | { productId, quantity } 추가·수량 변경 |
+| GET | /cart | 내 장바구니 → `{ items[{ productId, quantity, product, lineTotal }], itemCount, total }` |
+| PUT | /cart/items | { productId, quantity } 추가·수량 변경(upsert). 비활성 상품 404 |
 | DELETE | /cart/items/:productId | 삭제 |
 
 ## 결제 수단 `/payment-methods` 🔒
-| POST | /payment-methods/billing-auth | { authKey, customerKey } → 토스 빌링키 발급·암호화 저장 |
-| GET | /payment-methods | 등록 카드(카드사·마지막 4자리) |
-| DELETE | /payment-methods/:id | 삭제(활성 구독 있으면 409) |
+| POST | /payment-methods/billing-auth | { authKey, customerKey } → 토스 빌링키 발급·AES-256-GCM 암호화 저장. customerKey 는 `cust_{userId}` 여야 함(400) |
+| POST | /payment-methods/mock | 개발 전용 모의 카드 등록. `PAYMENTS_MOCK=true` 이고 production 이 아닐 때만 라우트가 존재 |
+| GET | /payment-methods | 등록 카드 `[{ id, cardCompany, cardLast4, createdAt }]` |
+| DELETE | /payment-methods/:id | 삭제(ACTIVE·PAUSED·PAYMENT_FAILED 구독이 쓰면 409) |
 
 ## 구독 `/subscriptions` 🔒
 | 메서드 | 경로 | 설명 | 상태 전이 |
 |---|---|---|---|
-| GET | /subscriptions | 내 구독 목록 + 이번 달 예정 결제 합계 | - |
-| POST | /subscriptions | { productId, quantity, cycleDays, firstDeliveryDate } | → PENDING 또는 ACTIVE |
+| GET | /subscriptions | 내 구독 목록 → `{ items, monthlyDue(이번 달 ACTIVE 예정 결제 합계), activeCount }` | - |
+| POST | /subscriptions | { productId, quantity, cycleDays, firstDeliveryDate, paymentMethodId? }. 첫 배송일은 오늘+3일 이후(400). 결제일 = 배송일 − 3 | paymentMethodId 있으면 ACTIVE, 없으면 PENDING |
+| POST | /subscriptions/:id/activate | { paymentMethodId } 카드 연결 후 시작 | PENDING → ACTIVE |
 | GET | /subscriptions/:id | 상세(회차 이력) | - |
 | POST | /subscriptions/:id/skip | 이번 회차 건너뛰기 | ACTIVE → ACTIVE (nextBillingDate += cycleDays) |
 | POST | /subscriptions/:id/pause | 일시정지 | ACTIVE → PAUSED |
 | POST | /subscriptions/:id/resume | 재개 { nextBillingDate? } | PAUSED → ACTIVE |
 | PATCH | /subscriptions/:id | 주기·수량 변경 | ACTIVE → ACTIVE |
 | POST | /subscriptions/:id/cancel | 해지 | ACTIVE·PAUSED·PAYMENT_FAILED → CANCELLED |
-| POST | /subscriptions/:id/retry-payment | 카드 변경 후 즉시 재시도 | PAYMENT_FAILED → ACTIVE |
+| POST | /subscriptions/:id/retry-payment | 카드 변경 후 즉시 재시도 (3주차) | PAYMENT_FAILED → ACTIVE |
+
+구독 응답 `SubscriptionDto`: `{ id, status, product{id,name,category}, quantity, cycleDays, amount(회당, 스냅샷), firstDeliveryDate, nextBillingDate, nextDeliveryDate(=결제일+3), failCount, paymentMethod|null, createdAt, orders?[] }`
 
 ## 주문 `/orders` 🔒
 | GET | /orders | 내 주문(회차) 목록 |
