@@ -1,0 +1,9 @@
+@use "../../styles/variables" as v;
+@use "../../styles/mixins" as *;
+.grid {
+  display: grid; grid-template-columns: repeat(2, 1fr); gap: v.$space-3;
+  @include up(md) { grid-template-columns: repeat(3, 1fr); gap: v.$space-4; }
+  @include up(lg) { grid-template-columns: repeat(4, 1fr); }
+  @include up(xl) { grid-template-columns: repeat(6, 1fr); }
+  > li { display: flex; > * { flex: 1; } }
+}

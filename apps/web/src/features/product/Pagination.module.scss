@@ -1,0 +1,4 @@
+@use "../../styles/variables" as v;
+@use "../../styles/mixins" as *;
+.pagination { display: flex; align-items: center; justify-content: center; gap: v.$space-3; padding: v.$space-5 0; }
+.status { font-size: v.$font-sm; color: v.$color-text-secondary; @include tabular-nums; }

@@ -1,0 +1,3 @@
+@use "../../styles/variables" as v;
+.form { width: 100%; }
+.compact { width: 320px; input { min-height: 40px; } }
