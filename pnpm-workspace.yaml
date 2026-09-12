@@ -2,23 +2,15 @@ packages:
   - "apps/*"
   - "packages/*"
 
-# pnpm 10+ 는 의존성의 postinstall 을 기본 차단한다. 필요한 것만 명시적으로 허용.
-onlyBuiltDependencies:
-  - "@prisma/client"
-  - "@prisma/engines"
-  - prisma
-  - esbuild
-  - unrs-resolver
-  - "@parcel/watcher"
+# pnpm 11: 의존성의 설치 스크립트는 기본 차단. 필요한 패키지만 명시적으로 허용한다.
+allowBuilds:
+  "@prisma/client": true
+  "@prisma/engines": true
+  prisma: true
+  esbuild: true
+  unrs-resolver: true
+  "@parcel/watcher": true
 
 # pnpm 11 공급망 정책: 배포 후 N분이 지나지 않은 버전은 설치·실행을 막는다.
-# 최신 Next.js 등을 바로 쓰기 위해 이 프로젝트에서는 비활성화한다. (필요 시 1440 등으로 되돌릴 것)
+# 최신 라이브러리를 바로 쓰기 위해 이 프로젝트에서는 비활성화한다. (필요 시 1440 등으로 되돌릴 것)
 minimumReleaseAge: 0
-
-allowBuilds:
-  '@parcel/watcher': set this to true or false
-  '@prisma/client': set this to true or false
-  '@prisma/engines': set this to true or false
-  esbuild: set this to true or false
-  prisma: set this to true or false
-  unrs-resolver: set this to true or false
