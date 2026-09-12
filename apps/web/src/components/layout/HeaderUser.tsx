@@ -2,6 +2,7 @@
 
 import Link from "next/link";
 import { LogOut, User } from "lucide-react";
+import { Button, IconButton } from "@/components/ui";
 import { useLogout, useMe } from "@/features/auth/useMe";
 import styles from "./Header.module.scss";
 
@@ -11,18 +12,12 @@ export function HeaderUser() {
 
   if (isPending) return <span className={styles.userPlaceholder} aria-hidden />;
   if (!me) {
-    return (
-      <Link href="/login" className={styles.login}>
-        <User size={16} /> 로그인
-      </Link>
-    );
+    return <Button href="/login" variant="secondary" size="sm" leadingIcon={<User />}>로그인</Button>;
   }
   return (
     <div className={styles.user}>
       <Link href="/account" className={styles.userName}>{me.name}님</Link>
-      <button type="button" className={styles.logout} onClick={() => logout.mutate()} disabled={logout.isPending} aria-label="로그아웃">
-        <LogOut size={16} />
-      </button>
+      <IconButton aria-label="로그아웃" size="sm" onClick={() => logout.mutate()} disabled={logout.isPending}><LogOut /></IconButton>
     </div>
   );
 }

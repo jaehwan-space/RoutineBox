@@ -20,8 +20,8 @@ export function Header() {
         <div className={styles.spacer} />
         <div className={styles.actions}>
           <ThemeToggle />
-          <Bell size={20} aria-hidden />
-          <Link href="/cart" aria-label="장바구니"><ShoppingCart size={20} /></Link>
+          <Link href="/notifications" className={styles.iconLink} aria-label="알림"><Bell /></Link>
+          <Link href="/cart" className={styles.iconLink} aria-label="장바구니"><ShoppingCart /></Link>
           <HeaderUser />
         </div>
       </div>
