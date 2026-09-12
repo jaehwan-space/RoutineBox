@@ -8,7 +8,7 @@ export const registerSchema = z.object({
 export type RegisterInput = z.infer<typeof registerSchema>;
 
 export const loginSchema = z.object({
-  email: z.email(),
+  email: z.email({ message: "올바른 이메일을 입력하세요." }),
   password: z.string().min(1),
 });
 export type LoginInput = z.infer<typeof loginSchema>;
