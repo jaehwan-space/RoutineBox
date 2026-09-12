@@ -8,6 +8,7 @@ import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { loginSchema, type LoginInput } from "@routinebox/shared";
 import { Button, Input } from "@/components/ui";
+import { mergeLocalCart } from "@/features/cart/useCart";
 import { ApiError } from "@/lib/api";
 import { authApi } from "./api";
 import { ME_KEY } from "./useMe";
@@ -32,6 +33,7 @@ export function LoginForm() {
     try {
       const user = await authApi.login(values);
       qc.setQueryData(ME_KEY, user);
+      await mergeLocalCart(qc);
       router.push(next && next.startsWith("/") ? next : "/");
       router.refresh();
     } catch (err) {

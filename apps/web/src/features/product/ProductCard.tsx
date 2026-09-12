@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { CATEGORY_LABELS, formatKrw, type ProductDto } from "@routinebox/shared";
 import { Badge, Button, Card } from "@/components/ui";
+import { AddToCartButton } from "@/features/cart/AddToCartButton";
 import { cx } from "@/lib/cx";
 import styles from "./ProductCard.module.scss";
 
@@ -30,7 +31,10 @@ export function ProductCard({ product }: { product: ProductDto }) {
           <s className={styles.listPrice}>{formatKrw(product.price)}</s>
         </p>
         <p className={styles.cycle}>추천 주기 {weeks}주</p>
-        <Button href={`/products/${product.id}`} size="sm" fullWidth>구독하기</Button>
+        <div className={styles.actions}>
+          <AddToCartButton product={product} />
+          <Button href={`/products/${product.id}`} size="sm" className={styles.grow}>구독하기</Button>
+        </div>
       </div>
     </Card>
   );

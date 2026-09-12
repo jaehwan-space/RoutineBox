@@ -8,6 +8,7 @@ import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { registerSchema, type RegisterInput } from "@routinebox/shared";
 import { Button, Input } from "@/components/ui";
+import { mergeLocalCart } from "@/features/cart/useCart";
 import { ApiError } from "@/lib/api";
 import { authApi } from "./api";
 import { ME_KEY } from "./useMe";
@@ -25,6 +26,7 @@ export function SignupForm() {
     try {
       const user = await authApi.register(values);
       qc.setQueryData(ME_KEY, user);
+      await mergeLocalCart(qc);
       router.push("/");
       router.refresh();
     } catch (err) {

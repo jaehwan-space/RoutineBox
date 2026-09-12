@@ -15,3 +15,4 @@
 .listPrice { color: v.$color-muted; }
 .cycle { font-size: v.$font-sm; color: v.$color-text-secondary; strong { color: v.$color-text; } }
 .stock { font-size: v.$font-sm; color: v.$color-muted; }
+.actions { display: flex; gap: v.$space-2; flex-wrap: wrap; > :first-child { flex: 1; } }

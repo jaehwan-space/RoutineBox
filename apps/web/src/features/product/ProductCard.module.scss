@@ -27,3 +27,5 @@
 .price { display: flex; align-items: baseline; gap: v.$space-2; @include tabular-nums; strong { font-size: v.$font-lg; } }
 .listPrice { color: v.$color-muted; font-size: v.$font-xs; }
 .cycle { font-size: v.$font-xs; color: v.$color-text-secondary; margin-bottom: v.$space-2; }
+.actions { display: flex; gap: v.$space-2; margin-top: auto; }
+.grow { flex: 1; }
