@@ -25,6 +25,8 @@ pnpm dev                        # web :3000, api :4000
 
 개발 중에는 `PAYMENTS_MOCK=true`(API)와 `NEXT_PUBLIC_PAYMENTS_MOCK=true`(web)로 모의 카드를 등록해 결제 연동 없이 구독 흐름을 확인할 수 있다. 상품 시드는 `pnpm db:seed`.
 
+실제 토스 카드 등록은 **API 개별 연동 키**(`test_ck_…` / `test_sk_…`)로만 동작한다. 결제위젯 연동 키(`test_gck_…` / `test_gsk_…`)는 카드 등록창이 열리지 않는다. `.env` 를 바꾼 뒤에는 `pnpm dev` 를 다시 시작해야 한다(`NEXT_PUBLIC_*` 값은 웹 서버 시작 시 번들에 들어가고, API 도 시작할 때만 `.env` 를 읽는다).
+
 전체 스택을 컨테이너로 실행하려면 `docker compose up --build` 후 http://localhost 로 접속합니다.
 
 ## 브랜치

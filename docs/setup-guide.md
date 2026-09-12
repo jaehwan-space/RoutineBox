@@ -41,10 +41,12 @@
    - `https://<도메인>/api/auth/google/callback`
 4. 클라이언트 ID/보안 비밀번호 → `GOOGLE_CLIENT_ID`, `GOOGLE_CLIENT_SECRET`.
 
-## 5. 토스페이먼츠 테스트 키 (3주차)
-1. https://developers.tosspayments.com 가입 → **내 개발정보 → 테스트 키**.
-2. 클라이언트 키 → `TOSS_CLIENT_KEY`, 시크릿 키 → `TOSS_SECRET_KEY`.
+## 5. 토스페이먼츠 테스트 키 (2주차 카드 등록 · 3주차 자동결제)
+1. https://developers.tosspayments.com 가입 → **API 키** 메뉴 → **API 개별 연동 키** 탭. (결제위젯 연동 키 탭이 아니다.)
+2. 클라이언트 키(`test_ck_…`) → `TOSS_CLIENT_KEY` 와 `NEXT_PUBLIC_TOSS_CLIENT_KEY`, 시크릿 키(`test_sk_…`) → `TOSS_SECRET_KEY`.
+   결제위젯 연동 키(`test_gck_…` / `test_gsk_…`)를 넣으면 카드 등록창이 `NOT_SUPPORTED_WIDGET_KEY` 오류로 열리지 않는다. 결제 수단 페이지와 API 시작 로그가 이 경우를 알려 준다.
 3. `BILLING_KEY_ENCRYPTION_KEY` 는 `openssl rand -hex 32` 로 생성.
+4. `.env` 를 바꾼 뒤에는 `pnpm dev` 를 다시 시작한다. `NEXT_PUBLIC_*` 값은 웹 서버가 시작할 때 번들에 들어가고, API 도 시작할 때만 `.env` 를 읽는다.
 
 ## 6. 운영 배포 (4주차)
 ```bash
