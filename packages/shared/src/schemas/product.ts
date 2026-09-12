@@ -1,5 +1,5 @@
 import { z } from "zod";
-import { CATEGORIES } from "../constants.js";
+import { CATEGORIES } from "../constants";
 
 export const productQuerySchema = z.object({
   category: z.enum(CATEGORIES).optional(),

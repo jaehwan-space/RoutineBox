@@ -1,4 +1,4 @@
-import type { AuthProvider, Role, SubscriptionStatus } from "./constants.js";
+import type { AuthProvider, Role, SubscriptionStatus } from "./constants";
 
 export interface UserDto {
   id: string;

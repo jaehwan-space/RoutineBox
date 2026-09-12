@@ -1,5 +1,5 @@
 import { z } from "zod";
-import { CYCLE_MAX_DAYS, CYCLE_MIN_DAYS } from "../constants.js";
+import { CYCLE_MAX_DAYS, CYCLE_MIN_DAYS } from "../constants";
 
 const cycleDays = z.number().int().min(CYCLE_MIN_DAYS).max(CYCLE_MAX_DAYS);
 const isoDate = z.string().regex(/^\d{4}-\d{2}-\d{2}$/, "YYYY-MM-DD 형식이어야 합니다.");
