@@ -2,6 +2,7 @@ import Link from "next/link";
 import { Bell, Box, ShoppingCart } from "lucide-react";
 import { HeaderUser } from "./HeaderUser";
 import { ThemeToggle } from "./ThemeToggle";
+import { SearchForm } from "@/features/product/SearchForm";
 import styles from "./Header.module.scss";
 
 export function Header() {
@@ -18,6 +19,7 @@ export function Header() {
           <Link href="/subscriptions">내 구독</Link>
         </nav>
         <div className={styles.spacer} />
+        <SearchForm compact className={styles.search} />
         <div className={styles.actions}>
           <ThemeToggle />
           <Link href="/notifications" className={`${styles.iconLink} ${styles.desktopOnly}`} aria-label="알림"><Bell /></Link>

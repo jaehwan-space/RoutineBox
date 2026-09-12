@@ -34,3 +34,4 @@
 .userName { font-weight: 600; color: v.$color-text; padding: 0 v.$space-2; white-space: nowrap; }
 .userPlaceholder { display: inline-block; width: 72px; height: 36px; border-radius: v.$radius-sm; background: v.$color-surface-sunken; }
 .user { display: flex; align-items: center; }
+.search { display: none; @include up(lg) { display: block; } }

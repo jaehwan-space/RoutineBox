@@ -1,7 +1,7 @@
 @use "../styles/variables" as v;
 @use "../styles/mixins" as *;
 
-.hero { @include container; padding-top: v.$space-6; padding-bottom: v.$space-6; }
+.hero { @include container; padding-top: v.$space-5; }
 .banner {
   background: v.$color-primary;
   color: v.$color-on-primary;
@@ -13,3 +13,16 @@
   @include up(md) { padding: v.$space-6; h1 { font-size: v.$font-3xl; } }
 }
 .cta { background: v.$color-surface; color: v.$color-primary-text; border-color: transparent; &:hover:not(:disabled) { background: v.$color-surface-sunken; } }
+.section { @include container; padding-top: v.$space-5; &:last-child { padding-bottom: v.$space-8; } }
+.sectionHead { display: flex; align-items: center; justify-content: space-between; margin-bottom: v.$space-3; h2 { font-size: v.$font-xl; } }
+.steps {
+  display: grid; gap: v.$space-3;
+  @include up(md) { grid-template-columns: repeat(3, 1fr); }
+  li { @include card; padding: v.$space-4; display: flex; gap: v.$space-3; align-items: flex-start; }
+  p { color: v.$color-text-secondary; font-size: v.$font-sm; margin-top: 2px; }
+}
+.stepNo {
+  flex: none; width: 28px; height: 28px; border-radius: 50%;
+  display: inline-flex; align-items: center; justify-content: center;
+  background: v.$color-text; color: v.$color-bg; font-weight: 700; font-size: v.$font-sm;
+}
