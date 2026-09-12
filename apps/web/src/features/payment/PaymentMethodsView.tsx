@@ -3,11 +3,15 @@
 import { CreditCard, Trash2 } from "lucide-react";
 import { useSearchParams } from "next/navigation";
 import { useState } from "react";
+import { tossBillingKeyProblem } from "@routinebox/shared";
 import { Button, Card, EmptyState, IconButton, Skeleton, useToast } from "@/components/ui";
 import { useMe } from "@/features/auth/useMe";
 import { customerKeyFor, MOCK_ENABLED, TOSS_CLIENT_KEY } from "./api";
 import { usePaymentMethodActions, usePaymentMethods } from "./usePaymentMethods";
 import styles from "./PaymentMethods.module.scss";
+
+/** 클라이언트 키가 카드 등록(빌링)에 쓸 수 없는 종류면 안내 문구. NEXT_PUBLIC_* 는 빌드 시 고정되므로 모듈 상수. */
+const TOSS_KEY_PROBLEM = tossBillingKeyProblem(TOSS_CLIENT_KEY, "client", "NEXT_PUBLIC_TOSS_CLIENT_KEY");
 
 /** 토스 카드 등록창을 연다. successUrl 에는 돌아갈 경로를 함께 넘긴다. */
 export async function openTossCardRegistration(opts: { userId: string; email: string; name: string; returnTo?: string }) {
@@ -33,13 +37,15 @@ export function PaymentMethodsView() {
 
   const register = async () => {
     if (!me) return;
-    if (!TOSS_CLIENT_KEY) { toast.error("토스페이먼츠 클라이언트 키가 설정되지 않았어요. .env 의 NEXT_PUBLIC_TOSS_CLIENT_KEY 를 확인하세요."); return; }
+    if (TOSS_KEY_PROBLEM) { toast.error(TOSS_KEY_PROBLEM); return; }
     setOpening(true);
     try {
       await openTossCardRegistration({ userId: me.id, email: me.email, name: me.name, returnTo });
     } catch (err) {
-      // 사용자가 창을 닫은 경우도 여기로 온다
-      toast.info(err instanceof Error && err.message ? err.message : "카드 등록을 취소했어요.");
+      // 토스 SDK 오류는 { code, message } 형태. 구매자가 창을 닫은 경우는 오류가 아니다.
+      const e = (err ?? {}) as { code?: string; message?: string };
+      if (e.code === "USER_CANCEL" || e.code === "PAY_PROCESS_CANCELED") toast.info("카드 등록을 취소했어요.");
+      else toast.error(`카드 등록창을 열지 못했어요. ${e.message ?? "알 수 없는 오류"}${e.code ? ` (${e.code})` : ""}`);
     } finally {
       setOpening(false);
     }
@@ -54,6 +60,7 @@ export function PaymentMethodsView() {
           <Button onClick={register} loading={opening} leadingIcon={<CreditCard />}>카드 등록하기</Button>
         </div>
       </div>
+      {TOSS_KEY_PROBLEM && <p className={styles.alert} role="alert">{TOSS_KEY_PROBLEM}</p>}
       {failed && <p className={styles.alert} role="alert">카드 등록이 완료되지 않았어요. 다시 시도해 주세요.</p>}
       <p className={styles.help}>카드 번호는 저장하지 않아요. 토스페이먼츠가 발급한 빌링키만 암호화해 보관합니다.</p>
       {isPending ? (
