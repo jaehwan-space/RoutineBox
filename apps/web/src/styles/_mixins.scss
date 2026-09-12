@@ -1,0 +1,50 @@
+@use "sass:map";
+@use "variables" as v;
+
+$breakpoints: (sm: v.$bp-sm, md: v.$bp-md, lg: v.$bp-lg, xl: v.$bp-xl);
+
+/// 모바일 우선: 지정 브레이크포인트 이상에서 적용
+@mixin up($name) {
+  $bp: map.get($breakpoints, $name);
+  @if not $bp { @error "unknown breakpoint #{$name}"; }
+  @media (min-width: $bp) { @content; }
+}
+
+@mixin container {
+  width: 100%;
+  max-width: v.$container-max;
+  margin: 0 auto;
+  padding: 0 v.$space-4;
+  @include up(md) { padding: 0 v.$space-5; }
+}
+
+@mixin card {
+  background: v.$color-bg;
+  border: 1px solid v.$color-border;
+  border-radius: v.$radius-md;
+}
+
+@mixin button-base {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: v.$space-2;
+  min-height: 44px;
+  padding: 0 v.$space-4;
+  border-radius: v.$radius-sm;
+  font-weight: 600;
+  font-size: 15px;
+  cursor: pointer;
+  border: 1px solid transparent;
+  transition: background-color 0.15s ease, border-color 0.15s ease;
+  &:disabled { opacity: 0.5; cursor: not-allowed; }
+}
+
+@mixin visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+}

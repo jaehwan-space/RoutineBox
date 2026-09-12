@@ -1,0 +1,49 @@
+@use "../../styles/variables" as v;
+@use "../../styles/mixins" as *;
+
+.header {
+  position: sticky;
+  top: 0;
+  z-index: 10;
+  height: v.$header-height;
+  background: v.$color-bg;
+  border-bottom: 1px solid v.$color-border;
+}
+.inner {
+  @include container;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  gap: v.$space-4;
+}
+.brand {
+  display: flex;
+  align-items: center;
+  gap: v.$space-2;
+  font-weight: 800;
+  font-size: 18px;
+  color: v.$color-ink;
+  svg { color: v.$color-primary; }
+}
+.nav {
+  display: none;
+  gap: v.$space-5;
+  color: v.$color-text-secondary;
+  font-weight: 600;
+  @include up(md) { display: flex; }
+}
+.spacer { flex: 1; }
+.actions {
+  display: flex;
+  align-items: center;
+  gap: v.$space-3;
+  color: v.$color-text-secondary;
+}
+.login {
+  @include button-base;
+  min-height: 36px;
+  padding: 0 v.$space-3;
+  border-color: v.$color-border;
+  background: v.$color-bg;
+  &:hover { background: v.$color-surface; }
+}

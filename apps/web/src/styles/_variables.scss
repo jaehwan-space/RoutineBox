@@ -1,0 +1,35 @@
+// 색상 (계획서 화면 목업 기준)
+$color-primary: #2a78d6;
+$color-primary-dark: #1c5cab;
+$color-primary-soft: #e8f0fb;
+$color-accent: #eb6834;
+$color-success: #1baf7a;
+$color-warning: #eda100;
+$color-danger: #d03b3b;
+$color-ink: #0b0b0b;
+$color-text: #1f1f1d;
+$color-text-secondary: #52514e;
+$color-muted: #8a8a86;
+$color-border: #d9d8d2;
+$color-surface: #f5f4f0;
+$color-bg: #ffffff;
+
+// 간격·크기
+$space-1: 4px;
+$space-2: 8px;
+$space-3: 12px;
+$space-4: 16px;
+$space-5: 24px;
+$space-6: 32px;
+$space-7: 48px;
+$radius-sm: 6px;
+$radius-md: 10px;
+$radius-lg: 16px;
+$container-max: 1240px;
+$header-height: 60px;
+
+// 브레이크포인트 (모바일 우선)
+$bp-sm: 480px;
+$bp-md: 768px;
+$bp-lg: 1024px;
+$bp-xl: 1240px;
