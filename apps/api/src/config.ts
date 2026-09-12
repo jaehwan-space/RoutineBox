@@ -18,6 +18,10 @@ const envSchema = z.object({
   GOOGLE_CLIENT_ID: z.string().optional(),
   GOOGLE_CLIENT_SECRET: z.string().optional(),
   GOOGLE_REDIRECT_URI: z.string().optional(),
+  TOSS_CLIENT_KEY: z.string().optional(),
+  TOSS_SECRET_KEY: z.string().optional(),
+  BILLING_KEY_ENCRYPTION_KEY: z.string().optional(),
+  PAYMENTS_MOCK: z.stringbool().default(false),
 });
 
 const parsed = envSchema.safeParse(process.env);
