@@ -1,5 +1,9 @@
 import path from "node:path";
+import { config as loadEnv } from "dotenv";
 import type { NextConfig } from "next";
+
+// 환경 변수는 저장소 루트의 .env 하나만 사용한다 (파일이 없으면 무시: 컨테이너·CI 는 주입된 값 사용).
+loadEnv({ path: path.join(process.cwd(), "../../.env"), quiet: true });
 
 const API_INTERNAL_URL = process.env.API_INTERNAL_URL ?? "http://localhost:4000";
 
