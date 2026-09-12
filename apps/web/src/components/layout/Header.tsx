@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { Bell, Box, ShoppingCart } from "lucide-react";
 import { HeaderUser } from "./HeaderUser";
+import { ThemeToggle } from "./ThemeToggle";
 import styles from "./Header.module.scss";
 
 export function Header() {
@@ -18,6 +19,7 @@ export function Header() {
         </nav>
         <div className={styles.spacer} />
         <div className={styles.actions}>
+          <ThemeToggle />
           <Bell size={20} aria-hidden />
           <Link href="/cart" aria-label="장바구니"><ShoppingCart size={20} /></Link>
           <HeaderUser />

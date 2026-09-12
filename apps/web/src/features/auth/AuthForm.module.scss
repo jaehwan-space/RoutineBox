@@ -42,7 +42,7 @@
   width: 100%;
   background: v.$color-primary;
   color: #fff;
-  &:hover:not(:disabled) { background: v.$color-primary-dark; }
+  &:hover:not(:disabled) { background: v.$color-primary-hover; }
 }
 .divider {
   display: flex;
