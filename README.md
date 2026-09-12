@@ -18,7 +18,7 @@ nginx/          리버스 프록시 설정 (로컬·운영)
 ```bash
 pnpm install
 cp .env.example .env            # 값 채우기
-pnpm db:up                      # PostgreSQL 컨테이너
+pnpm db:up                      # PostgreSQL 컨테이너 (호스트 포트 5433)
 pnpm db:migrate                 # Prisma 마이그레이션
 pnpm dev                        # web :3000, api :4000
 ```
