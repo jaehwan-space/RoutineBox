@@ -34,6 +34,20 @@ export interface ProductDto {
   imageUrl: string | null;
 }
 
+export interface CartItemDto {
+  productId: string;
+  quantity: number;
+  product: ProductDto;
+  /** 구독가 × 수량 */
+  lineTotal: number;
+}
+
+export interface CartDto {
+  items: CartItemDto[];
+  itemCount: number;
+  total: number;
+}
+
 export interface SubscriptionSummary {
   id: string;
   status: SubscriptionStatus;
