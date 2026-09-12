@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
+import { Suspense } from "react";
 import { CATEGORY_LABELS, formatKrw, type ProductDto } from "@routinebox/shared";
 import { Badge } from "@/components/ui";
 import { AddToCartButton } from "@/features/cart/AddToCartButton";
@@ -41,7 +42,7 @@ export default async function ProductDetailPage({ params }: Params) {
           <p className={styles.cycle}>추천 주기 <strong>{weeks}주</strong> · 결제는 배송 3일 전 · 언제든 건너뛰기·일시정지·해지</p>
         </div>
         <div className={styles.actions}>
-          <SubscribeCta product={product} />
+          <Suspense><SubscribeCta product={product} /></Suspense>
           <AddToCartButton product={product} size="lg" />
         </div>
         <p className={styles.stock}>{product.stock > 0 ? `재고 ${product.stock}개` : "일시 품절"}</p>

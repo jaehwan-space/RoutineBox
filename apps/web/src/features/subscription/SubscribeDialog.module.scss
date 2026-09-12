@@ -1,0 +1,16 @@
+@use "../../styles/variables" as v;
+@use "../../styles/mixins" as *;
+.body { display: flex; flex-direction: column; gap: v.$space-4; }
+.row { display: flex; align-items: center; justify-content: space-between; gap: v.$space-3; }
+.field { display: flex; flex-direction: column; gap: v.$space-2; }
+.label { font-size: v.$font-sm; font-weight: 600; color: v.$color-text-secondary; small { font-weight: 500; color: v.$color-muted; margin-left: v.$space-1; } }
+.chips { display: flex; flex-wrap: wrap; gap: v.$space-2; }
+.summary {
+  @include card; background: v.$color-surface-sunken; padding: v.$space-3 v.$space-4;
+  display: flex; flex-direction: column; gap: v.$space-2; @include tabular-nums;
+  > div { display: flex; justify-content: space-between; align-items: baseline; gap: v.$space-3; font-size: v.$font-sm; color: v.$color-text-secondary; }
+  dd { margin: 0; color: v.$color-text; text-align: right; strong { font-size: v.$font-lg; } small { color: v.$color-primary-text; font-weight: 600; margin-left: 4px; } }
+}
+.noCard { @include card; padding: v.$space-3; font-size: v.$font-sm; color: v.$color-text-secondary; display: flex; flex-direction: column; gap: v.$space-2; }
+.noCardActions { display: flex; gap: v.$space-2; flex-wrap: wrap; }
+.help { font-size: v.$font-xs; color: v.$color-muted; }
