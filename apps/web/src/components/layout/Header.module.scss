@@ -24,6 +24,7 @@
 .actions { display: flex; align-items: center; gap: 0; @include up(md) { gap: v.$space-1; } }
 .desktopOnly { display: none !important; @include up(md) { display: inline-flex !important; } }
 .iconLink {
+  position: relative;
   display: inline-flex; align-items: center; justify-content: center;
   width: v.$touch-min; height: v.$touch-min; border-radius: v.$radius-sm;
   color: v.$color-text-secondary;
@@ -35,3 +36,9 @@
 .userPlaceholder { display: inline-block; width: 72px; height: 36px; border-radius: v.$radius-sm; background: v.$color-surface-sunken; }
 .user { display: flex; align-items: center; }
 .search { display: none; @include up(lg) { display: block; } }
+.badge {
+  position: absolute; top: 4px; right: 2px;
+  min-width: 18px; height: 18px; padding: 0 5px; border-radius: v.$radius-full;
+  background: v.$color-accent; color: #fff; font-size: 11px; font-weight: 700; line-height: 18px; text-align: center;
+  @include tabular-nums;
+}

@@ -1,5 +1,6 @@
 import Link from "next/link";
-import { Bell, Box, ShoppingCart } from "lucide-react";
+import { Bell, Box } from "lucide-react";
+import { HeaderCart } from "./HeaderCart";
 import { HeaderUser } from "./HeaderUser";
 import { ThemeToggle } from "./ThemeToggle";
 import { SearchForm } from "@/features/product/SearchForm";
@@ -23,7 +24,7 @@ export function Header() {
         <div className={styles.actions}>
           <ThemeToggle />
           <Link href="/notifications" className={`${styles.iconLink} ${styles.desktopOnly}`} aria-label="알림"><Bell /></Link>
-          <Link href="/cart" className={styles.iconLink} aria-label="장바구니"><ShoppingCart /></Link>
+          <HeaderCart />
           <HeaderUser />
         </div>
       </div>
