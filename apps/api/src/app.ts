@@ -4,6 +4,7 @@ import express from "express";
 import helmet from "helmet";
 import { config } from "./config.js";
 import { errorHandler } from "./middleware/error-handler.js";
+import { authRouter } from "./modules/auth/router.js";
 import { healthRouter } from "./routes/health.js";
 
 export function createApp() {
@@ -16,6 +17,7 @@ export function createApp() {
   app.use(cookieParser());
 
   app.use(healthRouter);
+  app.use(authRouter);
 
   app.use((_req, res) => {
     res.status(404).json({ error: { code: "NOT_FOUND", message: "요청한 경로가 없습니다." } });
