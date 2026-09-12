@@ -19,3 +19,7 @@ export const updateSubscriptionSchema = z
 export type UpdateSubscriptionInput = z.infer<typeof updateSubscriptionSchema>;
 
 export const resumeSubscriptionSchema = z.object({ nextBillingDate: isoDate.optional() });
+export type ResumeSubscriptionInput = z.infer<typeof resumeSubscriptionSchema>;
+
+export const activateSubscriptionSchema = z.object({ paymentMethodId: z.string().min(1) });
+export type ActivateSubscriptionInput = z.infer<typeof activateSubscriptionSchema>;

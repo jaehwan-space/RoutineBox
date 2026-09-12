@@ -48,12 +48,45 @@ export interface CartDto {
   total: number;
 }
 
-export interface SubscriptionSummary {
+export interface PaymentMethodDto {
+  id: string;
+  cardCompany: string;
+  cardLast4: string;
+  createdAt: string;
+}
+
+export interface OrderDto {
+  id: string;
+  orderKey: string;
+  amount: number;
+  quantity: number;
+  status: "PENDING" | "PAID" | "FAILED" | "CANCELLED";
+  deliveryStatus: "PREPARING" | "SHIPPED" | "DELIVERED";
+  billingDate: string;
+  deliveryDate: string;
+  createdAt: string;
+}
+
+export interface SubscriptionDto {
   id: string;
   status: SubscriptionStatus;
-  productName: string;
+  product: { id: string; name: string; category: Category };
   quantity: number;
   cycleDays: number;
+  /** 회당 결제 금액(생성·변경 시점 스냅샷) */
   amount: number;
+  firstDeliveryDate: string;
   nextBillingDate: string | null;
+  nextDeliveryDate: string | null;
+  failCount: number;
+  paymentMethod: PaymentMethodDto | null;
+  createdAt: string;
+  orders?: OrderDto[];
+}
+
+export interface SubscriptionListDto {
+  items: SubscriptionDto[];
+  /** 이번 달 예정 결제 합계(ACTIVE) */
+  monthlyDue: number;
+  activeCount: number;
 }
