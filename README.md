@@ -36,3 +36,4 @@ pnpm dev                        # web :3000, api :4000
 - [API 목록](docs/api.md)
 - [구독 상태 머신](docs/state-machine.md)
 - [환경 설정 가이드 (OCI VM·도메인·OAuth·토스)](docs/setup-guide.md)
+- [디자인 시스템](docs/design-system.md)
