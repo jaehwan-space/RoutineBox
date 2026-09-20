@@ -29,10 +29,11 @@ async function main() {
   const adminPassword = process.env.SEED_ADMIN_PASSWORD;
   if (adminPassword) {
     const email = "admin@routinebox.local";
+    const passwordHash = await bcrypt.hash(adminPassword, 12);
     await prisma.user.upsert({
       where: { email },
-      update: { role: "ADMIN" },
-      create: { email, name: "관리자", role: "ADMIN", passwordHash: await bcrypt.hash(adminPassword, 12) },
+      update: { role: "ADMIN", passwordHash },
+      create: { email, name: "관리자", role: "ADMIN", passwordHash },
     });
     console.log(`[seed] admin: ${email}`);
   }

@@ -33,7 +33,7 @@
 
 ## 결제 수단 `/payment-methods` 🔒
 | POST | /payment-methods/billing-auth | { authKey, customerKey } → 토스 빌링키 발급·AES-256-GCM 암호화 저장. customerKey 는 `cust_{userId}` 여야 함(400) |
-| POST | /payment-methods/mock | 개발 전용 모의 카드 등록. `PAYMENTS_MOCK=true` 이고 production 이 아닐 때만 라우트가 존재 |
+| POST | /payment-methods/mock | 모의 카드(테스트카드 0000) 등록. `PAYMENTS_MOCK=true` 이고, 운영에서는 `TOSS_SECRET_KEY` 가 테스트 키(`test_sk_`)일 때만 라우트가 존재. 모의 카드는 결제 배치에서 토스를 부르지 않고 승인 처리된다 |
 | GET | /payment-methods | 등록 카드 `[{ id, cardCompany, cardLast4, createdAt }]` |
 | DELETE | /payment-methods/:id | 삭제(ACTIVE·PAUSED·PAYMENT_FAILED 구독이 쓰면 409) |
 
@@ -49,24 +49,46 @@
 | POST | /subscriptions/:id/resume | 재개 { nextBillingDate? } | PAUSED → ACTIVE |
 | PATCH | /subscriptions/:id | 주기·수량 변경 | ACTIVE → ACTIVE |
 | POST | /subscriptions/:id/cancel | 해지 | ACTIVE·PAUSED·PAYMENT_FAILED → CANCELLED |
-| POST | /subscriptions/:id/retry-payment | 카드 변경 후 즉시 재시도 (3주차) | PAYMENT_FAILED → ACTIVE |
+
+결제 실패(PAYMENT_FAILED) 구독은 별도 재시도 API 없이 매일 09:00 배치가 자동으로 재시도한다. 회원이 결제 수단을 바꾸면 다음 재시도에서 새 카드로 승인한다.
 
 구독 응답 `SubscriptionDto`: `{ id, status, product{id,name,category}, quantity, cycleDays, amount(회당, 스냅샷), firstDeliveryDate, nextBillingDate, nextDeliveryDate(=결제일+3), failCount, paymentMethod|null, createdAt, orders?[] }`
 
 ## 주문 `/orders` 🔒
-| GET | /orders | 내 주문(회차) 목록 |
-| GET | /orders/:id | 상세(결제 결과, 배송 상태) |
+| 메서드 | 경로 | 설명 |
+|---|---|---|
+| GET | /orders?page=&pageSize= | 내 주문(회차) 목록 → `{ items[OrderListItemDto], page, pageSize, total }`. 항목: `{ id, orderKey, amount, quantity, status(PENDING·PAID·FAILED·CANCELLED), deliveryStatus(PREPARING·SHIPPED·DELIVERED), billingDate, deliveryDate, subscriptionId, product{id,name,category}, cycleDays, createdAt }` |
+| GET | /orders/:id | 상세 `OrderDetailDto` = 목록 항목 + `payment{ status(APPROVED·FAILED), amount, paymentKey, approvedAt, failReason }` + `paymentMethod{ cardCompany, cardLast4 }`. 타인 주문 404 |
+
+## 알림 `/notifications` 🔒
+| GET | /notifications | 내 알림 이력 최근 50건 `[{ id, type, subscriptionId, productName, sentAt }]`. type: SUBSCRIPTION_STARTED·BILLING_D1·PAYMENT_SUCCESS·PAYMENT_FAILED·SHIPPED·SKIPPED·CANCELLED |
 
 ## 관리자 `/admin` 🛡
-| GET | /admin/dashboard | 활성 구독, 오늘 결제 예정·성공·실패, 월 매출, 최근 14일 결제 건수 |
-| GET | /admin/orders?status= | 주문 목록 |
-| PATCH | /admin/orders/:id/delivery | { deliveryStatus } 배송 상태 변경 |
-| GET | /admin/subscriptions?status= | 구독 목록 |
-| GET | /admin/payments/failed | 결제 실패 목록(재시도 예정) |
+| 메서드 | 경로 | 설명 |
+|---|---|---|
+| GET | /admin/dashboard | `{ activeSubscriptions, pausedSubscriptions, failedSubscriptions, todayDue, todayPaid, todayFailed, monthlyRevenue, monthlyOrders, preparingOrders, users, last14Days[{date, paid, failed, amount}] }` |
+| GET | /admin/products?q=&includeInactive=&page=&pageSize= | 상품 전체(비활성 포함) `ProductAdminDto` = ProductDto + `isActive, createdAt, updatedAt` |
+| POST | /products | 상품 등록 `{ name, description?, category, price, subscriptionDiscount?, recommendedCycleDays?, stock?, imageUrl?, isActive? }` → 201 |
+| PATCH | /products/:id | 상품 수정·품절(`stock: 0`)·비활성(`isActive: false`, 목록·상세에서 숨김) |
+| GET | /admin/orders?status=&deliveryStatus=&q=&page=&pageSize= | 주문 목록(회원 정보·결제 결과 포함). q 는 회원 이메일·이름·상품명·orderKey |
+| PATCH | /admin/orders/:id/delivery | `{ deliveryStatus }` 배송 상태 변경. PAID 주문만(409). SHIPPED 로 바뀌면 배송 출발 알림·메일(회차당 1회) |
+| GET | /admin/subscriptions?status=&q=&page=&pageSize= | 구독 목록(회원 정보, nextRetryAt, cancelledReason 포함) |
+| GET | /admin/payments/failed | 결제 실패 구독 `[{ subscriptionId, user, product, amount, failCount, nextRetryAt, lastFailReason, lastFailedAt }]` |
 
 ## 내부·시스템
-| GET | /health | 상태 확인 { status:"ok", db:"ok" } |
-| POST | /internal/billing/run 🛡 | 결제 배치 수동 실행(운영 점검용, 스케줄러와 동일 로직) |
+| 메서드 | 경로 | 설명 |
+|---|---|---|
+| GET | /health | 상태 확인 `{ status:"ok", db:"ok" }` |
+| POST | /internal/billing/run 🛡 | 결제 배치 수동 실행(스케줄러와 동일 로직). `{ asOf?: "YYYY-MM-DD" }` 를 주면 그 날짜를 오늘로 보고 처리(점검·시연용). 응답 `{ asOf, processed, paid, failed, skipped, cancelled, items[{ subscriptionId, orderKey, result, message? }] }`. 동시 실행 시 409 |
+| POST | /internal/billing/remind 🛡 | D-1 알림 배치 수동 실행 `{ asOf? }` → `{ asOf, sent, skipped }` |
+
+### 자동 결제 배치 (매일 09:00 KST, node-cron)
+- 대상: `ACTIVE AND nextBillingDate ≤ 오늘` + `PAYMENT_FAILED AND nextRetryAt ≤ 오늘 23:59`
+- `orderKey = sub_{구독ID}_{예정일 YYYYMMDD}` 가 회차 식별자. 같은 orderKey 의 PAID 주문이 있으면 건너뛴다(멱등). 토스 `orderId` 는 첫 시도 orderKey, 재시도는 `orderKey_r{n}`.
+- 성공: Order(PAID)·Payment(APPROVED) 기록, `nextBillingDate = 예정일 + cycleDays`(오늘 이후가 될 때까지), `failCount = 0`, PAYMENT_SUCCESS 알림 — 한 트랜잭션.
+- 실패: Order(FAILED)·Payment(FAILED, failReason), PAYMENT_FAILED 전이(`failCount += 1`, `nextRetryAt = 내일 09:00`), 3회째면 CANCELLED(cancelledReason=PAYMENT_FAILED). 네트워크 오류 등 승인 응답이 아닌 예외는 실패로 세지 않고 다음 배치에서 다시 시도한다.
+- 모의 카드(`mock_…` 빌링키)는 토스를 부르지 않고 승인, `mock_fail…` 은 항상 실패(테스트용).
+- `BILLING_CRON_ENABLED=false` 로 끌 수 있고, `BILLING_CRON`·`REMINDER_CRON` 으로 시각을 바꾼다.
 
 ## 오류 코드
 | code | HTTP | 의미 |

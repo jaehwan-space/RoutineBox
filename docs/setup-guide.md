@@ -41,12 +41,22 @@
    - `https://<도메인>/api/auth/google/callback`
 4. 클라이언트 ID/보안 비밀번호 → `GOOGLE_CLIENT_ID`, `GOOGLE_CLIENT_SECRET`.
 
-## 5. 토스페이먼츠 테스트 키 (2주차 카드 등록 · 3주차 자동결제)
+## 5. 토스페이먼츠 테스트 키 (카드 등록 · 자동결제)
 1. https://developers.tosspayments.com 가입 → **API 키** 메뉴 → **API 개별 연동 키** 탭. (결제위젯 연동 키 탭이 아니다.)
 2. 클라이언트 키(`test_ck_…`) → `TOSS_CLIENT_KEY` 와 `NEXT_PUBLIC_TOSS_CLIENT_KEY`, 시크릿 키(`test_sk_…`) → `TOSS_SECRET_KEY`.
    결제위젯 연동 키(`test_gck_…` / `test_gsk_…`)를 넣으면 카드 등록창이 `NOT_SUPPORTED_WIDGET_KEY` 오류로 열리지 않는다. 결제 수단 페이지와 API 시작 로그가 이 경우를 알려 준다.
 3. `BILLING_KEY_ENCRYPTION_KEY` 는 `openssl rand -hex 32` 로 생성.
 4. `.env` 를 바꾼 뒤에는 `pnpm dev` 를 다시 시작한다. `NEXT_PUBLIC_*` 값은 웹 서버가 시작할 때 번들에 들어가고, API 도 시작할 때만 `.env` 를 읽는다.
+5. 자동 결제는 API 프로세스 안의 node-cron 이 매일 09:00(KST) 에 실행한다(`BILLING_CRON`, D-1 알림 `REMINDER_CRON` 09:05). 테스트·점검 시 `BILLING_CRON_ENABLED=false` 로 끄고, 관리자 화면 대시보드의 "결제 배치 실행"(기준일 지정 가능)으로 같은 로직을 즉시 돌릴 수 있다.
+
+## 5-1. 관리자 계정
+- 시드로 만들기: `SEED_ADMIN_PASSWORD=<비밀번호> pnpm db:seed` → `admin@routinebox.local` (이미 있으면 비밀번호·역할을 맞춘다).
+- 기존 회원을 승격: `UPDATE "User" SET role = 'ADMIN' WHERE email = '<이메일>';` 실행 후 다시 로그인한다(역할은 액세스 토큰에 들어가므로 재로그인 필요).
+- 관리자 화면은 `/admin`, 헤더의 방패 아이콘으로 진입한다.
+
+## 5-2. 알림 메일 (선택)
+`SMTP_HOST`·`SMTP_PORT`·`SMTP_USER`·`SMTP_PASS`·`MAIL_FROM` 을 넣으면 D-1 결제 예정, 결제 완료·실패, 배송 출발, 자동 해지 메일을 보낸다. 비워 두면 알림 이력(`/notifications`)만 남는다.
+Gmail 예: `SMTP_HOST=smtp.gmail.com`, `SMTP_PORT=587`, `SMTP_USER=<계정>`, `SMTP_PASS=<앱 비밀번호 16자>`. 네이버 예: `smtp.naver.com`, 587, 계정·비밀번호(POP3/SMTP 사용 설정 필요).
 
 ## 6. 운영 배포
 운영 서버는 다른 사이트(jaehwan.kr·blog·redirect·pms)와 함께 쓰는 Oracle Cloud VM 이다. 호스트 nginx 가 80/443 과 인증서(certbot --nginx)를 관리하므로,
