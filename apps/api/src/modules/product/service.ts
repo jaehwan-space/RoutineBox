@@ -1,5 +1,5 @@
 import type { Prisma, Product } from "@prisma/client";
-import { subscriptionUnitPrice, type AdminProductQuery, type CreateProductInput, type Paginated, type ProductAdminDto, type ProductDto, type ProductQuery, type UpdateProductInput } from "@routinebox/shared";
+import { CATEGORIES, subscriptionUnitPrice, type AdminProductQuery, type CategoryCountDto, type CreateProductInput, type Paginated, type ProductAdminDto, type ProductDto, type ProductQuery, type UpdateProductInput } from "@routinebox/shared";
 import { AppError } from "../../lib/errors.js";
 import { prisma } from "../../lib/prisma.js";
 
@@ -15,7 +15,23 @@ export function toProductDto(p: Product): ProductDto {
     recommendedCycleDays: p.recommendedCycleDays,
     stock: p.stock,
     imageUrl: p.imageUrl,
+    brand: p.brand,
+    detailDescription: p.detailDescription,
+    detailImages: p.detailImages,
+    weight: p.weight,
+    unitOfSale: p.unitOfSale,
+    packagingType: p.packagingType,
+    deliveryType: p.deliveryType,
+    origin: p.origin,
+    allergy: p.allergy,
   };
+}
+
+/** 카테고리별 판매 중 상품 수 (상품이 있는 카테고리만, CATEGORIES 순서) */
+export async function listCategories(): Promise<CategoryCountDto[]> {
+  const rows = await prisma.product.groupBy({ by: ["category"], where: { isActive: true }, _count: { _all: true } });
+  const counts = new Map(rows.map((r) => [r.category, r._count._all]));
+  return CATEGORIES.filter((c) => (counts.get(c) ?? 0) > 0).map((c) => ({ category: c, count: counts.get(c) ?? 0 }));
 }
 
 export async function listProducts(query: ProductQuery): Promise<Paginated<ProductDto>> {

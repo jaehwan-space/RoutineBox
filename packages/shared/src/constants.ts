@@ -7,10 +7,21 @@ export type Role = (typeof ROLES)[number];
 export const AUTH_PROVIDERS = ["KAKAO", "GOOGLE"] as const;
 export type AuthProvider = (typeof AUTH_PROVIDERS)[number];
 
-export const CATEGORIES = ["DETERGENT", "TISSUE", "WATER", "COFFEE", "KITCHEN", "PET"] as const;
+/** 카테고리 (표시 순서). 앞쪽은 식품, 뒤쪽은 생활용품. */
+export const CATEGORIES = [
+  "SALAD_MEAL", "FRUIT_NUT_RICE", "SOUP_SIDE_MAIN", "MEAT_EGG", "BAKERY_CHEESE_DELI", "SEAFOOD", "SNACK", "HEALTH",
+  "WATER", "COFFEE", "DETERGENT", "TISSUE", "KITCHEN", "PET",
+] as const;
 export type Category = (typeof CATEGORIES)[number];
 export const CATEGORY_LABELS: Record<Category, string> = {
-  DETERGENT: "세제", TISSUE: "화장지", WATER: "생수", COFFEE: "커피", KITCHEN: "주방", PET: "반려용품",
+  SALAD_MEAL: "샐러드·간편식", FRUIT_NUT_RICE: "과일·견과·쌀", SOUP_SIDE_MAIN: "국·반찬·메인요리", MEAT_EGG: "정육·계란",
+  BAKERY_CHEESE_DELI: "베이커리·치즈·델리", SEAFOOD: "수산·해산·건어물", SNACK: "간식·과자·떡", HEALTH: "건강식품",
+  WATER: "생수", COFFEE: "커피", DETERGENT: "세제", TISSUE: "화장지", KITCHEN: "주방", PET: "반려용품",
+};
+/** 카테고리별 기본 추천 주기(일). 상품 임포트 시 기본값으로 쓴다. */
+export const CATEGORY_CYCLE_DAYS: Record<Category, number> = {
+  SALAD_MEAL: 7, FRUIT_NUT_RICE: 14, SOUP_SIDE_MAIN: 7, MEAT_EGG: 14, BAKERY_CHEESE_DELI: 14, SEAFOOD: 14, SNACK: 14, HEALTH: 28,
+  WATER: 14, COFFEE: 28, DETERGENT: 28, TISSUE: 28, KITCHEN: 42, PET: 28,
 };
 
 /** 배송 주기 프리셋(일). 직접 입력은 MIN~MAX 범위 */

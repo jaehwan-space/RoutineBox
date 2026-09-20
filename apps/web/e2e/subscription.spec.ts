@@ -5,7 +5,7 @@ test.describe("시나리오 3 · 테스트 카드 등록 → 구독 생성 → �
   test("구독 설정 모달에서 카드를 등록해 구독을 시작하고 상태를 바꾼다", async ({ page }) => {
     await signup(page, uniqueUser("sub"));
 
-    await page.goto("/products");
+    await page.goto("/products?category=TISSUE");
     await page.getByRole("link", { name: /3겹 화장지 30롤 상세 보기/ }).click();
     await page.getByRole("button", { name: "구독 설정하기" }).click();
     const dialog = page.getByRole("dialog");

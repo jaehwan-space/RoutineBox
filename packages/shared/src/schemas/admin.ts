@@ -9,8 +9,17 @@ const productFields = {
   subscriptionDiscount: z.number().int().min(0).max(90).default(5),
   recommendedCycleDays: z.number().int().min(CYCLE_MIN_DAYS).max(CYCLE_MAX_DAYS).default(28),
   stock: z.number().int().min(0).max(1_000_000).default(0),
-  imageUrl: z.string().trim().url().max(500).nullable().optional(),
+  imageUrl: z.string().trim().max(500).nullable().optional(),
   isActive: z.boolean().default(true),
+  brand: z.string().trim().max(80).nullable().optional(),
+  detailDescription: z.string().trim().max(5000).optional(),
+  detailImages: z.array(z.string().trim().max(500)).max(20).optional(),
+  weight: z.string().trim().max(80).nullable().optional(),
+  unitOfSale: z.string().trim().max(80).nullable().optional(),
+  packagingType: z.string().trim().max(80).nullable().optional(),
+  deliveryType: z.string().trim().max(80).nullable().optional(),
+  origin: z.string().trim().max(200).nullable().optional(),
+  allergy: z.string().trim().max(1000).nullable().optional(),
 };
 
 export const createProductSchema = z.object(productFields);
@@ -26,6 +35,15 @@ export const updateProductSchema = z.object({
   stock: z.number().int().min(0).max(1_000_000).optional(),
   imageUrl: productFields.imageUrl,
   isActive: z.boolean().optional(),
+  brand: productFields.brand,
+  detailDescription: productFields.detailDescription,
+  detailImages: productFields.detailImages,
+  weight: productFields.weight,
+  unitOfSale: productFields.unitOfSale,
+  packagingType: productFields.packagingType,
+  deliveryType: productFields.deliveryType,
+  origin: productFields.origin,
+  allergy: productFields.allergy,
 }).refine((v) => Object.values(v).some((x) => x !== undefined), { message: "변경할 값이 없습니다." });
 export type UpdateProductInput = z.infer<typeof updateProductSchema>;
 

@@ -30,3 +30,6 @@ RoutineBox_계획서/
 # Next.js 가 개발 시 생성하는 에이전트 안내 파일
 apps/web/AGENTS.md
 apps/web/CLAUDE.md
+
+# 상품 이미지(백업에서 가져옴, 배포 시 rsync 로 서버에 올라가 nginx 가 서빙)
+apps/web/public/media/
