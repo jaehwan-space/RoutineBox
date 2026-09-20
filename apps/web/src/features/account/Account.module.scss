@@ -1,0 +1,11 @@
+@use "../../styles/variables" as v;
+@use "../../styles/mixins" as *;
+.page { @include container; padding-top: v.$space-5; padding-bottom: v.$space-8; display: flex; flex-direction: column; gap: v.$space-4; max-width: 720px; }
+.title { font-size: v.$font-2xl; }
+.rows { display: flex; flex-direction: column; gap: v.$space-2;
+  > div { display: flex; justify-content: space-between; gap: v.$space-3; font-size: v.$font-sm; color: v.$color-text-secondary; dd { margin: 0; color: v.$color-text; text-align: right; } } }
+.links { display: grid; gap: v.$space-2; @include up(md) { grid-template-columns: 1fr 1fr; } }
+.link { @include card; display: flex; gap: v.$space-3; align-items: center; padding: v.$space-4; min-height: v.$touch-min;
+  svg { width: 24px; height: 24px; color: v.$color-primary; flex: none; }
+  span { display: flex; flex-direction: column; gap: 2px; } small { font-size: v.$font-sm; color: v.$color-text-secondary; }
+  &:hover { border-color: v.$color-border-strong; } @include focus-visible; }

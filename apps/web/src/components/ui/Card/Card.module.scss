@@ -1,0 +1,13 @@
+@use "../../../styles/variables" as v;
+@use "../../../styles/mixins" as *;
+
+.card { @include card; }
+.pad-none { padding: 0; }
+.pad-sm { padding: v.$space-3; }
+.pad-md { padding: v.$space-4; @include up(md) { padding: v.$space-5; } }
+.pad-lg { padding: v.$space-5; @include up(md) { padding: v.$space-6; } }
+.interactive {
+  transition: border-color v.$duration-fast v.$ease, background-color v.$duration-fast v.$ease;
+  &:hover { border-color: v.$color-border-strong; }
+  &:focus-within { border-color: v.$color-primary; }
+}

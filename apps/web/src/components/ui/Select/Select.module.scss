@@ -1,0 +1,18 @@
+@use "../../../styles/variables" as v;
+@use "../../../styles/mixins" as *;
+
+.field { display: flex; flex-direction: column; gap: v.$space-1; }
+.label { font-size: v.$font-sm; font-weight: 600; color: v.$color-text-secondary; }
+.control { position: relative; }
+.select {
+  @include field-base;
+  appearance: none;
+  padding-right: 40px;
+  cursor: pointer;
+}
+.chevron {
+  position: absolute; right: v.$space-3; top: 50%; transform: translateY(-50%);
+  width: 18px; height: 18px; color: v.$color-muted; pointer-events: none;
+}
+.helper { font-size: v.$font-sm; color: v.$color-muted; }
+.error { font-size: v.$font-sm; color: v.$color-danger-text; }

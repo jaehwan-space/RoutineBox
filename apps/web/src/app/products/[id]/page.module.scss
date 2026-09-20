@@ -1,0 +1,18 @@
+@use "../../../styles/variables" as v;
+@use "../../../styles/mixins" as *;
+.page { @include container; padding-top: v.$space-5; padding-bottom: v.$space-8; display: grid; gap: v.$space-5;
+  @include up(md) { grid-template-columns: minmax(0, 5fr) minmax(0, 6fr); gap: v.$space-7; align-items: start; } }
+.image { border-radius: v.$radius-lg; font-size: v.$font-xl; }
+.info { display: flex; flex-direction: column; gap: v.$space-4; }
+.meta { display: flex; align-items: center; gap: v.$space-3; }
+.category { font-size: v.$font-sm; color: v.$color-text-secondary; font-weight: 600; }
+.name { font-size: v.$font-3xl; }
+.description { color: v.$color-text-secondary; max-width: 60ch; }
+.priceBox { @include card; padding: v.$space-4; background: v.$color-surface-sunken; display: flex; flex-direction: column; gap: v.$space-2; }
+.priceRow { display: flex; align-items: baseline; gap: v.$space-2; @include tabular-nums; }
+.priceLabel { font-size: v.$font-sm; color: v.$color-text-secondary; }
+.price { font-size: v.$font-3xl; }
+.listPrice { color: v.$color-muted; }
+.cycle { font-size: v.$font-sm; color: v.$color-text-secondary; strong { color: v.$color-text; } }
+.stock { font-size: v.$font-sm; color: v.$color-muted; }
+.actions { display: flex; gap: v.$space-2; flex-wrap: wrap; > :first-child { flex: 1; } }

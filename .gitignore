@@ -1,0 +1,32 @@
+# dependencies / build
+node_modules/
+.pnpm-store/
+dist/
+.next/
+out/
+coverage/
+apps/web/playwright-report/
+apps/web/test-results/
+*.tsbuildinfo
+
+# env & secrets (예시 파일만 커밋)
+.env
+.env.*
+!.env.example
+
+# OS / editor
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
+*.log
+
+# 계획서·보고서 원본(연락처 등 개인정보 포함) — 공개 저장소에 올리지 않음
+RoutineBox_계획서/
+
+# Claude Code 로컬 실행 설정
+.claude/launch.json
+
+# Next.js 가 개발 시 생성하는 에이전트 안내 파일
+apps/web/AGENTS.md
+apps/web/CLAUDE.md

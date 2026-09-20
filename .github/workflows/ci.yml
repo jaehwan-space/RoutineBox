@@ -1,0 +1,100 @@
+name: CI
+
+on:
+  push:
+    branches: [develop, main]
+  pull_request:
+    branches: [develop, main]
+
+jobs:
+  ci:
+    runs-on: ubuntu-latest
+    services:
+      postgres:
+        image: postgres:16-alpine
+        env:
+          POSTGRES_USER: routinebox
+          POSTGRES_PASSWORD: routinebox
+          POSTGRES_DB: routinebox_test
+        ports: ["5433:5432"]
+        options: >-
+          --health-cmd "pg_isready -U routinebox -d routinebox_test"
+          --health-interval 5s --health-timeout 3s --health-retries 10
+    env:
+      DATABASE_URL: postgresql://routinebox:routinebox@localhost:5433/routinebox_test?schema=public
+      JWT_ACCESS_SECRET: ci-access-secret-0123456789abcdef
+      JWT_REFRESH_SECRET: ci-refresh-secret-0123456789abcdef
+      NEXT_TELEMETRY_DISABLED: 1
+    steps:
+      - uses: actions/checkout@v4
+      - uses: pnpm/action-setup@v4
+        with:
+          version: 11.12.0
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: pnpm
+      - run: pnpm install --frozen-lockfile
+      - name: Typecheck
+        run: pnpm -r typecheck
+      - name: Lint (web)
+        run: pnpm --filter @routinebox/web lint
+      - name: Prisma migrate (test DB)
+        run: pnpm --filter @routinebox/api exec prisma migrate deploy
+      - name: Test
+        run: pnpm -r test
+      - name: Build (web)
+        run: pnpm --filter @routinebox/web build
+
+  e2e:
+    runs-on: ubuntu-latest
+    needs: ci
+    services:
+      postgres:
+        image: postgres:16-alpine
+        env:
+          POSTGRES_USER: routinebox
+          POSTGRES_PASSWORD: routinebox
+          POSTGRES_DB: routinebox_e2e
+        ports: ["5433:5432"]
+        options: >-
+          --health-cmd "pg_isready -U routinebox -d routinebox_e2e"
+          --health-interval 5s --health-timeout 3s --health-retries 10
+    env:
+      NODE_ENV: test
+      DATABASE_URL: postgresql://routinebox:routinebox@localhost:5433/routinebox_e2e?schema=public
+      JWT_ACCESS_SECRET: ci-access-secret-0123456789abcdef
+      JWT_REFRESH_SECRET: ci-refresh-secret-0123456789abcdef
+      BILLING_KEY_ENCRYPTION_KEY: 0000000000000000000000000000000000000000000000000000000000000000
+      APP_URL: http://localhost:3000
+      API_URL: http://localhost:4000
+      API_INTERNAL_URL: http://localhost:4000
+      NEXT_PUBLIC_API_BASE: /api
+      PAYMENTS_MOCK: "true"
+      NEXT_PUBLIC_PAYMENTS_MOCK: "true"
+      BILLING_CRON_ENABLED: "false"
+      NEXT_TELEMETRY_DISABLED: 1
+    steps:
+      - uses: actions/checkout@v4
+      - uses: pnpm/action-setup@v4
+        with:
+          version: 11.12.0
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: pnpm
+      - run: pnpm install --frozen-lockfile
+      - name: Prisma migrate (e2e DB)
+        run: pnpm --filter @routinebox/api exec prisma migrate deploy
+      - name: Build (web, mock payments on)
+        run: pnpm --filter @routinebox/web build
+      - name: Install Playwright browser
+        run: pnpm --filter @routinebox/web exec playwright install --with-deps chromium
+      - name: E2E (5 scenarios)
+        run: pnpm --filter @routinebox/web e2e
+      - uses: actions/upload-artifact@v4
+        if: failure()
+        with:
+          name: playwright-report
+          path: apps/web/playwright-report
+          retention-days: 7

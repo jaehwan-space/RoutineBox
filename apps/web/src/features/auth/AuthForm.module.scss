@@ -1,0 +1,29 @@
+@use "../../styles/variables" as v;
+@use "../../styles/mixins" as *;
+
+.wrap { @include container; padding-top: v.$space-6; padding-bottom: v.$space-8; display: flex; justify-content: center; }
+.card {
+  @include card;
+  width: 100%; max-width: 420px;
+  padding: v.$space-5;
+  display: flex; flex-direction: column; gap: v.$space-4;
+  @include up(md) { padding: v.$space-6; }
+}
+.title { font-size: v.$font-2xl; }
+.subtitle { color: v.$color-text-secondary; font-size: v.$font-sm; margin-top: v.$space-1; }
+.alert {
+  padding: v.$space-3;
+  border-radius: v.$radius-sm;
+  background: v.$color-danger-soft; color: v.$color-danger-text;
+  font-size: v.$font-sm;
+}
+.divider {
+  display: flex; align-items: center; gap: v.$space-3;
+  color: v.$color-muted; font-size: v.$font-sm;
+  &::before, &::after { content: ""; flex: 1; height: 1px; background: v.$color-border; }
+}
+.social { display: flex; flex-direction: column; gap: v.$space-2; }
+// 브랜드 색은 각 제공자의 가이드를 따르므로 예외적으로 고정 색을 쓴다.
+.kakao { @include button-base; width: 100%; background: #fee500; color: #191919; &:hover { background: #f5dc00; } }
+.google { @include button-base; width: 100%; background: v.$color-surface; border-color: v.$color-border-strong; color: v.$color-text; &:hover { background: v.$color-surface-sunken; } }
+.footer { text-align: center; font-size: v.$font-sm; color: v.$color-text-secondary; a { color: v.$color-primary-text; font-weight: 600; } }

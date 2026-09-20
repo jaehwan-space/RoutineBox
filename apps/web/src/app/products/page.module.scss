@@ -1,0 +1,7 @@
+@use "../../styles/variables" as v;
+@use "../../styles/mixins" as *;
+.page { @include container; padding-top: v.$space-5; padding-bottom: v.$space-8; display: flex; flex-direction: column; gap: v.$space-4; }
+.top { display: flex; flex-direction: column; gap: v.$space-3; @include up(md) { flex-direction: row; align-items: center; justify-content: space-between; } }
+.title { font-size: v.$font-2xl; }
+.count { font-size: v.$font-base; font-weight: 500; color: v.$color-muted; margin-left: v.$space-2; @include tabular-nums; }
+.search { @include up(md) { width: 360px; } }

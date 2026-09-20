@@ -1,0 +1,34 @@
+@use "../../../styles/variables" as v;
+@use "../../../styles/mixins" as *;
+
+.region {
+  position: fixed; z-index: v.$z-toast;
+  left: v.$space-4; right: v.$space-4; bottom: calc(v.$space-4 + env(safe-area-inset-bottom));
+  display: flex; flex-direction: column; gap: v.$space-2; pointer-events: none;
+  @include up(md) { left: auto; width: 360px; }
+}
+.toast {
+  pointer-events: auto;
+  display: flex; align-items: center; gap: v.$space-2;
+  padding: v.$space-3 v.$space-3 v.$space-3 v.$space-4;
+  background: v.$color-surface-raised;
+  border: 1px solid v.$color-border;
+  border-left: 4px solid v.$color-primary;
+  border-radius: v.$radius-md;
+  @include elevation(raised);
+  animation: enter v.$duration-base v.$ease;
+  @include reduced-motion { animation: none; }
+}
+.icon { width: 20px; height: 20px; flex: none; }
+.message { flex: 1; font-size: v.$font-sm; font-weight: 500; }
+.close {
+  display: inline-flex; align-items: center; justify-content: center;
+  width: 32px; height: 32px; border: 0; background: transparent; border-radius: v.$radius-sm; cursor: pointer; color: v.$color-muted;
+  svg { width: 16px; height: 16px; }
+  &:hover { background: v.$color-surface-sunken; }
+  @include focus-visible;
+}
+.success { border-left-color: v.$color-success; .icon { color: v.$color-success; } }
+.error { border-left-color: v.$color-danger; .icon { color: v.$color-danger; } }
+.info { .icon { color: v.$color-primary; } }
+@keyframes enter { from { transform: translateY(8px); opacity: 0; } to { transform: none; opacity: 1; } }

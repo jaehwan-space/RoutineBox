@@ -1,0 +1,2 @@
+@use "../../styles/variables" as v;
+.chips { display: flex; gap: v.$space-2; overflow-x: auto; padding-bottom: v.$space-1; scrollbar-width: none; &::-webkit-scrollbar { display: none; } }

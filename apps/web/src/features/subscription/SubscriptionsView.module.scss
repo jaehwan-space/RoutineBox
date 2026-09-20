@@ -1,0 +1,9 @@
+@use "../../styles/variables" as v;
+@use "../../styles/mixins" as *;
+.page { @include container; padding-top: v.$space-5; padding-bottom: v.$space-8; display: flex; flex-direction: column; gap: v.$space-4; max-width: 880px; }
+.title { font-size: v.$font-2xl; }
+.summary { display: grid; grid-template-columns: 1fr 1fr; gap: v.$space-4; > div { display: flex; flex-direction: column; gap: 2px; } }
+.summaryLabel { font-size: v.$font-sm; color: v.$color-text-secondary; }
+.summaryValue { font-size: v.$font-2xl; @include tabular-nums; }
+.list { display: flex; flex-direction: column; gap: v.$space-3; }
+.ended { summary { cursor: pointer; color: v.$color-text-secondary; font-size: v.$font-sm; margin-bottom: v.$space-3; } }

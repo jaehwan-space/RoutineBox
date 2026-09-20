@@ -1,0 +1,15 @@
+@use "../../../styles/variables" as v;
+@use "../../../styles/mixins" as *;
+
+.button {
+  @include button-base;
+  padding: 0;
+  color: v.$color-text-secondary;
+  border-radius: v.$radius-sm;
+  svg { width: 20px; height: 20px; }
+}
+.sm { min-height: 36px; width: 36px; svg { width: 18px; height: 18px; } }
+.md { min-height: v.$touch-min; width: v.$touch-min; }
+.ghost { background: transparent; &:hover:not(:disabled) { background: v.$color-surface-sunken; color: v.$color-text; } }
+.outline { background: v.$color-surface; border-color: v.$color-border-strong; &:hover:not(:disabled) { background: v.$color-surface-sunken; } }
+.active { color: v.$color-primary-text; background: v.$color-primary-soft; }

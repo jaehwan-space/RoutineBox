@@ -1,0 +1,17 @@
+@use "../../../styles/variables" as v;
+
+.badge {
+  display: inline-flex; align-items: center; gap: 4px;
+  min-height: 24px; padding: 0 v.$space-2;
+  border-radius: v.$radius-full;
+  font-size: v.$font-xs; font-weight: 700; line-height: 1;
+  background: v.$color-surface-sunken; color: v.$color-text-secondary;
+}
+.icon { width: 14px; height: 14px; }
+.active { background: v.$color-success-soft; color: v.$color-success-text; }
+.paused { background: v.$color-warning-soft; color: v.$color-warning-text; }
+.failed { background: v.$color-danger-soft; color: v.$color-danger-text; }
+.pending { background: v.$color-primary-soft; color: v.$color-primary-text; }
+.cancelled { background: v.$color-surface-sunken; color: v.$color-muted; }
+.accent { background: v.$color-accent-soft; color: v.$color-accent-text; }
+.neutral { }

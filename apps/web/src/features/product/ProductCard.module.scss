@@ -1,0 +1,31 @@
+@use "../../styles/variables" as v;
+@use "../../styles/mixins" as *;
+
+.card { display: flex; flex-direction: column; overflow: hidden; }
+.link { display: block; @include focus-visible; }
+.thumb {
+  aspect-ratio: 1 / 1;
+  display: flex; align-items: center; justify-content: center;
+  padding: v.$space-3;
+  background: v.$color-surface-sunken;
+  color: v.$color-text-secondary;
+  img { width: 100%; height: 100%; object-fit: cover; }
+}
+.thumbLabel { font-weight: 700; text-align: center; font-size: v.$font-sm; line-height: v.$lh-snug; @include truncate(2); }
+// 카테고리별 자리표시자 색 (이미지가 없을 때)
+.cat-DETERGENT { background: v.$color-primary-soft; color: v.$color-primary-text; }
+.cat-TISSUE { background: v.$color-accent-soft; color: v.$color-accent-text; }
+.cat-WATER { background: v.$color-surface-sunken; color: v.$color-primary-text; }
+.cat-COFFEE { background: v.$color-warning-soft; color: v.$color-warning-text; }
+.cat-KITCHEN { background: v.$color-success-soft; color: v.$color-success-text; }
+.cat-PET { background: v.$color-danger-soft; color: v.$color-danger-text; }
+
+.body { display: flex; flex-direction: column; gap: v.$space-1; padding: v.$space-3; flex: 1; }
+.meta { display: flex; align-items: center; justify-content: space-between; gap: v.$space-2; }
+.category { font-size: v.$font-xs; color: v.$color-muted; }
+.name { font-size: v.$font-base; font-weight: 600; @include truncate(2); a { @include focus-visible; border-radius: 4px; } }
+.price { display: flex; align-items: baseline; gap: v.$space-2; @include tabular-nums; strong { font-size: v.$font-lg; } }
+.listPrice { color: v.$color-muted; font-size: v.$font-xs; }
+.cycle { font-size: v.$font-xs; color: v.$color-text-secondary; margin-bottom: v.$space-2; }
+.actions { display: flex; gap: v.$space-2; margin-top: auto; }
+.grow { flex: 1; }

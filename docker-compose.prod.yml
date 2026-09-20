@@ -1,0 +1,82 @@
+# 운영(Oracle Cloud 공유 서버): 호스트 nginx 뒤에서 동작하는 단독 compose 파일 (docker-compose.yml 과 합치지 않는다).
+# 서버의 호스트 nginx 가 80/443 을 쓰며 다른 사이트와 함께 돈다 → 앱은 127.0.0.1 에만 바인딩한다.
+#   web  127.0.0.1:3300   (nginx: /     → web)
+#   api  127.0.0.1:4300   (nginx: /api/ → api, /api 프리픽스 제거)
+# 배포: ./deploy/deploy.sh (내부적으로 docker compose -f docker-compose.prod.yml up -d --build --wait)
+name: routinebox
+
+x-logging: &default-logging
+  driver: json-file
+  options:
+    max-size: "10m"
+    max-file: "3"
+
+services:
+  db:
+    image: postgres:16-alpine
+    restart: unless-stopped
+    logging: *default-logging
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER:-routinebox}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:?POSTGRES_PASSWORD 를 .env 에 설정하세요}
+      POSTGRES_DB: ${POSTGRES_DB:-routinebox}
+    volumes:
+      - db-data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER:-routinebox} -d ${POSTGRES_DB:-routinebox}"]
+      interval: 5s
+      timeout: 3s
+      retries: 10
+
+  api:
+    build:
+      context: .
+      dockerfile: apps/api/Dockerfile
+    image: routinebox-api
+    restart: unless-stopped
+    logging: *default-logging
+    env_file: .env
+    environment:
+      NODE_ENV: production
+      API_PORT: 4000
+      DATABASE_URL: postgresql://${POSTGRES_USER:-routinebox}:${POSTGRES_PASSWORD}@db:5432/${POSTGRES_DB:-routinebox}?schema=public
+    ports:
+      - "127.0.0.1:4300:4000"
+    healthcheck:
+      test: ["CMD-SHELL", "wget -qO- http://127.0.0.1:4000/health >/dev/null || exit 1"]
+      interval: 10s
+      timeout: 5s
+      retries: 12
+      start_period: 30s # 기동 시 prisma migrate deploy 포함
+    depends_on:
+      db:
+        condition: service_healthy
+
+  web:
+    build:
+      context: .
+      dockerfile: apps/web/Dockerfile
+      args:
+        API_INTERNAL_URL: http://api:4000
+        # NEXT_PUBLIC_* 는 빌드 시 번들에 들어간다 → 값을 바꾸면 web 을 다시 빌드해야 한다.
+        NEXT_PUBLIC_TOSS_CLIENT_KEY: ${NEXT_PUBLIC_TOSS_CLIENT_KEY:-}
+        NEXT_PUBLIC_PAYMENTS_MOCK: ${NEXT_PUBLIC_PAYMENTS_MOCK:-false}
+    image: routinebox-web
+    restart: unless-stopped
+    logging: *default-logging
+    environment:
+      API_INTERNAL_URL: http://api:4000 # 서버 컴포넌트의 API 호출 (lib/server-api.ts)
+    ports:
+      - "127.0.0.1:3300:3000"
+    healthcheck:
+      test: ["CMD-SHELL", "wget -qO- http://127.0.0.1:3000/ >/dev/null || exit 1"]
+      interval: 10s
+      timeout: 5s
+      retries: 12
+      start_period: 20s
+    depends_on:
+      api:
+        condition: service_healthy
+
+volumes:
+  db-data:

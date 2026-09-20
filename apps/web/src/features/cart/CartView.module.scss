@@ -1,0 +1,22 @@
+@use "../../styles/variables" as v;
+@use "../../styles/mixins" as *;
+
+.page { @include container; padding-top: v.$space-5; padding-bottom: v.$space-8; display: flex; flex-direction: column; gap: v.$space-4; }
+.title { font-size: v.$font-2xl; }
+.count { font-size: v.$font-base; font-weight: 500; color: v.$color-muted; margin-left: v.$space-2; @include tabular-nums; }
+.notice { padding: v.$space-3; border-radius: v.$radius-sm; background: v.$color-primary-soft; color: v.$color-primary-text; font-size: v.$font-sm; a { font-weight: 700; text-decoration: underline; } }
+.layout { display: grid; gap: v.$space-4; @include up(lg) { grid-template-columns: minmax(0, 1fr) 320px; align-items: start; } }
+.list { display: flex; flex-direction: column; gap: v.$space-3; }
+.line { display: grid; gap: v.$space-3; grid-template-columns: 1fr; @include up(md) { grid-template-columns: minmax(0, 1fr) auto auto; align-items: center; } }
+.lineMain { min-width: 0; }
+.name { font-weight: 600; @include truncate(2); @include focus-visible; border-radius: 4px; }
+.unit { font-size: v.$font-sm; color: v.$color-text-secondary; @include tabular-nums; }
+.lineControls { display: flex; align-items: center; gap: v.$space-3; justify-content: space-between; }
+.lineTotal { @include tabular-nums; min-width: 84px; text-align: right; }
+.subscribe { justify-self: start; @include up(md) { justify-self: end; } }
+.summary { display: flex; flex-direction: column; gap: v.$space-3; @include up(lg) { position: sticky; top: calc(v.$header-height + v.$space-4); } }
+.summaryTitle { font-size: v.$font-lg; }
+.summaryRows { display: flex; flex-direction: column; gap: v.$space-2; @include tabular-nums;
+  > div { display: flex; justify-content: space-between; font-size: v.$font-sm; color: v.$color-text-secondary; dd { margin: 0; color: v.$color-text; } } }
+.summaryTotal { padding-top: v.$space-2; border-top: 1px solid v.$color-border; font-weight: 700; dt { color: v.$color-text !important; } dd { font-size: v.$font-lg; } }
+.summaryHelp { font-size: v.$font-xs; color: v.$color-muted; }

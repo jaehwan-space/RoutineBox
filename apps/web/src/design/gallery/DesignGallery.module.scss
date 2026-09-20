@@ -1,0 +1,24 @@
+@use "../../styles/variables" as v;
+@use "../../styles/mixins" as *;
+
+.page { @include container; padding-top: v.$space-6; padding-bottom: v.$space-10; display: flex; flex-direction: column; gap: v.$space-8; }
+.header { display: flex; flex-wrap: wrap; align-items: flex-end; justify-content: space-between; gap: v.$space-4;
+  h1 { font-size: v.$font-3xl; } p { color: v.$color-text-secondary; margin-top: v.$space-1; } }
+.themeSelect { width: 160px; }
+.section { display: flex; flex-direction: column; gap: v.$space-4; }
+.sectionTitle { font-size: v.$font-xl; padding-bottom: v.$space-2; border-bottom: 1px solid v.$color-border; }
+.row { display: flex; flex-wrap: wrap; align-items: center; gap: v.$space-3; }
+.grid2 { display: grid; gap: v.$space-4; @include up(md) { grid-template-columns: 1fr 1fr; } }
+.grid3 { display: grid; gap: v.$space-4; @include up(md) { grid-template-columns: repeat(3, 1fr); } p { color: v.$color-text-secondary; font-size: v.$font-sm; } }
+.twoThemes { display: grid; gap: v.$space-4; @include up(lg) { grid-template-columns: 1fr 1fr; } }
+.themeCol { padding: v.$space-4; border-radius: v.$radius-md; background: v.$color-bg; color: v.$color-text; border: 1px solid v.$color-border; h3 { margin-bottom: v.$space-3; } }
+.swatches { display: grid; grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: v.$space-2; }
+.swatch { display: flex; align-items: center; gap: v.$space-2; font-size: v.$font-xs; code { color: v.$color-text-secondary; } }
+.swatchColor { width: 28px; height: 28px; border-radius: v.$radius-sm; border: 1px solid v.$color-border; flex: none; }
+.typeRow { display: flex; align-items: baseline; gap: v.$space-3; line-height: 1.3; code { font-size: v.$font-xs; color: v.$color-muted; flex: none; } }
+.nums { @include tabular-nums; }
+.spaceRow { display: flex; align-items: flex-end; gap: v.$space-2; }
+.spaceBar { display: inline-block; height: 24px; background: v.$color-primary-soft; border: 1px solid v.$color-primary; }
+.radiusRow { display: flex; flex-wrap: wrap; gap: v.$space-3; }
+.radiusBox { display: inline-flex; align-items: center; justify-content: center; min-width: 120px; height: 56px; padding: 0 v.$space-3; background: v.$color-surface; border: 1px solid v.$color-border-strong; font-size: v.$font-sm; }
+.help { margin-top: v.$space-4; color: v.$color-text-secondary; font-size: v.$font-sm; }

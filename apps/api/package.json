@@ -1,0 +1,52 @@
+{
+  "name": "@routinebox/api",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "tsx watch src/server.ts",
+    "start": "tsx src/server.ts",
+    "typecheck": "tsc --noEmit",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "prisma:generate": "prisma generate",
+    "prisma:migrate": "dotenv -e ../../.env -- prisma migrate dev",
+    "prisma:deploy": "dotenv -e ../../.env -- prisma migrate deploy",
+    "prisma:studio": "dotenv -e ../../.env -- prisma studio",
+    "postinstall": "prisma generate",
+    "test:migrate": "DATABASE_URL=postgresql://routinebox:routinebox@localhost:5433/routinebox_test?schema=public prisma migrate deploy",
+    "db:seed": "dotenv -e ../../.env -- prisma db seed"
+  },
+  "dependencies": {
+    "@prisma/client": "6.19.3",
+    "@routinebox/shared": "workspace:*",
+    "bcryptjs": "^3.0.3",
+    "cookie-parser": "^1.4.7",
+    "cors": "^2.8.5",
+    "dotenv": "^17.2.3",
+    "express": "^5.2.1",
+    "helmet": "^8.1.0",
+    "jsonwebtoken": "^9.0.3",
+    "node-cron": "^4.6.0",
+    "nodemailer": "^10.0.10",
+    "prisma": "6.19.3",
+    "tsx": "^4.23.13",
+    "zod": "^4.6.2"
+  },
+  "devDependencies": {
+    "@types/cookie-parser": "^1.4.9",
+    "@types/cors": "^2.8.19",
+    "@types/express": "^5.0.3",
+    "@types/jsonwebtoken": "^9.0.10",
+    "@types/node": "^24",
+    "@types/nodemailer": "^8.0.2",
+    "@types/supertest": "^6.0.3",
+    "dotenv-cli": "^11.0.0",
+    "supertest": "^7.2.2",
+    "typescript": "^5.9.3",
+    "vitest": "^5.0.0"
+  },
+  "prisma": {
+    "seed": "tsx prisma/seed.ts"
+  }
+}
