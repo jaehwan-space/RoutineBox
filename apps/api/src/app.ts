@@ -4,6 +4,10 @@ import express from "express";
 import helmet from "helmet";
 import { config } from "./config.js";
 import { errorHandler } from "./middleware/error-handler.js";
+import { adminRouter } from "./modules/admin/router.js";
+import { billingRouter } from "./modules/billing/router.js";
+import { notificationRouter } from "./modules/notification/router.js";
+import { orderRouter } from "./modules/order/router.js";
 import { oauthRouter } from "./modules/auth/oauth-router.js";
 import { authRouter } from "./modules/auth/router.js";
 import { cartRouter } from "./modules/cart/router.js";
@@ -28,6 +32,10 @@ export function createApp() {
   app.use(cartRouter);
   app.use(subscriptionRouter);
   app.use(paymentMethodRouter);
+  app.use(orderRouter);
+  app.use(notificationRouter);
+  app.use(adminRouter);
+  app.use(billingRouter);
 
   app.use((_req, res) => {
     res.status(404).json({ error: { code: "NOT_FOUND", message: "요청한 경로가 없습니다." } });

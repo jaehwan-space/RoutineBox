@@ -21,6 +21,10 @@ describe("구독 상태 머신", () => {
     expect(transition(base, { type: "PAUSE" }).status).toBe("PAUSED");
     expect(transition(at("PAUSED"), { type: "RESUME", nextBillingDate: "2026-09-20" })).toMatchObject({ status: "ACTIVE", nextBillingDate: "2026-09-20", pausedAt: null });
   });
+  it("ACTIVE + PAYMENT_SUCCEEDED → 다음 결제일 갱신, 실패 카운트 초기화", () => {
+    expect(transition(base, { type: "PAYMENT_SUCCEEDED", nextBillingDate: "2026-10-03" })).toMatchObject({ status: "ACTIVE", nextBillingDate: "2026-10-03", failCount: 0, nextRetryAt: null });
+    expect(() => transition(at("PAYMENT_FAILED"), { type: "PAYMENT_SUCCEEDED", nextBillingDate: "2026-10-03" })).toThrow();
+  });
   it("결제 실패 → 재시도 성공 / 3회 실패 → 자동 해지", () => {
     const failed = transition(base, { type: "PAYMENT_FAILED", nextRetryAt: new Date() });
     expect(failed).toMatchObject({ status: "PAYMENT_FAILED", failCount: 1 });

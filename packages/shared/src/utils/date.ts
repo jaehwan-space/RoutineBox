@@ -41,3 +41,22 @@ export function formatShortDate(ymd: YMD): string {
   const day = ["일", "월", "화", "수", "목", "금", "토"][d.getUTCDay()];
   return `${d.getUTCMonth() + 1}/${String(d.getUTCDate()).padStart(2, "0")} (${day})`;
 }
+
+/** "YYYY-MM-DD" → "YYYYMMDD" (orderKey·periodKey 용) */
+export const compactYmd = (ymd: YMD): string => ymd.replace(/-/g, "");
+
+/** 회차 식별자. 같은 구독의 같은 결제 예정일은 항상 같은 키 → 중복 결제 방지(멱등). */
+export const orderKeyFor = (subscriptionId: string, billingDate: YMD): string => `sub_${subscriptionId}_${compactYmd(billingDate)}`;
+
+/** 내일 (KST) */
+export const tomorrowKst = (now: Date = new Date()): YMD => addDays(todayKst(now), 1);
+
+/** 특정 KST 달력 날짜의 hh:mm 을 가리키는 Date (UTC+9 고정) */
+export function kstDateTime(ymd: YMD, hour: number, minute = 0): Date {
+  return new Date(`${ymd}T${String(hour).padStart(2, "0")}:${String(minute).padStart(2, "0")}:00+09:00`);
+}
+
+/** 화면용: 2026. 9. 5. 09:00 */
+export function formatDateTime(iso: string): string {
+  return new Intl.DateTimeFormat("ko-KR", { timeZone: "Asia/Seoul", year: "numeric", month: "numeric", day: "numeric", hour: "2-digit", minute: "2-digit", hour12: false }).format(new Date(iso));
+}

@@ -37,3 +37,30 @@ export function tossKeyWarnings(): string[] {
   ] as const;
   return checks.flatMap(([envName, key, role]) => (key ? [tossBillingKeyProblem(key, role, envName)] : [])).filter((m): m is string => Boolean(m));
 }
+
+export interface BillingApprovalInput {
+  billingKey: string;
+  customerKey: string;
+  /** 토스 orderId (6~64자, 영문·숫자·-_=.). 같은 회차 재시도는 다른 값을 쓴다. */
+  orderId: string;
+  orderName: string;
+  amount: number;
+  customerEmail?: string;
+  customerName?: string;
+}
+export interface BillingApproval { paymentKey: string; approvedAt: Date; raw: unknown }
+
+/** 빌링키 자동결제 승인 (POST /v1/billing/{billingKey}). 승인 실패는 PAYMENT_FAILED(402) 로 던진다. */
+export async function approveBilling(input: BillingApprovalInput): Promise<BillingApproval> {
+  const { billingKey, ...body } = input;
+  const res = await fetch(`${BASE}/v1/billing/${encodeURIComponent(billingKey)}`, {
+    method: "POST",
+    headers: { Authorization: authHeader(), "Content-Type": "application/json", "Idempotency-Key": input.orderId },
+    body: JSON.stringify(body),
+  });
+  const data = (await res.json().catch(() => ({}))) as { paymentKey?: string; status?: string; approvedAt?: string; message?: string; code?: string };
+  if (!res.ok || data.status !== "DONE" || !data.paymentKey) {
+    throw new AppError("PAYMENT_FAILED", data.message ?? "카드 승인에 실패했습니다.", { code: data.code, raw: data });
+  }
+  return { paymentKey: data.paymentKey, approvedAt: data.approvedAt ? new Date(data.approvedAt) : new Date(), raw: data };
+}

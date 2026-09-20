@@ -8,12 +8,17 @@ import { AppError } from "../../lib/errors.js";
 import { prisma } from "../../lib/prisma.js";
 import { transition, type SubEvent, type SubPatch } from "./state-machine.js";
 
-const include = {
+export const subscriptionInclude = {
   product: { select: { id: true, name: true, category: true } },
   paymentMethod: { select: { id: true, cardCompany: true, cardLast4: true, createdAt: true, deletedAt: true } },
 } satisfies Prisma.SubscriptionInclude;
+const include = subscriptionInclude;
 type SubRow = Prisma.SubscriptionGetPayload<{ include: typeof include }>;
 type SubRowWithOrders = Prisma.SubscriptionGetPayload<{ include: typeof include & { orders: true } }>;
+
+export function toSubscriptionDto(s: SubRow | SubRowWithOrders): SubscriptionDto {
+  return toDto(s);
+}
 
 function toDto(s: SubRow | SubRowWithOrders): SubscriptionDto {
   const next = s.nextBillingDate ? fromDbDate(s.nextBillingDate) : null;

@@ -22,6 +22,16 @@ const envSchema = z.object({
   TOSS_SECRET_KEY: z.string().optional(),
   BILLING_KEY_ENCRYPTION_KEY: z.string().optional(),
   PAYMENTS_MOCK: z.stringbool().default(false),
+  // 자동 결제 스케줄러 (Asia/Seoul). 테스트·점검 시 BILLING_CRON_ENABLED=false 로 끈다.
+  BILLING_CRON_ENABLED: z.stringbool().default(true),
+  BILLING_CRON: z.string().default("0 9 * * *"),
+  REMINDER_CRON: z.string().default("5 9 * * *"),
+  // 이메일 (SMTP_HOST 가 비어 있으면 발송을 건너뛰고 알림 이력만 남긴다)
+  SMTP_HOST: z.string().optional(),
+  SMTP_PORT: z.coerce.number().int().default(587),
+  SMTP_USER: z.string().optional(),
+  SMTP_PASS: z.string().optional(),
+  MAIL_FROM: z.string().default("RoutineBox <no-reply@example.com>"),
 });
 
 const parsed = envSchema.safeParse(process.env);

@@ -1,4 +1,4 @@
-import type { AuthProvider, Category, Role, SubscriptionStatus } from "./constants";
+import type { AuthProvider, Category, NotificationType, Role, SubscriptionStatus } from "./constants";
 
 export interface UserDto {
   id: string;
@@ -89,4 +89,86 @@ export interface SubscriptionListDto {
   /** 이번 달 예정 결제 합계(ACTIVE) */
   monthlyDue: number;
   activeCount: number;
+}
+
+export interface ProductAdminDto extends ProductDto {
+  isActive: boolean;
+  createdAt: string;
+  updatedAt: string;
+}
+
+export interface PaymentDto {
+  status: "APPROVED" | "FAILED";
+  amount: number;
+  paymentKey: string | null;
+  approvedAt: string | null;
+  failReason: string | null;
+}
+
+/** 주문 목록 항목: 회차 + 어떤 구독·상품의 회차인지 */
+export interface OrderListItemDto extends OrderDto {
+  subscriptionId: string;
+  product: { id: string; name: string; category: Category };
+  cycleDays: number;
+}
+
+export interface OrderDetailDto extends OrderListItemDto {
+  payment: PaymentDto | null;
+  paymentMethod: { cardCompany: string; cardLast4: string } | null;
+}
+
+export interface NotificationDto {
+  id: string;
+  type: NotificationType;
+  subscriptionId: string | null;
+  productName: string | null;
+  sentAt: string;
+}
+
+/** 결제 배치 실행 결과 */
+export interface BillingRunResult {
+  asOf: string;
+  processed: number;
+  paid: number;
+  failed: number;
+  skipped: number;
+  cancelled: number;
+  items: Array<{ subscriptionId: string; orderKey: string; result: "PAID" | "FAILED" | "SKIPPED" | "CANCELLED" | "ERROR"; message?: string }>;
+}
+
+export interface AdminDashboardDto {
+  activeSubscriptions: number;
+  pausedSubscriptions: number;
+  failedSubscriptions: number;
+  todayDue: number;
+  todayPaid: number;
+  todayFailed: number;
+  monthlyRevenue: number;
+  monthlyOrders: number;
+  preparingOrders: number;
+  users: number;
+  /** 최근 14일 결제 건수 (오래된 날짜부터) */
+  last14Days: Array<{ date: string; paid: number; failed: number; amount: number }>;
+}
+
+export interface AdminOrderDto extends OrderListItemDto {
+  user: { id: string; email: string; name: string };
+  payment: PaymentDto | null;
+}
+
+export interface AdminSubscriptionDto extends SubscriptionDto {
+  user: { id: string; email: string; name: string };
+  nextRetryAt: string | null;
+  cancelledReason: string | null;
+}
+
+export interface AdminFailedPaymentDto {
+  subscriptionId: string;
+  user: { id: string; email: string; name: string };
+  product: { id: string; name: string };
+  amount: number;
+  failCount: number;
+  nextRetryAt: string | null;
+  lastFailReason: string | null;
+  lastFailedAt: string | null;
 }

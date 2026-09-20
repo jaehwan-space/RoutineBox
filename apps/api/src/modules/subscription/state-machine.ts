@@ -19,6 +19,7 @@ export type SubEvent =
   | { type: "PAUSE" }
   | { type: "RESUME"; nextBillingDate: YMD }
   | { type: "CANCEL" }
+  | { type: "PAYMENT_SUCCEEDED"; nextBillingDate: YMD }
   | { type: "PAYMENT_FAILED"; nextRetryAt: Date }
   | { type: "PAYMENT_RETRY_SUCCEEDED"; nextBillingDate: YMD }
   | { type: "AUTO_CANCEL" };
@@ -42,7 +43,7 @@ const invalid = (state: SubState, event: SubEvent) =>
 
 const EVENT_LABEL: Record<SubEvent["type"], string> = {
   ACTIVATE: "구독을 시작", SKIP: "건너뛰기", UPDATE: "주기·수량 변경", PAUSE: "일시정지", RESUME: "재개",
-  CANCEL: "해지", PAYMENT_FAILED: "결제 실패 처리", PAYMENT_RETRY_SUCCEEDED: "재시도 성공 처리", AUTO_CANCEL: "자동 해지",
+  CANCEL: "해지", PAYMENT_SUCCEEDED: "결제 성공 처리", PAYMENT_FAILED: "결제 실패 처리", PAYMENT_RETRY_SUCCEEDED: "재시도 성공 처리", AUTO_CANCEL: "자동 해지",
 };
 
 /**
@@ -70,6 +71,9 @@ export function transition(state: SubState, event: SubEvent, now: Date = new Dat
     case "CANCEL":
       if (status === "CANCELLED") throw invalid(state, event);
       return { status: "CANCELLED", cancelledAt: now, cancelledReason: "USER", nextRetryAt: null };
+    case "PAYMENT_SUCCEEDED":
+      if (status !== "ACTIVE") throw invalid(state, event);
+      return { status: "ACTIVE", failCount: 0, nextRetryAt: null, nextBillingDate: event.nextBillingDate };
     case "PAYMENT_FAILED":
       if (status !== "ACTIVE" && status !== "PAYMENT_FAILED") throw invalid(state, event);
       return { status: "PAYMENT_FAILED", failCount: state.failCount + 1, nextRetryAt: event.nextRetryAt };
