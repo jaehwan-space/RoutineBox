@@ -65,7 +65,7 @@ jobs:
       DATABASE_URL: postgresql://routinebox:routinebox@localhost:5433/routinebox_e2e?schema=public
       JWT_ACCESS_SECRET: ci-access-secret-0123456789abcdef
       JWT_REFRESH_SECRET: ci-refresh-secret-0123456789abcdef
-      BILLING_KEY_ENCRYPTION_KEY: 0000000000000000000000000000000000000000000000000000000000000000
+      BILLING_KEY_ENCRYPTION_KEY: "0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef" # 따옴표 필수 (YAML 이 숫자로 읽지 않도록)
       APP_URL: http://localhost:3000
       API_URL: http://localhost:4000
       API_INTERNAL_URL: http://localhost:4000
@@ -88,6 +88,10 @@ jobs:
         run: pnpm --filter @routinebox/api exec prisma migrate deploy
       - name: Build (web, mock payments on)
         run: pnpm --filter @routinebox/web build
+      - name: Prepare standalone server (Dockerfile 과 같은 배치)
+        run: |
+          cp -r apps/web/.next/static apps/web/.next/standalone/apps/web/.next/static
+          cp -r apps/web/public apps/web/.next/standalone/apps/web/public
       - name: Install Playwright browser
         run: pnpm --filter @routinebox/web exec playwright install --with-deps chromium
       - name: E2E (5 scenarios)
