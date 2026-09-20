@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 1000" width="800" height="1000">
+<rect width="800" height="1000" fill="#e8dccb"/>
+<ellipse cx="400" cy="820" rx="250" ry="26" fill="#2b2118" opacity="0.08"/>
+<path d="M250 260 h300 l10 -60 h-320z" fill="#6b4a2b"/>
+<path d="M230 260 h340 q40 0 40 40 v440 q0 50 -50 50 h-320 q-50 0 -50 -50 v-440 q0 -40 40 -40z" fill="#c9a57e"/>
+<rect x="270" y="380" width="260" height="240" rx="20" fill="#fbf9f4"/>
+<text x="400" y="440" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="26" letter-spacing="6" fill="#6b4a2b">WHOLE BEAN</text>
+<ellipse cx="400" cy="520" rx="34" ry="52" transform="rotate(-25 400 520)" fill="#6b4a2b"/><path d="M400 480 q14 40 0 80" stroke="#fbf9f4" stroke-width="7" fill="none" transform="rotate(-25 400 520)"/>
+<text x="400" y="600" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="44" font-weight="700" fill="#6b4a2b">1kg</text>
+<ellipse cx="160" cy="780" rx="22" ry="34" transform="rotate(-30 160 780)" fill="#6b4a2b"/><path d="M160 754 q10 26 0 52" stroke="#e8dccb" stroke-width="5" fill="none" transform="rotate(-30 160 780)"/><ellipse cx="215" cy="800" rx="22" ry="34" transform="rotate(20 215 800)" fill="#6b4a2b"/><path d="M215 774 q10 26 0 52" stroke="#e8dccb" stroke-width="5" fill="none" transform="rotate(20 215 800)"/><ellipse cx="640" cy="790" rx="22" ry="34" transform="rotate(40 640 790)" fill="#6b4a2b"/><path d="M640 764 q10 26 0 52" stroke="#e8dccb" stroke-width="5" fill="none" transform="rotate(40 640 790)"/><ellipse cx="690" cy="760" rx="22" ry="34" transform="rotate(-15 690 760)" fill="#6b4a2b"/><path d="M690 734 q10 26 0 52" stroke="#e8dccb" stroke-width="5" fill="none" transform="rotate(-15 690 760)"/>
+<rect x="230" y="880" width="340" height="56" rx="28" fill="#ffffff" opacity="0.9"/>
+<text x="400" y="917" text-anchor="middle" font-family="Apple SD Gothic Neo, Noto Sans KR, sans-serif" font-size="26" font-weight="700" fill="#6b4a2b">원두 1kg</text>
+</svg>

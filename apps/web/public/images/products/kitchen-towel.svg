@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 1000" width="800" height="1000">
+<rect width="800" height="1000" fill="#f1e9dc"/>
+<ellipse cx="400" cy="820" rx="250" ry="26" fill="#2b2118" opacity="0.08"/>
+<rect x="430" y="300" width="150" height="470" rx="75" fill="#ffffff"/>
+<ellipse cx="505" cy="300" rx="75" ry="28" fill="#fbf9f4"/><ellipse cx="505" cy="300" rx="22" ry="9" fill="#c9a57e"/>
+<path d="M430 520 Q300 560 220 520 L220 760 Q300 720 430 760z" fill="#ffffff"/>
+<path d="M240 560 h170 M240 610 h170 M240 660 h170 M240 710 h170" stroke="#c9a57e" stroke-width="3" stroke-dasharray="10 12" opacity="0.7"/>
+<rect x="230" y="880" width="340" height="56" rx="28" fill="#ffffff" opacity="0.9"/>
+<text x="400" y="917" text-anchor="middle" font-family="Apple SD Gothic Neo, Noto Sans KR, sans-serif" font-size="26" font-weight="700" fill="#6b4a2b">키친타월 12롤</text>
+</svg>

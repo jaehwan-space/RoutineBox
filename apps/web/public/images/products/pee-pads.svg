@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 1000" width="800" height="1000">
+<rect width="800" height="1000" fill="#eadfd4"/>
+<ellipse cx="400" cy="820" rx="250" ry="26" fill="#2b2118" opacity="0.08"/>
+<rect x="200" y="640" width="400" height="60" rx="14" fill="#ffffff" stroke="#c9a57e" stroke-width="3"/><rect x="208" y="600" width="384" height="60" rx="14" fill="#ffffff" stroke="#c9a57e" stroke-width="3"/><rect x="216" y="560" width="368" height="60" rx="14" fill="#ffffff" stroke="#c9a57e" stroke-width="3"/><rect x="224" y="520" width="352" height="60" rx="14" fill="#ffffff" stroke="#c9a57e" stroke-width="3"/><rect x="230" y="300" width="340" height="200" rx="24" fill="#ffffff" stroke="#c9a57e" stroke-width="3"/>
+<rect x="260" y="330" width="280" height="140" rx="16" fill="#dce8ea"/>
+<ellipse cx="400" cy="415.4" rx="24.200000000000003" ry="19.8" fill="#5e6b2f"/>
+<circle cx="373.6" cy="395.6" r="9.68" fill="#5e6b2f"/><circle cx="390.32" cy="380.2" r="9.68" fill="#5e6b2f"/>
+<circle cx="409.68" cy="380.2" r="9.68" fill="#5e6b2f"/><circle cx="426.4" cy="395.6" r="9.68" fill="#5e6b2f"/>
+<text x="400" y="770" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="30" font-weight="700" fill="#6b4a2b" letter-spacing="3">100 SHEETS</text>
+<rect x="230" y="880" width="340" height="56" rx="28" fill="#ffffff" opacity="0.9"/>
+<text x="400" y="917" text-anchor="middle" font-family="Apple SD Gothic Neo, Noto Sans KR, sans-serif" font-size="26" font-weight="700" fill="#6b4a2b">강아지 배변패드 100매</text>
+</svg>

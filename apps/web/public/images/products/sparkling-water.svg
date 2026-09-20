@@ -1,0 +1,22 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 1000" width="800" height="1000">
+<rect width="800" height="1000" fill="#dce8ea"/>
+<ellipse cx="400" cy="820" rx="250" ry="26" fill="#2b2118" opacity="0.08"/>
+<rect x="215" y="260" width="120" height="480" rx="26" fill="#cfe0e5"/>
+<rect x="215" y="260" width="120" height="480" rx="26" fill="none" stroke="#8fb0ba" stroke-width="3"/>
+<rect x="215" y="400" width="120" height="180" fill="#5f8fa3"/>
+<text x="275" y="470" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="17" font-weight="700" fill="#ffffff" letter-spacing="2">SPARKLING</text>
+<text x="275" y="540" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="40" font-weight="700" fill="#ffffff">500</text>
+<circle cx="245" cy="330" r="8" fill="#ffffff" opacity="0.8"/><circle cx="295" cy="300" r="6" fill="#ffffff" opacity="0.8"/><circle cx="270" cy="660" r="9" fill="#ffffff" opacity="0.8"/><rect x="340" y="260" width="120" height="480" rx="26" fill="#cfe0e5"/>
+<rect x="340" y="260" width="120" height="480" rx="26" fill="none" stroke="#8fb0ba" stroke-width="3"/>
+<rect x="340" y="400" width="120" height="180" fill="#5f8fa3"/>
+<text x="400" y="470" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="17" font-weight="700" fill="#ffffff" letter-spacing="2">SPARKLING</text>
+<text x="400" y="540" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="40" font-weight="700" fill="#ffffff">500</text>
+<circle cx="370" cy="330" r="8" fill="#ffffff" opacity="0.8"/><circle cx="420" cy="300" r="6" fill="#ffffff" opacity="0.8"/><circle cx="395" cy="660" r="9" fill="#ffffff" opacity="0.8"/><rect x="465" y="260" width="120" height="480" rx="26" fill="#cfe0e5"/>
+<rect x="465" y="260" width="120" height="480" rx="26" fill="none" stroke="#8fb0ba" stroke-width="3"/>
+<rect x="465" y="400" width="120" height="180" fill="#5f8fa3"/>
+<text x="525" y="470" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="17" font-weight="700" fill="#ffffff" letter-spacing="2">SPARKLING</text>
+<text x="525" y="540" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="40" font-weight="700" fill="#ffffff">500</text>
+<circle cx="495" cy="330" r="8" fill="#ffffff" opacity="0.8"/><circle cx="545" cy="300" r="6" fill="#ffffff" opacity="0.8"/><circle cx="520" cy="660" r="9" fill="#ffffff" opacity="0.8"/>
+<rect x="230" y="880" width="340" height="56" rx="28" fill="#ffffff" opacity="0.9"/>
+<text x="400" y="917" text-anchor="middle" font-family="Apple SD Gothic Neo, Noto Sans KR, sans-serif" font-size="26" font-weight="700" fill="#6b4a2b">탄산수 500ml × 20병</text>
+</svg>

@@ -1,0 +1,19 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 1000" width="800" height="1000">
+<rect width="800" height="1000" fill="#dce8ea"/>
+<ellipse cx="400" cy="820" rx="250" ry="26" fill="#2b2118" opacity="0.08"/>
+<rect x="248" y="180" width="44" height="40" rx="8" fill="#5e6b2f"/>
+<path d="M240 220 h60 q30 20 30 60 v420 q0 40 -40 40 h-40 q-40 0 -40 -40 v-420 q0 -40 30 -60z" fill="#ffffff" stroke="#b9cdd2" stroke-width="3"/>
+<rect x="230" y="440" width="100" height="120" rx="14" fill="#5f8fa3"/>
+<text x="280" y="515" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="40" font-weight="700" fill="#ffffff">2L</text>
+<path d="M250 300 q10 40 0 100" stroke="#ffffff" stroke-width="10" stroke-linecap="round" opacity="0.9"/><rect x="368" y="180" width="44" height="40" rx="8" fill="#5e6b2f"/>
+<path d="M360 220 h60 q30 20 30 60 v420 q0 40 -40 40 h-40 q-40 0 -40 -40 v-420 q0 -40 30 -60z" fill="#ffffff" stroke="#b9cdd2" stroke-width="3"/>
+<rect x="350" y="440" width="100" height="120" rx="14" fill="#5f8fa3"/>
+<text x="400" y="515" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="40" font-weight="700" fill="#ffffff">2L</text>
+<path d="M370 300 q10 40 0 100" stroke="#ffffff" stroke-width="10" stroke-linecap="round" opacity="0.9"/><rect x="488" y="180" width="44" height="40" rx="8" fill="#5e6b2f"/>
+<path d="M480 220 h60 q30 20 30 60 v420 q0 40 -40 40 h-40 q-40 0 -40 -40 v-420 q0 -40 30 -60z" fill="#ffffff" stroke="#b9cdd2" stroke-width="3"/>
+<rect x="470" y="440" width="100" height="120" rx="14" fill="#5f8fa3"/>
+<text x="520" y="515" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="40" font-weight="700" fill="#ffffff">2L</text>
+<path d="M490 300 q10 40 0 100" stroke="#ffffff" stroke-width="10" stroke-linecap="round" opacity="0.9"/>
+<rect x="230" y="880" width="340" height="56" rx="28" fill="#ffffff" opacity="0.9"/>
+<text x="400" y="917" text-anchor="middle" font-family="Apple SD Gothic Neo, Noto Sans KR, sans-serif" font-size="26" font-weight="700" fill="#6b4a2b">생수 2L × 12병</text>
+</svg>

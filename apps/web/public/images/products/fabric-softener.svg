@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 1000" width="800" height="1000">
+<rect width="800" height="1000" fill="#e4ebd6"/>
+<ellipse cx="400" cy="820" rx="250" ry="26" fill="#2b2118" opacity="0.08"/>
+<rect x="340" y="150" width="120" height="70" rx="12" fill="#6b4a2b"/>
+<path d="M300 220 h200 q60 0 60 60 v460 q0 60 -60 60 h-200 q-60 0 -60 -60 v-460 q0 -60 60 -60z" fill="#ffffff"/>
+
+<rect x="270" y="380" width="260" height="230" rx="18" fill="#6b4a2b"/>
+<text x="400" y="450" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="30" letter-spacing="6" fill="#ffffff" opacity="0.85">SOFTENER</text>
+<text x="400" y="560" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="96" font-weight="700" fill="#ffffff">2.5L</text>
+<rect x="230" y="880" width="340" height="56" rx="28" fill="#ffffff" opacity="0.9"/>
+<text x="400" y="917" text-anchor="middle" font-family="Apple SD Gothic Neo, Noto Sans KR, sans-serif" font-size="26" font-weight="700" fill="#6b4a2b">섬유유연제 2.5L</text>
+</svg>
