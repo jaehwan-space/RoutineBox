@@ -9,12 +9,14 @@
   @media (min-width: $bp) { @content; }
 }
 
+/// 가운데 정렬 컨테이너. 좌우 패딩만 정하므로 호출한 쪽의 padding-top/bottom 을 덮어쓰지 않는다.
 @mixin container {
   width: 100%;
   max-width: v.$container-max;
   margin: 0 auto;
-  padding: 0 v.$space-4;
-  @include up(md) { padding: 0 v.$space-5; }
+  padding-left: v.$space-4;
+  padding-right: v.$space-4;
+  @include up(md) { padding-left: v.$space-5; padding-right: v.$space-5; }
 }
 
 /// 테두리로 구분하는 표면(카드). 그림자는 떠 있는 요소에만 쓴다.
