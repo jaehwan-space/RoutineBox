@@ -21,7 +21,7 @@
 ## 2. 도메인 · DNS
 1. 도메인 구매(가비아, Cloudflare Registrar 등).
 2. DNS **A 레코드**: `@` → VM 공인 IP, (선택) `www` → 같은 IP. 전파 확인: `dig +short <도메인>`.
-3. `nginx/prod.conf` 의 `DOMAIN` 을 실제 도메인으로 치환한다.
+3. 운영 서브도메인은 `routinebox.jaehwan.kr` (와일드카드 A 레코드로 서버 IP 에 연결됨). 바꾸면 `nginx/prod.conf` 의 `server_name` 도 바꾼다.
 
 ## 3. 카카오 로그인
 1. https://developers.kakao.com → 내 애플리케이션 → **애플리케이션 추가**.
@@ -48,15 +48,37 @@
 3. `BILLING_KEY_ENCRYPTION_KEY` 는 `openssl rand -hex 32` 로 생성.
 4. `.env` 를 바꾼 뒤에는 `pnpm dev` 를 다시 시작한다. `NEXT_PUBLIC_*` 값은 웹 서버가 시작할 때 번들에 들어가고, API 도 시작할 때만 `.env` 를 읽는다.
 
-## 6. 운영 배포 (4주차)
+## 6. 운영 배포
+운영 서버는 다른 사이트(jaehwan.kr·blog·redirect·pms)와 함께 쓰는 Oracle Cloud VM 이다. 호스트 nginx 가 80/443 과 인증서(certbot --nginx)를 관리하므로,
+RoutineBox 는 nginx·certbot 컨테이너 없이 `docker-compose.prod.yml` 로 **127.0.0.1 에만** 바인딩한다 (web `3300`, api `4300`, DB 는 외부 포트 없음).
+
+### 최초 1회
 ```bash
-# VM 에서
-git clone https://github.com/jaehwan-space/RoutineBox.git && cd RoutineBox
-cp .env.example .env && nano .env            # 운영 값 입력 (APP_URL=https://<도메인>, COOKIE_SECURE=true, 시크릿 교체)
-sed -i "s/DOMAIN/<도메인>/g" nginx/prod.conf
-docker compose -f docker-compose.yml -f docker-compose.prod.yml up -d --build db api web
-# 최초 인증서 발급 (nginx 는 80 만 먼저 열어 challenge 응답)
-docker compose -f docker-compose.yml -f docker-compose.prod.yml run --rm certbot certonly --webroot -w /var/www/certbot -d <도메인> --email <이메일> --agree-tos --no-eff-email
-docker compose -f docker-compose.yml -f docker-compose.prod.yml up -d nginx certbot
+# 서버에서: 전용 배포 경로와 표식 파일
+sudo mkdir -p /opt/routinebox && sudo chown "$USER" /opt/routinebox
+touch /opt/routinebox/.routinebox-deploy-root
+# 운영 .env 작성 후 chmod 600 (.env.example 기준):
+#   NODE_ENV=production, APP_URL=https://routinebox.jaehwan.kr, COOKIE_SECURE=true
+#   POSTGRES_PASSWORD·JWT_*_SECRET·BILLING_KEY_ENCRYPTION_KEY 는 새로 생성 (openssl rand -hex 32)
+#   KAKAO_REDIRECT_URI / GOOGLE_REDIRECT_URI = https://routinebox.jaehwan.kr/api/auth/{kakao,google}/callback
+#   DATABASE_URL 은 compose 가 주입하므로 넣지 않는다
+
+# 로컬에서: 코드 동기화·빌드·기동
+./deploy/deploy.sh <ssh호스트>
+
+# 서버에서: 호스트 nginx 에 server 블록 추가 + 인증서 (다른 사이트 설정은 건드리지 않는다)
+sudo cp /opt/routinebox/nginx/prod.conf /etc/nginx/sites-available/routinebox.jaehwan.kr
+sudo ln -s /etc/nginx/sites-available/routinebox.jaehwan.kr /etc/nginx/sites-enabled/
+sudo nginx -t && sudo systemctl reload nginx
+sudo certbot --nginx -d routinebox.jaehwan.kr
+
+# 상품 시드 (이미 있는 상품은 건너뜀)
+cd /opt/routinebox && docker compose -f docker-compose.prod.yml exec api pnpm --filter @routinebox/api exec prisma db seed
 ```
-GitHub Actions 자동 배포용 Secrets: `OCI_HOST`(공인 IP), `OCI_USER`(ubuntu), `OCI_SSH_KEY`(개인키). 배포 워크플로는 4주차에 추가한다.
+
+### 이후 배포
+```bash
+./deploy/deploy.sh <ssh호스트>   # DB 백업(backups/) → rsync → 빌드 → health 대기 → 실패 시 이전 이미지로 롤백
+```
+`NEXT_PUBLIC_*` 는 web 이미지 빌드 시 번들에 들어가므로 서버 `.env` 에서 바꾼 뒤에도 배포 스크립트로 다시 빌드해야 한다.
+카카오·구글 개발자 콘솔에 운영 Redirect URI 와 사이트 도메인(`https://routinebox.jaehwan.kr`)을 등록해야 소셜 로그인이 동작한다.

@@ -9,7 +9,11 @@ RUN pnpm install --frozen-lockfile --filter "@routinebox/web..."
 
 FROM deps AS build
 ARG API_INTERNAL_URL=http://api:4000
-ENV API_INTERNAL_URL=$API_INTERNAL_URL NEXT_PUBLIC_API_BASE=/api NEXT_TELEMETRY_DISABLED=1
+# NEXT_PUBLIC_* 는 빌드 시 번들에 고정된다 (.env 는 .dockerignore 로 제외되므로 build args 로 받는다).
+ARG NEXT_PUBLIC_TOSS_CLIENT_KEY=""
+ARG NEXT_PUBLIC_PAYMENTS_MOCK=false
+ENV API_INTERNAL_URL=$API_INTERNAL_URL NEXT_PUBLIC_API_BASE=/api NEXT_TELEMETRY_DISABLED=1 \
+    NEXT_PUBLIC_TOSS_CLIENT_KEY=$NEXT_PUBLIC_TOSS_CLIENT_KEY NEXT_PUBLIC_PAYMENTS_MOCK=$NEXT_PUBLIC_PAYMENTS_MOCK
 COPY packages/shared packages/shared
 COPY apps/web apps/web
 RUN pnpm --filter @routinebox/web build
