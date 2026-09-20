@@ -1,18 +1,19 @@
 @use "../../../styles/variables" as v;
 @use "../../../styles/mixins" as *;
-.page { @include container; padding-top: v.$space-5; padding-bottom: v.$space-8; display: grid; gap: v.$space-5;
-  @include up(md) { grid-template-columns: minmax(0, 5fr) minmax(0, 6fr); gap: v.$space-7; align-items: start; } }
-.image { border-radius: v.$radius-lg; font-size: v.$font-xl; }
+.page { @include container; padding-top: v.$space-4; padding-bottom: v.$space-8; display: flex; flex-direction: column; gap: v.$space-4; @include up(md) { padding-top: v.$space-6; } }
+.crumb { font-size: v.$font-sm; color: v.$color-text-secondary; }
+.layout { display: grid; gap: v.$space-5; @include up(md) { grid-template-columns: minmax(0, 5fr) minmax(0, 6fr); gap: v.$space-7; align-items: start; } }
+.gallery { position: relative; }
+.image { border-radius: v.$radius-lg; aspect-ratio: 1 / 1; font-size: v.$font-2xl; }
+.badge { position: absolute; left: v.$space-4; top: v.$space-4; padding: 6px 12px; border-radius: v.$radius-full; background: v.$color-primary; color: v.$color-on-primary; font-size: v.$font-sm; font-weight: 700; }
 .info { display: flex; flex-direction: column; gap: v.$space-4; }
-.meta { display: flex; align-items: center; gap: v.$space-3; }
-.category { font-size: v.$font-sm; color: v.$color-text-secondary; font-weight: 600; }
-.name { font-size: v.$font-3xl; }
-.description { color: v.$color-text-secondary; max-width: 60ch; }
-.priceBox { @include card; padding: v.$space-4; background: v.$color-surface-sunken; display: flex; flex-direction: column; gap: v.$space-2; }
+.category { font-size: v.$font-sm; color: v.$color-primary-text; font-weight: 700; }
+.name { @include display; font-size: v.$font-2xl; @include up(md) { font-size: 32px; } }
+.description { color: v.$color-text-secondary; max-width: 60ch; line-height: 1.6; }
 .priceRow { display: flex; align-items: baseline; gap: v.$space-2; @include tabular-nums; }
-.priceLabel { font-size: v.$font-sm; color: v.$color-text-secondary; }
-.price { font-size: v.$font-3xl; }
-.listPrice { color: v.$color-muted; }
-.cycle { font-size: v.$font-sm; color: v.$color-text-secondary; strong { color: v.$color-text; } }
-.stock { font-size: v.$font-sm; color: v.$color-muted; }
-.actions { display: flex; gap: v.$space-2; flex-wrap: wrap; > :first-child { flex: 1; } }
+.discount { font-size: v.$font-xl; font-weight: 700; color: v.$color-danger; }
+.price { font-size: v.$font-4xl; letter-spacing: -0.01em; }
+.listPrice { color: v.$color-muted; font-size: v.$font-base; }
+.priceNote { font-size: v.$font-sm; color: v.$color-text-secondary; margin-top: 4px; }
+.facts { margin: 0; padding: v.$space-4 0; border-top: 1px solid v.$color-border; border-bottom: 1px solid v.$color-border; display: flex; flex-direction: column; gap: v.$space-2; font-size: v.$font-sm;
+  > div { display: grid; grid-template-columns: 88px 1fr; gap: v.$space-3; } dt { color: v.$color-text-secondary; } dd { margin: 0; } }

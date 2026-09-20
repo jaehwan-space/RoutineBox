@@ -1,7 +1,18 @@
 @use "../../styles/variables" as v;
 @use "../../styles/mixins" as *;
-.page { @include container; padding-top: v.$space-5; padding-bottom: v.$space-8; display: flex; flex-direction: column; gap: v.$space-4; }
-.top { display: flex; flex-direction: column; gap: v.$space-3; @include up(md) { flex-direction: row; align-items: center; justify-content: space-between; } }
-.title { font-size: v.$font-2xl; }
-.count { font-size: v.$font-base; font-weight: 500; color: v.$color-muted; margin-left: v.$space-2; @include tabular-nums; }
+.page { @include container; padding-top: v.$space-5; padding-bottom: v.$space-8; display: flex; flex-direction: column; gap: v.$space-4;
+  @include up(lg) { flex-direction: row; align-items: flex-start; gap: v.$space-7; padding-top: v.$space-6; } }
+.aside { display: none; @include up(lg) { display: flex; flex-direction: column; gap: v.$space-5; width: 220px; flex: none; position: sticky; top: calc(84px + 52px + 32px + v.$space-4); } }
+.filterGroup { display: flex; flex-direction: column; gap: v.$space-2;
+  strong { font-size: v.$font-sm; color: v.$color-text-secondary; letter-spacing: 0.04em; margin-bottom: v.$space-1; }
+  a { font-size: v.$font-base; color: v.$color-text; padding: 6px 0; border-radius: 4px; @include focus-visible; &:hover { color: v.$color-primary-text; }
+    &[aria-current="page"] { color: v.$color-primary-text; font-weight: 700; } } }
+.promo { padding: v.$space-4; border-radius: v.$radius-md; background: v.$color-accent-soft; display: flex; flex-direction: column; gap: v.$space-2;
+  strong { @include display; font-size: v.$font-md; color: v.$color-accent-text; } span { font-size: v.$font-sm; color: v.$color-text; line-height: 1.5; } }
+.main { flex: 1; min-width: 0; display: flex; flex-direction: column; gap: v.$space-4; }
+.top { display: flex; flex-direction: column; gap: v.$space-3; @include up(md) { flex-direction: row; align-items: flex-end; justify-content: space-between; } }
+.crumb { font-size: v.$font-sm; color: v.$color-text-secondary; margin-bottom: v.$space-1; }
+.title { @include display; font-size: v.$font-2xl; @include up(md) { font-size: v.$font-3xl; } }
+.count { font-family: v.$font-sans; font-size: v.$font-base; font-weight: 500; color: v.$color-muted; margin-left: v.$space-2; letter-spacing: 0; @include tabular-nums; }
 .search { @include up(md) { width: 360px; } }
+.chips { @include up(lg) { display: none; } }

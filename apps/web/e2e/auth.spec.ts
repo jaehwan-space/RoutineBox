@@ -8,7 +8,7 @@ test.describe("시나리오 1 · 회원가입·로그인·로그아웃", () => {
 
     await page.goto("/account");
     await expect(page.getByRole("heading", { name: `${user.name}님` })).toBeVisible();
-    await expect(page.getByText(user.email)).toBeVisible();
+    await expect(page.locator("dd").filter({ hasText: user.email })).toBeVisible();
 
     await page.getByRole("button", { name: "로그아웃" }).click();
     await expect(page.getByRole("link", { name: "로그인" })).toBeVisible();

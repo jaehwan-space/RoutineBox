@@ -1,0 +1,13 @@
+@use "../../styles/variables" as v;
+@use "../../styles/mixins" as *;
+
+.shell { @include up(lg) { @include container; display: grid; grid-template-columns: 220px minmax(0, 1fr); gap: v.$space-7; align-items: start; padding-top: v.$space-6; } }
+.aside { display: none; @include up(lg) { display: flex; flex-direction: column; gap: v.$space-4; position: sticky; top: calc(84px + 52px + 32px + v.$space-4); } }
+.profile { @include card; padding: v.$space-4; display: flex; flex-direction: column; gap: 4px;
+  strong { @include display; font-size: v.$font-lg; } span { font-size: v.$font-xs; color: v.$color-text-secondary; word-break: break-all; } }
+.menu { display: flex; flex-direction: column; gap: 4px;
+  a { display: flex; align-items: center; height: 44px; padding: 0 v.$space-3; border-radius: v.$radius-sm; color: v.$color-text; font-size: v.$font-base; @include focus-visible;
+    &:hover { background: v.$color-surface-sunken; }
+    &[aria-current="page"] { background: v.$color-primary-soft; color: v.$color-primary-text; font-weight: 700; } } }
+.admin { margin-top: v.$space-2; color: v.$color-accent-text !important; font-weight: 700; }
+.content { min-width: 0; @include up(lg) { > * { padding-left: 0 !important; padding-right: 0 !important; padding-top: 0 !important; max-width: none !important; } } }

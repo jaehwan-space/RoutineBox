@@ -1,12 +1,14 @@
 @use "../../styles/variables" as v;
 @use "../../styles/mixins" as *;
 .card { display: flex; flex-direction: column; gap: v.$space-3; }
-.head { display: flex; align-items: flex-start; justify-content: space-between; gap: v.$space-3; }
-.titleWrap { display: flex; flex-direction: column; gap: 2px; min-width: 0; }
+.head { display: flex; align-items: center; gap: v.$space-3; }
+.thumb { flex: none; width: 64px; height: 64px; border-radius: v.$radius-sm; display: flex; align-items: center; justify-content: center; padding: 4px; text-align: center; @include display; font-size: 11px; line-height: 1.2; color: var(--tint-text); overflow: hidden; @include up(md) { width: 80px; height: 80px; font-size: v.$font-xs; } }
+.titleWrap { display: flex; flex-direction: column; gap: 4px; min-width: 0; flex: 1; }
+.titleRow { display: flex; align-items: center; gap: v.$space-2; flex-wrap: wrap; }
 .title { font-weight: 700; font-size: v.$font-md; @include truncate(2); @include focus-visible; border-radius: 4px; }
 .meta { font-size: v.$font-sm; color: v.$color-text-secondary; @include tabular-nums; }
 .next { display: flex; align-items: center; gap: v.$space-3; font-size: v.$font-sm; color: v.$color-text-secondary; @include tabular-nums; }
-.dday { display: inline-flex; align-items: center; min-height: 28px; padding: 0 v.$space-3; border-radius: v.$radius-full; background: v.$color-accent-soft; color: v.$color-accent-text; font-weight: 800; font-size: v.$font-sm; }
+.dday { flex: none; display: inline-flex; align-items: center; min-height: 30px; padding: 0 v.$space-3; border-radius: v.$radius-full; background: v.$color-accent-soft; color: v.$color-accent-text; font-weight: 800; font-size: v.$font-sm; }
 .note { font-size: v.$font-sm; color: v.$color-text-secondary; }
 .noteDanger { font-size: v.$font-sm; color: v.$color-danger-text; }
 .actions { display: flex; flex-wrap: wrap; gap: v.$space-2; align-items: center; }

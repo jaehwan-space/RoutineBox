@@ -1,0 +1,18 @@
+@use "../../styles/variables" as v;
+@use "../../styles/mixins" as *;
+
+.bar {
+  position: fixed; left: 0; right: 0; bottom: 0; z-index: v.$z-header;
+  display: grid; grid-template-columns: repeat(4, minmax(0, 1fr));
+  padding: 6px 0 calc(6px + env(safe-area-inset-bottom));
+  background: v.$color-surface; border-top: 1px solid v.$color-border;
+  @include up(md) { display: none; }
+}
+.tab {
+  display: flex; flex-direction: column; align-items: center; gap: 3px;
+  min-height: 52px; padding-top: 6px;
+  font-size: 11px; font-weight: 500; color: v.$color-text-secondary;
+  svg { width: 24px; height: 24px; }
+  @include focus-visible;
+}
+.active { color: v.$color-primary-text; font-weight: 700; }

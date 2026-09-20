@@ -20,7 +20,9 @@ $color-primary-dark: var(--color-primary-hover); // 구 이름 호환
 $color-primary-active: var(--color-primary-active);
 $color-primary-soft: var(--color-primary-soft);
 $color-primary-text: var(--color-primary-text);
+$color-primary-deep: var(--color-primary-deep);
 $color-accent: var(--color-accent);
+$color-accent-hover: var(--color-accent-hover);
 $color-accent-soft: var(--color-accent-soft);
 $color-accent-text: var(--color-accent-text);
 $color-success: var(--color-success);
@@ -40,6 +42,7 @@ $shadow-float: var(--shadow-float);
 
 // ---- 타이포 ----
 $font-sans: var(--font-sans), -apple-system, BlinkMacSystemFont, "Apple SD Gothic Neo", "Segoe UI", Roboto, "Noto Sans KR", sans-serif;
+$font-serif: var(--font-serif), "Gowun Batang", "Apple SD Gothic Neo", "Noto Serif KR", serif;
 $font-xs: map.get(t.$font-sizes, xs);
 $font-sm: map.get(t.$font-sizes, sm);
 $font-base: map.get(t.$font-sizes, base);

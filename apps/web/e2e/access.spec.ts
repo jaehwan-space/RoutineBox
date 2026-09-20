@@ -35,7 +35,7 @@ test.describe("시나리오 5 · 접근 제어 (보호 라우트·관리자 권�
     await page.getByRole("link", { name: "관리자", exact: true }).click();
     await expect(page.getByRole("heading", { name: "대시보드" })).toBeVisible();
 
-    await page.getByRole("link", { name: "상품", exact: true }).click();
+    await page.getByRole("navigation", { name: "관리자 메뉴" }).getByRole("link", { name: "상품", exact: true }).click();
     await page.getByRole("button", { name: "상품 등록" }).click();
     const name = `E2E 상품 ${Date.now()}`;
     const dialog = page.getByRole("dialog");

@@ -2,8 +2,6 @@ import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { Suspense } from "react";
 import { CATEGORY_LABELS, formatKrw, type ProductDto } from "@routinebox/shared";
-import { Badge } from "@/components/ui";
-import { AddToCartButton } from "@/features/cart/AddToCartButton";
 import { ProductThumb } from "@/features/product/ProductCard";
 import { SubscribeCta } from "@/features/subscription/SubscribeCta";
 import { serverApiOrNull } from "@/lib/server-api";
@@ -25,27 +23,33 @@ export default async function ProductDetailPage({ params }: Params) {
 
   return (
     <article className={styles.page}>
-      <ProductThumb product={product} className={styles.image} />
-      <div className={styles.info}>
-        <div className={styles.meta}>
+      <p className={styles.crumb}>홈 › {CATEGORY_LABELS[product.category]} › {product.name}</p>
+      <div className={styles.layout}>
+        <div className={styles.gallery}>
+          <ProductThumb product={product} className={styles.image} />
+          <span className={styles.badge}>구독 {product.subscriptionDiscount}% 할인</span>
+        </div>
+        <div className={styles.info}>
           <span className={styles.category}>{CATEGORY_LABELS[product.category]}</span>
-          <Badge status="accent" icon={false}>구독 시 {product.subscriptionDiscount}% 할인</Badge>
-        </div>
-        <h1 className={styles.name}>{product.name}</h1>
-        <p className={styles.description}>{product.description}</p>
-        <div className={styles.priceBox}>
-          <div className={styles.priceRow}>
-            <span className={styles.priceLabel}>구독가</span>
-            <strong className={styles.price}>{formatKrw(product.subscriptionPrice)}</strong>
-            <s className={styles.listPrice}>{formatKrw(product.price)}</s>
+          <h1 className={styles.name}>{product.name}</h1>
+          <p className={styles.description}>{product.description}</p>
+          <div>
+            <div className={styles.priceRow}>
+              <span className={styles.discount}>{product.subscriptionDiscount}%</span>
+              <strong className={styles.price}>{formatKrw(product.subscriptionPrice)}</strong>
+              <s className={styles.listPrice}>{formatKrw(product.price)}</s>
+            </div>
+            <p className={styles.priceNote}>구독가 · 회당 결제 금액은 수량에 따라 달라져요</p>
           </div>
-          <p className={styles.cycle}>추천 주기 <strong>{weeks}주</strong> · 결제는 배송 3일 전 · 언제든 건너뛰기·일시정지·해지</p>
-        </div>
-        <div className={styles.actions}>
+          <dl className={styles.facts}>
+            <div><dt>배송비</dt><dd>무료</dd></div>
+            <div><dt>결제일</dt><dd>배송일 3일 전 자동 결제 · 하루 전 알림</dd></div>
+            <div><dt>추천 주기</dt><dd>{weeks}주 (7~90일 사이 직접 설정 가능)</dd></div>
+            <div><dt>변경·해지</dt><dd>언제든 건너뛰기·일시정지·주기 변경·해지</dd></div>
+            <div><dt>재고</dt><dd>{product.stock > 0 ? `${product.stock}개` : "일시 품절"}</dd></div>
+          </dl>
           <Suspense><SubscribeCta product={product} /></Suspense>
-          <AddToCartButton product={product} size="lg" />
         </div>
-        <p className={styles.stock}>{product.stock > 0 ? `재고 ${product.stock}개` : "일시 품절"}</p>
       </div>
     </article>
   );
