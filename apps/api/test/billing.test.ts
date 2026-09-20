@@ -62,8 +62,8 @@ describe("자동 결제 배치", () => {
     expect(after.nextBillingDate?.toISOString().slice(0, 10)).toBe(addDays(today, 28));
     expect(after.orders).toHaveLength(1);
     expect(after.orders[0]).toMatchObject({ status: "PAID", amount: 19000, quantity: 2, deliveryStatus: "PREPARING" });
-    expect(after.orders[0].deliveryDate.toISOString().slice(0, 10)).toBe(addDays(today, 3));
-    expect(after.orders[0].payment).toMatchObject({ status: "APPROVED", amount: 19000 });
+    expect(after.orders[0]!.deliveryDate.toISOString().slice(0, 10)).toBe(addDays(today, 3));
+    expect(after.orders[0]!.payment).toMatchObject({ status: "APPROVED", amount: 19000 });
     expect(await prisma.notification.count({ where: { subscriptionId: sub.id, type: "PAYMENT_SUCCESS" } })).toBe(1);
   });
 
@@ -94,7 +94,7 @@ describe("자동 결제 배치", () => {
     expect(after.nextRetryAt?.toISOString()).toBe(new Date(`${addDays(today, 1)}T09:00:00+09:00`).toISOString());
     expect(after.nextBillingDate?.toISOString().slice(0, 10)).toBe(today); // 회차는 그대로
     expect(after.orders[0]).toMatchObject({ status: "FAILED" });
-    expect(after.orders[0].payment?.failReason).toContain("승인 거절");
+    expect(after.orders[0]!.payment?.failReason).toContain("승인 거절");
     expect(await prisma.notification.count({ where: { subscriptionId: sub.id, type: "PAYMENT_FAILED" } })).toBe(1);
   });
 
@@ -110,8 +110,8 @@ describe("자동 결제 배치", () => {
     expect(after.nextBillingDate?.toISOString().slice(0, 10)).toBe(addDays(today, 28));
     expect(after.orders).toHaveLength(1);
     expect(after.orders[0]).toMatchObject({ status: "PAID", orderKey: orderKeyFor(sub.id, today) });
-    expect(after.orders[0].billingDate.toISOString().slice(0, 10)).toBe(tomorrow);
-    expect(after.orders[0].payment).toMatchObject({ status: "APPROVED", failReason: null });
+    expect(after.orders[0]!.billingDate.toISOString().slice(0, 10)).toBe(tomorrow);
+    expect(after.orders[0]!.payment).toMatchObject({ status: "APPROVED", failReason: null });
   });
 
   it("3회 연속 실패 → 자동 해지(CANCELLED, PAYMENT_FAILED 사유) + 해지 알림", async () => {
