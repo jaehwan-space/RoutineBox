@@ -18,6 +18,7 @@ export function Header() {
           <Link href="/">홈</Link>
           <Link href="/products">카테고리</Link>
           <Link href="/subscriptions">내 구독</Link>
+          <Link href="/orders">주문 내역</Link>
         </nav>
         <div className={styles.spacer} />
         <SearchForm compact className={styles.search} />

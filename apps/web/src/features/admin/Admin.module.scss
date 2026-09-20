@@ -1,0 +1,39 @@
+@use "../../styles/variables" as v;
+@use "../../styles/mixins" as *;
+
+.shell { @include container; padding-top: v.$space-4; padding-bottom: v.$space-8; display: flex; flex-direction: column; gap: v.$space-4; }
+.nav { display: flex; gap: v.$space-2; overflow-x: auto; padding-bottom: 2px; -webkit-overflow-scrolling: touch;
+  a { flex: none; display: inline-flex; align-items: center; min-height: 36px; padding: 0 v.$space-3; border-radius: v.$radius-full; font-size: v.$font-sm; font-weight: 600; color: v.$color-text-secondary; border: 1px solid v.$color-border; white-space: nowrap;
+    &:hover { color: v.$color-text; border-color: v.$color-border-strong; } &[aria-current="page"] { background: v.$color-primary-soft; color: v.$color-primary-text; border-color: transparent; } @include focus-visible; } }
+.head { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: v.$space-3; }
+.title { font-size: v.$font-2xl; }
+.subtitle { font-size: v.$font-sm; color: v.$color-text-secondary; }
+.toolbar { display: flex; flex-wrap: wrap; gap: v.$space-2; align-items: flex-end; }
+.toolbarField { min-width: 160px; flex: 1; @include up(md) { flex: none; width: 220px; } }
+.stats { display: grid; gap: v.$space-3; grid-template-columns: repeat(2, 1fr); @include up(md) { grid-template-columns: repeat(4, 1fr); } }
+.stat { display: flex; flex-direction: column; gap: 4px; }
+.statLabel { font-size: v.$font-sm; color: v.$color-text-secondary; }
+.statValue { font-size: v.$font-2xl; font-weight: 800; @include tabular-nums; letter-spacing: -0.02em; }
+.statSub { font-size: v.$font-xs; color: v.$color-muted; }
+.statDanger .statValue { color: v.$color-danger-text; }
+.chart { display: grid; grid-template-columns: repeat(14, 1fr); gap: 4px; align-items: end; height: 140px; padding-top: v.$space-2; }
+.bar { display: flex; flex-direction: column; justify-content: flex-end; align-items: stretch; height: 100%; gap: 2px; }
+.barPaid { background: v.$color-primary; border-radius: 3px 3px 0 0; min-height: 2px; }
+.barFailed { background: v.$color-danger; border-radius: 3px; min-height: 0; }
+.chartLabels { display: grid; grid-template-columns: repeat(14, 1fr); gap: 4px; font-size: 10px; color: v.$color-muted; text-align: center; @include tabular-nums; span:nth-child(odd) { visibility: hidden; @include up(md) { visibility: visible; } } }
+.legend { display: flex; gap: v.$space-4; font-size: v.$font-xs; color: v.$color-text-secondary; i { display: inline-block; width: 10px; height: 10px; border-radius: 2px; margin-right: 4px; vertical-align: -1px; } }
+.tableWrap { overflow-x: auto; -webkit-overflow-scrolling: touch; }
+.table { width: 100%; border-collapse: collapse; font-size: v.$font-sm; @include tabular-nums; min-width: 640px;
+  th, td { text-align: left; padding: v.$space-2 v.$space-3; border-bottom: 1px solid v.$color-border; vertical-align: middle; white-space: nowrap; }
+  th { font-weight: 600; color: v.$color-text-secondary; font-size: v.$font-xs; background: v.$color-surface-sunken; position: sticky; top: 0; }
+  tr:last-child td { border-bottom: none; }
+  td.wrap { white-space: normal; min-width: 160px; }
+  td.num { text-align: right; } th.num { text-align: right; } }
+.muted { color: v.$color-muted; }
+.danger { color: v.$color-danger-text; }
+.inlineSelect { select { min-height: 32px; font-size: v.$font-xs; padding-right: 28px; } }
+.form { display: grid; gap: v.$space-3; @include up(md) { grid-template-columns: 1fr 1fr; } }
+.formFull { @include up(md) { grid-column: 1 / -1; } }
+.check { display: flex; align-items: center; gap: v.$space-2; font-size: v.$font-sm; min-height: v.$touch-min; input { width: 18px; height: 18px; } }
+.pager { display: flex; justify-content: center; gap: v.$space-3; align-items: center; font-size: v.$font-sm; color: v.$color-text-secondary; @include tabular-nums; }
+.runResult { display: flex; flex-direction: column; gap: v.$space-1; font-size: v.$font-sm; @include tabular-nums; li { display: flex; gap: v.$space-2; flex-wrap: wrap; } }

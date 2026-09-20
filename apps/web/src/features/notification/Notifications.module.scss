@@ -1,0 +1,11 @@
+@use "../../styles/variables" as v;
+@use "../../styles/mixins" as *;
+.page { @include container; padding-top: v.$space-5; padding-bottom: v.$space-8; display: flex; flex-direction: column; gap: v.$space-4; max-width: 720px; }
+.title { font-size: v.$font-2xl; }
+.list { display: flex; flex-direction: column; gap: v.$space-2; }
+.item { display: flex; gap: v.$space-3; align-items: flex-start; }
+.icon { width: 24px; height: 24px; flex: none; color: v.$color-primary; margin-top: 2px; }
+.iconDanger { width: 24px; height: 24px; flex: none; color: v.$color-danger; margin-top: 2px; }
+.body { display: flex; flex-direction: column; gap: 2px; min-width: 0; }
+.desc { font-size: v.$font-sm; color: v.$color-text-secondary; }
+.time { font-size: v.$font-xs; color: v.$color-muted; a { text-decoration: underline; } }
