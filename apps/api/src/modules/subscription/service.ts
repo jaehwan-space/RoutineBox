@@ -9,7 +9,7 @@ import { prisma } from "../../lib/prisma.js";
 import { transition, type SubEvent, type SubPatch } from "./state-machine.js";
 
 export const subscriptionInclude = {
-  product: { select: { id: true, name: true, category: true } },
+  product: { select: { id: true, name: true, category: true, imageUrl: true } },
   paymentMethod: { select: { id: true, cardCompany: true, cardLast4: true, createdAt: true, deletedAt: true } },
 } satisfies Prisma.SubscriptionInclude;
 const include = subscriptionInclude;

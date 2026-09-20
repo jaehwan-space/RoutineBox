@@ -29,7 +29,10 @@ export function SubscriptionCard({ sub }: { sub: SubscriptionDto }) {
   return (
     <Card as="li" className={styles.card}>
       <div className={styles.head}>
-        <span className={styles.thumb} style={{ background: `var(--tint-${sub.product.category})` }} aria-hidden>{sub.product.name}</span>
+        <span className={styles.thumb} style={{ background: `var(--tint-${sub.product.category})` }} aria-hidden>
+          {/* eslint-disable-next-line @next/next/no-img-element -- 외부 URL 자리표시자, 최적화는 이미지 업로드 도입 시 */}
+          {sub.product.imageUrl ? <img src={sub.product.imageUrl} alt="" /> : sub.product.name}
+        </span>
         <div className={styles.titleWrap}>
           <div className={styles.titleRow}>
             <Link href={`/subscriptions/${sub.id}`} className={styles.title}>{sub.product.name}</Link>

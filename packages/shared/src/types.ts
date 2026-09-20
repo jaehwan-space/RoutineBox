@@ -85,7 +85,7 @@ export interface OrderDto {
 export interface SubscriptionDto {
   id: string;
   status: SubscriptionStatus;
-  product: { id: string; name: string; category: Category };
+  product: { id: string; name: string; category: Category; imageUrl: string | null };
   quantity: number;
   cycleDays: number;
   /** 회당 결제 금액(생성·변경 시점 스냅샷) */
