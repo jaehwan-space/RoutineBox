@@ -25,6 +25,8 @@ pnpm dev                        # web :3000, api :4000
 
 개발 중에는 `PAYMENTS_MOCK=true`(API)와 `NEXT_PUBLIC_PAYMENTS_MOCK=true`(web)로 모의 카드를 등록해 결제 연동 없이 구독 흐름을 확인할 수 있다. 상품 시드는 `pnpm db:seed`, 관리자 계정은 `SEED_ADMIN_PASSWORD=<비밀번호> pnpm db:seed` (admin@routinebox.local).
 
+식품 상품 213개는 `apps/api/prisma/data/kurly-products.json` 에서 `pnpm --filter @routinebox/api db:import` 로 넣는다(externalId 기준 upsert, 여러 번 실행 가능). 상품 사진은 `apps/web/public/media/products/<externalId>/` 에 두며 git 에는 올리지 않는다(개발은 Next 가, 운영은 nginx 가 `/media/` 를 서빙). 운영 서버에서는 `docker compose -f docker-compose.prod.yml exec api pnpm --filter @routinebox/api exec tsx prisma/import-products.ts`.
+
 ## 주요 기능
 
 - **인증**: 이메일·비밀번호, 카카오·구글 로그인. 액세스(15분)·리프레시(14일) 토큰을 httpOnly 쿠키로 발급하고 리프레시는 회전한다.

@@ -32,6 +32,21 @@ export interface ProductDto {
   recommendedCycleDays: number;
   stock: number;
   imageUrl: string | null;
+  /** 상세 정보 (없으면 null·빈 값) */
+  brand: string | null;
+  detailDescription: string;
+  detailImages: string[];
+  weight: string | null;
+  unitOfSale: string | null;
+  packagingType: string | null;
+  deliveryType: string | null;
+  origin: string | null;
+  allergy: string | null;
+}
+
+export interface CategoryCountDto {
+  category: Category;
+  count: number;
 }
 
 export interface CartItemDto {

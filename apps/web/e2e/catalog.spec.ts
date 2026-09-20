@@ -32,7 +32,7 @@ test.describe("시나리오 2 · 상품 탐색·검색·장바구니", () => {
   });
 
   test("게스트 장바구니는 로그인 후 계정에 병합된다", async ({ page }) => {
-    await page.goto("/products/");
+    await page.goto("/products?category=WATER");
     await page.getByRole("link", { name: /생수 2L × 12병 상세 보기/ }).click();
     await expect(page).toHaveURL(/\/products\/[^/?]+$/);
     await expect(page.getByRole("heading", { level: 1, name: "생수 2L × 12병" })).toBeVisible();

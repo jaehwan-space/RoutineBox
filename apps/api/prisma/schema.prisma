@@ -24,6 +24,14 @@ enum Category {
   COFFEE
   KITCHEN
   PET
+  SALAD_MEAL
+  FRUIT_NUT_RICE
+  SOUP_SIDE_MAIN
+  MEAT_EGG
+  BAKERY_CHEESE_DELI
+  SEAFOOD
+  SNACK
+  HEALTH
 }
 
 enum SubscriptionStatus {
@@ -114,6 +122,17 @@ model Product {
   stock                Int            @default(0)
   imageUrl             String?
   isActive             Boolean        @default(true)
+  // 상세 정보 (외부 데이터 임포트 시 채워짐)
+  externalId           String?        @unique
+  brand                String?
+  detailDescription    String         @default("")
+  detailImages         String[]       @default([])
+  weight               String?
+  unitOfSale           String?
+  packagingType        String?
+  deliveryType         String?
+  origin               String?
+  allergy              String?
   createdAt            DateTime       @default(now())
   updatedAt            DateTime       @updatedAt
   cartItems            CartItem[]

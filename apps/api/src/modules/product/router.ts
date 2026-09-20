@@ -10,6 +10,10 @@ productRouter.get("/products", validate(productQuerySchema, "query"), async (_re
   res.json({ data: await products.listProducts(res.locals.query as ProductQuery) });
 });
 
+productRouter.get("/products/categories", async (_req, res) => {
+  res.json({ data: await products.listCategories() });
+});
+
 productRouter.get("/products/:id", async (req, res) => {
   res.json({ data: await products.getProduct(String(req.params.id)) });
 });

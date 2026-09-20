@@ -36,7 +36,7 @@ export function Header() {
       <nav className={styles.catNav} aria-label="카테고리">
         <div className={styles.catInner}>
           <Link href="/products" className={styles.catAll}><LayoutGrid />전체 카테고리</Link>
-          {CATEGORIES.map((c) => <Link key={c} href={`/products?category=${c}`}>{CATEGORY_LABELS[c]}</Link>)}
+          {CATEGORIES.slice(0, 8).map((c) => <Link key={c} href={`/products?category=${c}`}>{CATEGORY_LABELS[c]}</Link>)}
           <span className={styles.divider} aria-hidden="true" />
           <Link href="/subscriptions">내 구독</Link>
           <Link href="/orders">주문 내역</Link>

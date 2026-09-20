@@ -15,7 +15,8 @@
     "prisma:studio": "dotenv -e ../../.env -- prisma studio",
     "postinstall": "prisma generate",
     "test:migrate": "DATABASE_URL=postgresql://routinebox:routinebox@localhost:5433/routinebox_test?schema=public prisma migrate deploy",
-    "db:seed": "dotenv -e ../../.env -- prisma db seed"
+    "db:seed": "dotenv -e ../../.env -- prisma db seed",
+    "db:import": "dotenv -e ../../.env -- tsx prisma/import-products.ts"
   },
   "dependencies": {
     "@prisma/client": "6.19.3",

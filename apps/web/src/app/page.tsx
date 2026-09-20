@@ -1,15 +1,19 @@
 import Link from "next/link";
-import { CATEGORIES, CATEGORY_LABELS, type Category, type Paginated, type ProductDto } from "@routinebox/shared";
+import { CATEGORIES, CATEGORY_CYCLE_DAYS, CATEGORY_LABELS, type CategoryCountDto, type Paginated, type ProductDto } from "@routinebox/shared";
 import { Button } from "@/components/ui";
 import { CategoryIcon } from "@/features/product/CategoryIcon";
 import { ProductGrid } from "@/features/product/ProductGrid";
 import { serverApi } from "@/lib/server-api";
 import styles from "./page.module.scss";
 
-const CYCLE_HINT: Record<Category, string> = { DETERGENT: "4주 주기", TISSUE: "4주 주기", WATER: "2주 주기", COFFEE: "4주 주기", KITCHEN: "6주 주기", PET: "4주 주기" };
+const cycleHint = (days: number) => (days % 7 === 0 ? `${days / 7}주 주기` : `${days}일 주기`);
 
 export default async function HomePage() {
-  const popular = await serverApi<Paginated<ProductDto>>("/products?pageSize=5");
+  const [popular, categories] = await Promise.all([
+    serverApi<Paginated<ProductDto>>("/products?pageSize=5"),
+    serverApi<CategoryCountDto[]>("/products/categories"),
+  ]);
+  const shownCategories = (categories.length > 0 ? categories.map((c) => c.category) : CATEGORIES).slice(0, 12);
   return (
     <>
       <section className={styles.hero} aria-label="추천">
@@ -17,7 +21,7 @@ export default async function HomePage() {
           <div className={styles.heroText}>
             <span className={styles.eyebrow}>1인 가구를 위한 정기배송</span>
             <h1>떨어지기 전에,<br />알아서 도착해요</h1>
-            <p>세제·화장지·생수·커피처럼 주기가 정해진 생활필수품을 내 주기에 맞춰 자동 결제·배송합니다. 언제든 건너뛰기·일시정지·해지할 수 있어요.</p>
+            <p>매일 먹는 식재료와 간편식부터 세제·화장지·생수·커피까지, 주기가 정해진 생활필수품을 내 주기에 맞춰 자동 결제·배송합니다. 언제든 건너뛰기·일시정지·해지할 수 있어요.</p>
             <div className={styles.heroActions}>
               <Button href="/products" size="lg" className={styles.ctaAccent}>첫 구독 시작하기</Button>
               <Button href="#how" size="lg" variant="secondary" className={styles.ctaGhost}>이용 방법 보기</Button>
@@ -32,11 +36,11 @@ export default async function HomePage() {
       </section>
 
       <section className={styles.categories} aria-label="카테고리 바로가기">
-        {CATEGORIES.map((c) => (
+        {shownCategories.map((c) => (
           <Link key={c} href={`/products?category=${c}`} className={styles.categoryLink}>
-            <span className={styles.categoryIcon} style={{ background: `var(--tint-${c})` }}><CategoryIcon category={c} size={30} /></span>
+            <span className={styles.categoryIcon} style={{ background: `var(--tint-${c}, var(--color-primary-soft))` }}><CategoryIcon category={c} size={30} /></span>
             <strong>{CATEGORY_LABELS[c]}</strong>
-            <small>{CYCLE_HINT[c]}</small>
+            <small>{cycleHint(CATEGORY_CYCLE_DAYS[c])}</small>
           </Link>
         ))}
       </section>
