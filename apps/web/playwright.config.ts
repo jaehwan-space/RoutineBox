@@ -40,12 +40,13 @@ export default defineConfig({
       env: { BILLING_CRON_ENABLED: "false", PAYMENTS_MOCK: "true" },
     },
     {
-      command: CI ? "pnpm --filter @routinebox/web start" : "pnpm --filter @routinebox/web dev",
+      // CI 는 output: standalone 빌드 결과를 Dockerfile 과 같은 방식으로 실행한다 (next start 는 standalone 과 함께 쓸 수 없다).
+      command: CI ? "node apps/web/.next/standalone/apps/web/server.js" : "pnpm --filter @routinebox/web dev",
       url: "http://localhost:3000",
       cwd: ROOT,
       reuseExistingServer: !CI,
       timeout: 180_000,
-      env: { NEXT_PUBLIC_PAYMENTS_MOCK: "true", API_INTERNAL_URL: "http://localhost:4000" },
+      env: { NEXT_PUBLIC_PAYMENTS_MOCK: "true", API_INTERNAL_URL: "http://localhost:4000", PORT: "3000", HOSTNAME: "127.0.0.1" },
     },
   ],
 });
