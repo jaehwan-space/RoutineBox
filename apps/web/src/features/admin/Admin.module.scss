@@ -1,12 +1,19 @@
 @use "../../styles/variables" as v;
 @use "../../styles/mixins" as *;
 
-.shell { @include container; padding-top: v.$space-4; padding-bottom: v.$space-8; display: flex; flex-direction: column; gap: v.$space-4; }
-.nav { display: flex; gap: v.$space-2; overflow-x: auto; padding-bottom: 2px; -webkit-overflow-scrolling: touch;
+.shell { display: flex; flex-direction: column; @include up(lg) { flex-direction: row; align-items: stretch; min-height: calc(100vh - 168px); } }
+.side { display: none; @include up(lg) { display: flex; flex-direction: column; gap: v.$space-5; width: 240px; flex: none; padding: v.$space-5 v.$space-4; background: v.$color-primary-deep; color: #e5ead3; } }
+.sideBrand { display: flex; align-items: center; gap: v.$space-2; padding: 0 v.$space-2; color: #fff; @include display; font-size: v.$font-xl; small { display: block; font-family: v.$font-sans; font-size: v.$font-xs; font-weight: 500; color: #b9c48e; letter-spacing: 0; } }
+.sideNav { display: flex; flex-direction: column; gap: 4px;
+  a { display: flex; align-items: center; gap: v.$space-2; height: 44px; padding: 0 v.$space-3; border-radius: v.$radius-sm; color: #e5ead3; font-size: v.$font-base; svg { width: 18px; height: 18px; } @include focus-visible;
+    &:hover { background: rgba(255, 255, 255, 0.08); } &[aria-current="page"] { background: #46521f; color: #fff; font-weight: 700; } } }
+.sideBack { margin-top: auto; padding: 0 v.$space-3; font-size: v.$font-sm; color: #b9c48e; }
+.body { flex: 1; min-width: 0; @include container; padding-top: v.$space-4; padding-bottom: v.$space-8; display: flex; flex-direction: column; gap: v.$space-4; @include up(lg) { max-width: none; padding: v.$space-6 v.$space-7; } }
+.nav { display: flex; gap: v.$space-2; overflow-x: auto; padding-bottom: 2px; -webkit-overflow-scrolling: touch; @include up(lg) { display: none; }
   a { flex: none; display: inline-flex; align-items: center; min-height: 36px; padding: 0 v.$space-3; border-radius: v.$radius-full; font-size: v.$font-sm; font-weight: 600; color: v.$color-text-secondary; border: 1px solid v.$color-border; white-space: nowrap;
     &:hover { color: v.$color-text; border-color: v.$color-border-strong; } &[aria-current="page"] { background: v.$color-primary-soft; color: v.$color-primary-text; border-color: transparent; } @include focus-visible; } }
 .head { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: v.$space-3; }
-.title { font-size: v.$font-2xl; }
+.title { @include display; font-size: v.$font-2xl; }
 .subtitle { font-size: v.$font-sm; color: v.$color-text-secondary; }
 .toolbar { display: flex; flex-wrap: wrap; gap: v.$space-2; align-items: flex-end; }
 .toolbarField { min-width: 160px; flex: 1; @include up(md) { flex: none; width: 220px; } }

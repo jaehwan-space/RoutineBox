@@ -1,28 +1,42 @@
 @use "../styles/variables" as v;
 @use "../styles/mixins" as *;
 
-.hero { @include container; padding-top: v.$space-5; }
-.banner {
-  background: v.$color-primary;
-  color: v.$color-on-primary;
-  border-radius: v.$radius-lg;
-  padding: v.$space-5;
-  display: flex; flex-direction: column; gap: v.$space-3; align-items: flex-start;
-  h1 { font-size: v.$font-2xl; }
-  p { opacity: 0.92; max-width: 40ch; }
-  @include up(md) { padding: v.$space-6; h1 { font-size: v.$font-3xl; } }
-}
-.cta { background: v.$color-surface; color: v.$color-primary-text; border-color: transparent; &:hover:not(:disabled) { background: v.$color-surface-sunken; } }
-.section { @include container; padding-top: v.$space-5; &:last-child { padding-bottom: v.$space-8; } }
-.sectionHead { display: flex; align-items: center; justify-content: space-between; margin-bottom: v.$space-3; h2 { font-size: v.$font-xl; } }
-.steps {
-  display: grid; gap: v.$space-3;
-  @include up(md) { grid-template-columns: repeat(3, 1fr); }
-  li { @include card; padding: v.$space-4; display: flex; gap: v.$space-3; align-items: flex-start; }
-  p { color: v.$color-text-secondary; font-size: v.$font-sm; margin-top: 2px; }
-}
-.stepNo {
-  flex: none; width: 28px; height: 28px; border-radius: 50%;
-  display: inline-flex; align-items: center; justify-content: center;
-  background: v.$color-text; color: v.$color-bg; font-weight: 700; font-size: v.$font-sm;
-}
+// ---- 히어로 ----
+.hero { background: v.$color-primary-deep; color: #fff; }
+.heroInner { @include container; padding-top: v.$space-6; padding-bottom: v.$space-6; display: flex; flex-direction: column; gap: v.$space-5;
+  @include up(lg) { flex-direction: row; align-items: center; gap: v.$space-8; min-height: 400px; } }
+.heroText { display: flex; flex-direction: column; gap: v.$space-4; max-width: 620px;
+  h1 { @include display; font-size: v.$font-3xl; color: #fff; @include up(md) { font-size: 44px; } @include up(lg) { font-size: 52px; } }
+  p { color: #e5ead3; font-size: v.$font-md; line-height: 1.6; max-width: 52ch; } }
+.eyebrow { align-self: flex-start; padding: 6px 12px; border-radius: v.$radius-full; background: #eef0e3; color: #46521f; font-size: v.$font-sm; font-weight: 700; }
+.heroActions { display: flex; gap: v.$space-3; flex-wrap: wrap; }
+.ctaAccent { background: v.$color-accent; color: #fff; border-color: transparent; &:hover:not(:disabled) { background: v.$color-accent-hover; } }
+.ctaGhost { background: transparent; color: #fff; border-color: #b9c48e; &:hover:not(:disabled) { background: rgba(255, 255, 255, 0.08); } }
+.heroArt { display: none; @include up(lg) { display: flex; margin-left: auto; align-items: flex-end; gap: v.$space-4; height: 320px; }
+  span { display: flex; align-items: flex-end; padding: v.$space-4; border-radius: v.$radius-md; @include display; font-size: v.$font-md; } }
+.artA { width: 180px; height: 240px; background: #e4ebd6; color: #46521f; }
+.artB { width: 200px; height: 300px; background: #f1e9dc; color: #6b4a2b; }
+.artC { width: 180px; height: 260px; background: #e8dccb; color: #6b4a2b; }
+
+// ---- 카테고리 ----
+.categories { @include container; padding-top: v.$space-6; display: grid; grid-template-columns: repeat(3, 1fr); gap: v.$space-3; @include up(md) { grid-template-columns: repeat(6, 1fr); } }
+.categoryLink { display: flex; flex-direction: column; align-items: center; gap: v.$space-2; color: v.$color-text; text-align: center; border-radius: v.$radius-sm; padding: v.$space-2 0;
+  strong { font-size: v.$font-base; font-weight: 500; } small { font-size: v.$font-xs; color: v.$color-text-secondary; } @include focus-visible; }
+.categoryIcon { width: 72px; height: 72px; border-radius: 50%; display: flex; align-items: center; justify-content: center; color: v.$color-primary-text; @include up(md) { width: 88px; height: 88px; } }
+
+// ---- 섹션 ----
+.section { @include container; padding-top: v.$space-7; }
+.sectionHead { display: flex; align-items: baseline; justify-content: space-between; gap: v.$space-3; margin-bottom: v.$space-4;
+  h2 { @include display; font-size: v.$font-2xl; @include up(md) { font-size: v.$font-3xl; } } }
+.more { font-size: v.$font-sm; color: v.$color-text-secondary; white-space: nowrap; &:hover { color: v.$color-text; } }
+.how { @include card; padding: v.$space-5; display: flex; flex-direction: column; gap: v.$space-4; @include up(md) { padding: v.$space-6; }
+  h2 { @include display; font-size: v.$font-2xl; } }
+.steps { display: grid; gap: v.$space-4; @include up(md) { grid-template-columns: repeat(3, 1fr); }
+  li { display: flex; gap: v.$space-3; align-items: flex-start; }
+  strong { font-size: v.$font-md; }
+  p { color: v.$color-text-secondary; font-size: v.$font-sm; margin-top: 4px; line-height: 1.5; } }
+.stepNo { flex: none; width: 44px; height: 44px; border-radius: 50%; display: inline-flex; align-items: center; justify-content: center; background: v.$color-primary-soft; color: v.$color-primary-text; font-weight: 700; font-size: v.$font-md; }
+.promo { border-radius: v.$radius-lg; background: v.$color-accent-soft; padding: v.$space-5; display: flex; flex-direction: column; gap: v.$space-3;
+  @include up(md) { flex-direction: row; align-items: center; justify-content: space-between; padding: v.$space-5 v.$space-6; }
+  strong { @include display; font-size: v.$font-xl; color: v.$color-accent-text; }
+  p { color: v.$color-text; font-size: v.$font-base; margin-top: 4px; } }

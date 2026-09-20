@@ -1,0 +1,10 @@
+@use "../../styles/variables" as v;
+@use "../../styles/mixins" as *;
+
+.logo { display: inline-flex; align-items: center; gap: v.$space-2; color: v.$color-primary-text; text-decoration: none; border-radius: 6px; @include focus-visible; }
+.text { display: flex; flex-direction: column; line-height: 1; }
+.word { @include display; font-size: v.$font-2xl; letter-spacing: -0.03em; color: v.$color-primary-text; }
+.tagline { font-family: v.$font-sans; font-size: v.$font-xs; font-weight: 500; color: v.$color-text-secondary; margin-top: 4px; letter-spacing: 0; }
+.sm .word { font-size: v.$font-lg; }
+.lg .word { font-size: v.$font-3xl; }
+.sm .tagline { display: none; }

@@ -36,11 +36,11 @@ export interface MailContext {
 const APP = config.APP_URL;
 const wrap = (title: string, lines: string[], cta?: { label: string; href: string }) => ({
   text: [title, "", ...lines, "", cta ? `${cta.label}: ${cta.href}` : ""].join("\n").trim(),
-  html: `<div style="font-family:-apple-system,'Apple SD Gothic Neo','Noto Sans KR',sans-serif;max-width:520px;margin:0 auto;padding:24px;color:#16213a">
+  html: `<div style="font-family:-apple-system,'Apple SD Gothic Neo','Noto Sans KR',sans-serif;max-width:520px;margin:0 auto;padding:24px;color:#2b2118">
   <h2 style="margin:0 0 16px;font-size:20px">${title}</h2>
   ${lines.map((l) => `<p style="margin:0 0 8px;font-size:15px;line-height:1.55">${l}</p>`).join("")}
-  ${cta ? `<p style="margin:20px 0 0"><a href="${cta.href}" style="display:inline-block;padding:10px 16px;background:#2a78d6;color:#fff;border-radius:8px;text-decoration:none;font-weight:600">${cta.label}</a></p>` : ""}
-  <p style="margin:24px 0 0;font-size:12px;color:#7d7c75">루틴박스 · 생활필수품 정기배송</p></div>`,
+  ${cta ? `<p style="margin:20px 0 0"><a href="${cta.href}" style="display:inline-block;padding:10px 16px;background:#5e6b2f;color:#fff;border-radius:8px;text-decoration:none;font-weight:600">${cta.label}</a></p>` : ""}
+  <p style="margin:24px 0 0;font-size:12px;color:#6b6357">루틴박스 · 생활필수품 정기배송</p></div>`,
 });
 
 /** 알림 종류별 메일 본문. 메일이 필요 없는 종류는 null. */

@@ -1,25 +1,25 @@
-// 디자인 토큰 (루틴박스 전용)
+// 디자인 토큰 (루틴박스 전용) — 올리브(주조) · 갈색(강조) · 모래빛 바탕
 // 1) 원시 토큰: 색 스케일·크기 — 컴포넌트 밖에서 직접 쓰지 않는다.
 // 2) 의미 토큰: CSS 변수로 노출되어 라이트/다크에서 값이 바뀐다. 컴포넌트는 의미 토큰만 참조한다.
 @use "sass:map";
 @use "sass:color";
 
 // ---- 원시 색 ----
-$blue: (50: #eef4fc, 100: #e8f0fb, 200: #c9dcf6, 300: #9cc0ee, 400: #5598e7, 500: #2a78d6, 600: #1c5cab, 700: #174c8d, 800: #133d70, 900: #0f2f56);
-$orange: (100: #fdeae2, 300: #f5a98a, 500: #eb6834, 600: #d1532a, 700: #a8401f);
-$green: (100: #dcf5ea, 500: #1baf7a, 600: #148a5f, 700: #0f6b4a);
-$yellow: (100: #fbf0d3, 500: #eda100, 600: #c98500, 700: #9a6600);
-$red: (100: #fbe3e3, 500: #d03b3b, 600: #b02f2f, 700: #8e2525);
-$ink: #16213a;                      // 본문 잉크(남색 기운)
-$paper: #fbfaf7;                    // 페이지 바탕(살짝 따뜻한 흰색)
-$gray: (50: #f7f6f2, 100: #f1f0eb, 200: #e3e1da, 300: #cfcdc4, 400: #a9a79f, 500: #7d7c75, 600: #5c5b55, 700: #3f3f3a, 800: #2b2b27, 900: #1c1c19);
-$night: (bg: #101418, surface: #171d24, raised: #1f262f, border: #2b343f, border-strong: #3a4553, text: #eef1f5, text-2: #aab3bf, text-3: #7d8794);
+$olive: (50: #f4f6ec, 100: #eef0e3, 200: #d9dec2, 300: #b9c48e, 400: #8e9a66, 500: #5e6b2f, 600: #4b561f, 650: #46521f, 700: #3f4a1e, 800: #2f3717, 900: #1f2410);
+$brown: (100: #f3ece3, 200: #e5d7c5, 300: #c9a57e, 500: #6b4a2b, 600: #5a3d22, 700: #4a311b);
+$green: (100: #e1f0e3, 500: #3e7c4a, 700: #2e6b3a);
+$yellow: (100: #fbf0d3, 500: #b7791f, 700: #8a5a12);
+$red: (100: #f8e1df, 500: #b4392f, 600: #9e3128, 700: #8e2525);
+$ink: #2b2118;                      // 본문 잉크(따뜻한 흑갈색)
+$paper: #fbf9f4;                    // 페이지 바탕(모래빛)
+$gray: (50: #f7f5f0, 100: #f3f0e9, 200: #e7e2d8, 300: #d9d3c7, 400: #a9a297, 500: #7a7166, 600: #6b6357, 700: #4a443c, 800: #33302a, 900: #221f1b);
+$night: (bg: #14160f, surface: #1b1e14, raised: #232719, sunken: #0f110b, border: #333927, border-strong: #454c36, text: #f1efe6, text-2: #c0bdb0, text-3: #8f8c80);
 
 // ---- 크기 ----
 $font-sizes: (xs: 12px, sm: 13px, base: 15px, md: 16px, lg: 18px, xl: 20px, 2xl: 24px, 3xl: 28px, 4xl: 34px);
 $line-heights: (tight: 1.25, snug: 1.4, normal: 1.55);
 $spaces: (1: 4px, 2: 8px, 3: 12px, 4: 16px, 5: 24px, 6: 32px, 7: 40px, 8: 48px, 9: 64px, 10: 80px);
-$radii: (sm: 8px, md: 12px, lg: 20px, full: 999px);
+$radii: (sm: 10px, md: 14px, lg: 20px, full: 999px);
 $breakpoints: (sm: 480px, md: 768px, lg: 1024px, xl: 1240px);
 $z: (header: 20, dropdown: 30, dialog: 50, toast: 60);
 $duration-fast: 120ms;
@@ -38,14 +38,16 @@ $ease-standard: cubic-bezier(0.2, 0, 0, 1);
   --color-text-on-primary: #ffffff;
   --color-border: #{map.get($gray, 200)};
   --color-border-strong: #{map.get($gray, 300)};
-  --color-primary: #{map.get($blue, 500)};
-  --color-primary-hover: #{map.get($blue, 600)};
-  --color-primary-active: #{map.get($blue, 700)};
-  --color-primary-soft: #{map.get($blue, 100)};
-  --color-primary-text: #{map.get($blue, 600)};
-  --color-accent: #{map.get($orange, 500)};
-  --color-accent-soft: #{map.get($orange, 100)};
-  --color-accent-text: #{map.get($orange, 700)};
+  --color-primary: #{map.get($olive, 500)};
+  --color-primary-hover: #{map.get($olive, 600)};
+  --color-primary-active: #{map.get($olive, 700)};
+  --color-primary-soft: #{map.get($olive, 100)};
+  --color-primary-text: #{map.get($olive, 650)};
+  --color-primary-deep: #{map.get($olive, 700)};
+  --color-accent: #{map.get($brown, 500)};
+  --color-accent-hover: #{map.get($brown, 600)};
+  --color-accent-soft: #{map.get($brown, 100)};
+  --color-accent-text: #{map.get($brown, 500)};
   --color-success: #{map.get($green, 500)};
   --color-success-soft: #{map.get($green, 100)};
   --color-success-text: #{map.get($green, 700)};
@@ -56,10 +58,13 @@ $ease-standard: cubic-bezier(0.2, 0, 0, 1);
   --color-danger-hover: #{map.get($red, 600)};
   --color-danger-soft: #{map.get($red, 100)};
   --color-danger-text: #{map.get($red, 700)};
-  --color-overlay: rgba(22, 33, 58, 0.45);
-  --focus-ring: 0 0 0 3px #{color.change(map.get($blue, 500), $alpha: 0.35)};
-  --shadow-raised: 0 8px 24px rgba(22, 33, 58, 0.12), 0 1px 2px rgba(22, 33, 58, 0.06);
-  --shadow-float: 0 16px 40px rgba(22, 33, 58, 0.18);
+  --color-overlay: rgba(43, 33, 24, 0.45);
+  --focus-ring: 0 0 0 3px #{color.change(map.get($olive, 500), $alpha: 0.35)};
+  --shadow-raised: 0 8px 24px rgba(43, 33, 24, 0.12), 0 1px 2px rgba(43, 33, 24, 0.06);
+  --shadow-float: 0 16px 40px rgba(43, 33, 24, 0.18);
+  // 카테고리 틴트 (상품 이미지 자리)
+  --tint-DETERGENT: #e4ebd6; --tint-TISSUE: #f1e9dc; --tint-WATER: #dce8ea; --tint-COFFEE: #e8dccb; --tint-KITCHEN: #ebe6d3; --tint-PET: #eadfd4;
+  --tint-text: #{map.get($brown, 500)};
 }
 
 @mixin dark {
@@ -67,33 +72,37 @@ $ease-standard: cubic-bezier(0.2, 0, 0, 1);
   --color-bg: #{map.get($night, bg)};
   --color-surface: #{map.get($night, surface)};
   --color-surface-raised: #{map.get($night, raised)};
-  --color-surface-sunken: #0c0f13;
+  --color-surface-sunken: #{map.get($night, sunken)};
   --color-text: #{map.get($night, text)};
   --color-text-secondary: #{map.get($night, text-2)};
   --color-text-muted: #{map.get($night, text-3)};
-  --color-text-on-primary: #ffffff;
+  --color-text-on-primary: #{map.get($olive, 900)};
   --color-border: #{map.get($night, border)};
   --color-border-strong: #{map.get($night, border-strong)};
-  --color-primary: #{map.get($blue, 400)};
-  --color-primary-hover: #{map.get($blue, 300)};
-  --color-primary-active: #{map.get($blue, 200)};
-  --color-primary-soft: rgba(85, 152, 231, 0.16);
-  --color-primary-text: #{map.get($blue, 300)};
-  --color-accent: #{map.get($orange, 300)};
-  --color-accent-soft: rgba(235, 104, 52, 0.18);
-  --color-accent-text: #{map.get($orange, 300)};
-  --color-success: #{map.get($green, 500)};
-  --color-success-soft: rgba(27, 175, 122, 0.18);
-  --color-success-text: #5fd3a4;
-  --color-warning: #{map.get($yellow, 500)};
-  --color-warning-soft: rgba(237, 161, 0, 0.18);
-  --color-warning-text: #f3c552;
-  --color-danger: #e66767;
-  --color-danger-hover: #f08080;
-  --color-danger-soft: rgba(230, 103, 103, 0.18);
-  --color-danger-text: #f39c9c;
+  --color-primary: #{map.get($olive, 300)};
+  --color-primary-hover: #{map.get($olive, 200)};
+  --color-primary-active: #{map.get($olive, 100)};
+  --color-primary-soft: rgba(185, 196, 142, 0.16);
+  --color-primary-text: #{map.get($olive, 300)};
+  --color-primary-deep: #{map.get($olive, 800)};
+  --color-accent: #{map.get($brown, 300)};
+  --color-accent-hover: #{map.get($brown, 200)};
+  --color-accent-soft: rgba(201, 165, 126, 0.18);
+  --color-accent-text: #{map.get($brown, 300)};
+  --color-success: #6fbf84;
+  --color-success-soft: rgba(111, 191, 132, 0.18);
+  --color-success-text: #8fd3a0;
+  --color-warning: #e0a73a;
+  --color-warning-soft: rgba(224, 167, 58, 0.18);
+  --color-warning-text: #f0c46a;
+  --color-danger: #e06b62;
+  --color-danger-hover: #eb8880;
+  --color-danger-soft: rgba(224, 107, 98, 0.18);
+  --color-danger-text: #f2a19b;
   --color-overlay: rgba(0, 0, 0, 0.6);
-  --focus-ring: 0 0 0 3px rgba(85, 152, 231, 0.45);
+  --focus-ring: 0 0 0 3px rgba(185, 196, 142, 0.45);
   --shadow-raised: 0 8px 24px rgba(0, 0, 0, 0.45), 0 1px 2px rgba(0, 0, 0, 0.4);
   --shadow-float: 0 16px 40px rgba(0, 0, 0, 0.6);
+  --tint-DETERGENT: #2c3320; --tint-TISSUE: #34302a; --tint-WATER: #26302f; --tint-COFFEE: #332b22; --tint-KITCHEN: #31301f; --tint-PET: #332c26;
+  --tint-text: #{map.get($brown, 300)};
 }

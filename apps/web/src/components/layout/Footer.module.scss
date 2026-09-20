@@ -1,0 +1,9 @@
+@use "../../styles/variables" as v;
+@use "../../styles/mixins" as *;
+
+.footer { margin-top: v.$space-9; border-top: 1px solid v.$color-border; background: v.$color-surface; }
+.inner { @include container; padding-top: v.$space-6; padding-bottom: v.$space-6; display: grid; gap: v.$space-4;
+  @include up(md) { grid-template-columns: minmax(0, 1fr) auto; align-items: start; } }
+.brand { display: flex; flex-direction: column; gap: v.$space-2; p { font-size: v.$font-sm; color: v.$color-text-secondary; max-width: 48ch; } }
+.links { display: flex; flex-wrap: wrap; gap: v.$space-4; font-size: v.$font-sm; font-weight: 500; a { color: v.$color-text-secondary; &:hover { color: v.$color-text; } @include focus-visible; border-radius: 4px; } }
+.note { font-size: v.$font-xs; color: v.$color-muted; line-height: 1.6; @include up(md) { grid-column: 1 / -1; } }

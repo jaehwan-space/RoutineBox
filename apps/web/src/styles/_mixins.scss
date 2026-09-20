@@ -84,6 +84,20 @@
 
 @mixin tabular-nums { font-variant-numeric: tabular-nums; }
 
+/// 브랜드 제목 서체(Gowun Batang). 히어로·페이지·섹션 제목에만 쓴다.
+@mixin display {
+  font-family: v.$font-serif;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  line-height: v.$lh-tight;
+}
+
+/// 카테고리별 상품 이미지 자리 틴트
+@mixin tint($category) {
+  background: var(--tint-#{$category});
+  color: var(--tint-text);
+}
+
 @mixin visually-hidden {
   position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap;
 }

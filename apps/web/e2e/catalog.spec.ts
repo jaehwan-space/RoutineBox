@@ -21,7 +21,7 @@ test.describe("시나리오 2 · 상품 탐색·검색·장바구니", () => {
     await page.getByRole("link", { name: /원두 1kg 상세 보기/ }).click();
     await expect(page).toHaveURL(/\/products\/[^/?]+$/);
     await expect(page.getByRole("heading", { level: 1, name: "원두 1kg" })).toBeVisible();
-    await expect(page.getByText(/구독 시 5% 할인/).first()).toBeVisible();
+    await expect(page.getByText(/구독 5% 할인/).first()).toBeVisible();
 
     await page.getByRole("button", { name: "담기" }).click();
     await expect(page.getByRole("link", { name: "장바구니 1개" })).toBeVisible();

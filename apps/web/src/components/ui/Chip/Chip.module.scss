@@ -18,9 +18,9 @@
 .sm { min-height: 32px; padding: 0 v.$space-3; font-size: v.$font-sm; }
 .md { min-height: 40px; padding: 0 v.$space-4; font-size: v.$font-base; }
 .selected {
-  background: v.$color-text;
-  border-color: v.$color-text;
-  color: v.$color-bg;
-  &:hover:not(:disabled) { background: v.$color-text; color: v.$color-bg; }
+  background: v.$color-primary-soft;
+  border-color: v.$color-primary;
+  color: v.$color-primary-text;
+  &:hover:not(:disabled) { background: v.$color-primary-soft; color: v.$color-primary-text; }
 }
 .icon { display: inline-flex; svg { width: 16px; height: 16px; } }

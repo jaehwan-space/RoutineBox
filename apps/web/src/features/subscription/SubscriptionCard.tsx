@@ -29,16 +29,21 @@ export function SubscriptionCard({ sub }: { sub: SubscriptionDto }) {
   return (
     <Card as="li" className={styles.card}>
       <div className={styles.head}>
+        <span className={styles.thumb} style={{ background: `var(--tint-${sub.product.category})` }} aria-hidden>{sub.product.name}</span>
         <div className={styles.titleWrap}>
-          <Link href={`/subscriptions/${sub.id}`} className={styles.title}>{sub.product.name}</Link>
-          <span className={styles.meta}>{sub.quantity}개 · {cycleLabel(sub.cycleDays)} · 회당 {formatKrw(sub.amount)}</span>
+          <div className={styles.titleRow}>
+            <Link href={`/subscriptions/${sub.id}`} className={styles.title}>{sub.product.name}</Link>
+            <Badge status={STATUS_BADGE[sub.status]} />
+          </div>
+          <span className={styles.meta}>{sub.quantity}개 · {cycleLabel(sub.cycleDays)} · 회당 {formatKrw(sub.amount)}{sub.paymentMethod ? ` · ${sub.paymentMethod.cardCompany} ${sub.paymentMethod.cardLast4}` : ""}</span>
         </div>
-        <Badge status={STATUS_BADGE[sub.status]} />
+        {sub.status === "ACTIVE" && sub.nextBillingDate && (
+          <span className={styles.dday}>{dLeft === 0 ? "오늘 결제" : dLeft !== null && dLeft > 0 ? `D-${dLeft}` : "결제 예정"}</span>
+        )}
       </div>
 
       {sub.status === "ACTIVE" && sub.nextBillingDate && (
         <div className={styles.next}>
-          <span className={styles.dday}>{dLeft === 0 ? "오늘 결제" : dLeft !== null && dLeft > 0 ? `D-${dLeft}` : "결제 예정"}</span>
           <span>결제 {formatShortDate(sub.nextBillingDate)} · 배송 {sub.nextDeliveryDate ? formatShortDate(sub.nextDeliveryDate) : "-"}</span>
         </div>
       )}

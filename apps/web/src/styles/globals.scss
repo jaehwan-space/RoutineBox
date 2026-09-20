@@ -29,3 +29,6 @@ p { margin: 0; }
 ul, ol { margin: 0; padding: 0; list-style: none; }
 :focus-visible { @include focus-ring; }
 ::selection { background: v.$color-primary-soft; }
+main { min-height: 60vh; }
+// 모바일 하단 탭 높이만큼 여백
+@media (max-width: 767px) { main { padding-bottom: calc(72px + env(safe-area-inset-bottom)); } }
