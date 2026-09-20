@@ -1,0 +1,15 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 1000" width="800" height="1000">
+<rect width="800" height="1000" fill="#e8dccb"/>
+<ellipse cx="400" cy="820" rx="250" ry="26" fill="#2b2118" opacity="0.08"/>
+<path d="M230 520 h340 l-30 220 q-10 40 -50 40 h-180 q-40 0 -50 -40z" fill="#ffffff"/>
+<path d="M570 560 h60 q60 0 60 60 v40 q0 60 -60 60 h-60" fill="none" stroke="#ffffff" stroke-width="34"/>
+<path d="M290 300 h220 v200 h-220z" fill="#c9a57e"/>
+<path d="M270 300 h260 l-20 -40 h-220z" fill="#6b4a2b"/>
+<path d="M250 380 h40 v90 h-40z M510 380 h40 v90 h-40z" fill="#6b4a2b" opacity="0.7"/>
+<rect x="320" y="340" width="160" height="110" rx="12" fill="#fbf9f4"/>
+<text x="400" y="386" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="22" letter-spacing="4" fill="#6b4a2b">DRIP BAG</text>
+<text x="400" y="430" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="30" font-weight="700" fill="#6b4a2b">ETHIOPIA</text>
+<path d="M330 600 q20 -60 70 -30 q40 40 80 -10" stroke="#c9a57e" stroke-width="6" fill="none" opacity="0.7"/>
+<rect x="230" y="880" width="340" height="56" rx="28" fill="#ffffff" opacity="0.9"/>
+<text x="400" y="917" text-anchor="middle" font-family="Apple SD Gothic Neo, Noto Sans KR, sans-serif" font-size="26" font-weight="700" fill="#6b4a2b">드립백 커피 30개입</text>
+</svg>

@@ -17,9 +17,10 @@
 .priceNote { font-size: v.$font-sm; color: v.$color-text-secondary; margin-top: 4px; }
 .facts { margin: 0; padding: v.$space-4 0; border-top: 1px solid v.$color-border; border-bottom: 1px solid v.$color-border; display: flex; flex-direction: column; gap: v.$space-2; font-size: v.$font-sm;
   > div { display: grid; grid-template-columns: 88px 1fr; gap: v.$space-3; } dt { color: v.$color-text-secondary; } dd { margin: 0; white-space: pre-line; } }
-.detail { margin-top: v.$space-6; padding-top: v.$space-5; border-top: 1px solid v.$color-border; display: flex; flex-direction: column; gap: v.$space-4; max-width: 760px; @include up(md) { margin-top: v.$space-7; } }
+// 상품 설명: 페이지 가운데에 놓인 한 열 (제목·본문·이미지 모두 중앙 정렬)
+.detail { margin: v.$space-6 auto 0; padding-top: v.$space-5; border-top: 1px solid v.$color-border; display: flex; flex-direction: column; align-items: center; gap: v.$space-4; width: 100%; max-width: 760px; text-align: center; @include up(md) { margin-top: v.$space-7; } }
 .detailTitle { @include display; font-size: v.$font-xl; }
-.detailText { font-size: v.$font-base; line-height: 1.75; color: v.$color-text; }
+.detailText { font-size: v.$font-base; line-height: 1.75; color: v.$color-text; max-width: 60ch; }
 .detailImage { width: 100%; height: auto; border-radius: v.$radius-md; }
-.allergy { padding: v.$space-4; border-radius: v.$radius-md; background: v.$color-surface-sunken; font-size: v.$font-sm; display: flex; flex-direction: column; gap: v.$space-2;
+.allergy { width: 100%; padding: v.$space-4; border-radius: v.$radius-md; background: v.$color-surface-sunken; font-size: v.$font-sm; display: flex; flex-direction: column; gap: v.$space-2; text-align: left;
   strong { color: v.$color-text; } p { color: v.$color-text-secondary; white-space: pre-line; line-height: 1.6; } }

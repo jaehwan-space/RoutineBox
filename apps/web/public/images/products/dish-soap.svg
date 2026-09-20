@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 1000" width="800" height="1000">
+<rect width="800" height="1000" fill="#ebe6d3"/>
+<ellipse cx="400" cy="820" rx="250" ry="26" fill="#2b2118" opacity="0.08"/>
+<rect x="385" y="120" width="30" height="90" fill="#3f4a1e"/>
+<path d="M330 150 h70 v30 h-70 q-24 0 -24 -15 q0 -15 24 -15z" fill="#3f4a1e"/>
+<rect x="350" y="210" width="100" height="60" rx="10" fill="#5e6b2f"/>
+<path d="M310 270 h180 q50 0 50 50 v400 q0 50 -50 50 h-180 q-50 0 -50 -50 v-400 q0 -50 50 -50z" fill="#ffffff"/>
+<rect x="280" y="420" width="240" height="200" rx="18" fill="#5e6b2f"/>
+<text x="400" y="490" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="26" letter-spacing="6" fill="#ffffff" opacity="0.85">DISH</text>
+<text x="400" y="580" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="88" font-weight="700" fill="#ffffff">1L</text>
+<rect x="230" y="880" width="340" height="56" rx="28" fill="#ffffff" opacity="0.9"/>
+<text x="400" y="917" text-anchor="middle" font-family="Apple SD Gothic Neo, Noto Sans KR, sans-serif" font-size="26" font-weight="700" fill="#6b4a2b">주방세제 1L</text>
+</svg>

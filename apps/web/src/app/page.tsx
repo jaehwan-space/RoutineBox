@@ -8,12 +8,19 @@ import styles from "./page.module.scss";
 
 const cycleHint = (days: number) => (days % 7 === 0 ? `${days / 7}주 주기` : `${days}일 주기`);
 
+/** 히어로에 보여줄 상품 사진: 검색어로 고르고, 없으면 인기 상품으로 채운다 */
+const HERO_PICKS = ["곡물 샐러드", "계란", "브로콜리"];
+
 export default async function HomePage() {
-  const [popular, categories] = await Promise.all([
+  const [popular, categories, ...picks] = await Promise.all([
     serverApi<Paginated<ProductDto>>("/products?pageSize=5"),
     serverApi<CategoryCountDto[]>("/products/categories"),
+    ...HERO_PICKS.map((q) => serverApi<Paginated<ProductDto>>(`/products?q=${encodeURIComponent(q)}&pageSize=1`).then((r) => r.items[0] ?? null).catch(() => null)),
   ]);
   const shownCategories = (categories.length > 0 ? categories.map((c) => c.category) : CATEGORIES).slice(0, 12);
+  const heroProducts = [...picks.filter((p): p is ProductDto => !!p?.imageUrl), ...popular.items.filter((p) => p.imageUrl)]
+    .filter((p, i, arr) => arr.findIndex((x) => x.id === p.id) === i)
+    .slice(0, 3);
   return (
     <>
       <section className={styles.hero} aria-label="추천">
@@ -27,10 +34,14 @@ export default async function HomePage() {
               <Button href="#how" size="lg" variant="secondary" className={styles.ctaGhost}>이용 방법 보기</Button>
             </div>
           </div>
-          <div className={styles.heroArt} aria-hidden="true">
-            <span className={styles.artA}>세탁세제 3L</span>
-            <span className={styles.artB}>화장지 30롤</span>
-            <span className={styles.artC}>원두 1kg</span>
+          <div className={styles.heroArt}>
+            {heroProducts.map((p, i) => (
+              <Link key={p.id} href={`/products/${p.id}`} className={[styles.artA, styles.artB, styles.artC][i]} aria-label={`${p.name} 상세 보기`}>
+                {/* eslint-disable-next-line @next/next/no-img-element -- 임포트한 상품 사진 */}
+                <img src={p.imageUrl ?? ""} alt="" />
+                <span>{p.name}</span>
+              </Link>
+            ))}
           </div>
         </div>
       </section>
