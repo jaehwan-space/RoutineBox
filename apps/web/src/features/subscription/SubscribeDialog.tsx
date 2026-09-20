@@ -3,11 +3,13 @@
 import type { ProductDto } from "@routinebox/shared";
 import { Button, Dialog } from "@/components/ui";
 import { SubscribeFields } from "./SubscribeFields";
-import { useSubscribeForm } from "./useSubscribeForm";
+import { useSubscribeForm, type SubscribeFormOptions } from "./useSubscribeForm";
 
-/** 모바일·태블릿: 바텀시트로 여는 구독 설정 */
-export function SubscribeDialog({ product, open, onClose }: { product: ProductDto; open: boolean; onClose: () => void }) {
-  const form = useSubscribeForm(product, onClose);
+type Props = { product: ProductDto; open: boolean; onClose: () => void } & Pick<SubscribeFormOptions, "initialQuantity" | "returnTo" | "onCreated">;
+
+/** 모바일·태블릿 상품 상세와 장바구니(개별 구독): 바텀시트로 여는 구독 설정 */
+export function SubscribeDialog({ product, open, onClose, initialQuantity, returnTo, onCreated }: Props) {
+  const form = useSubscribeForm(product, { onDone: onClose, initialQuantity, returnTo, onCreated });
   return (
     <Dialog
       open={open}

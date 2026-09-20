@@ -1,4 +1,4 @@
-import type { Prisma } from "@prisma/client";
+import type { Prisma, Product } from "@prisma/client";
 import {
   addDays, billingDateFor, deliveryDateFor, fromDbDate, sameMonth, subscriptionAmount, toDbDate, todayKst,
   BILLING_LEAD_DAYS, type ActivateSubscriptionInput, type CreateSubscriptionInput, type ResumeSubscriptionInput,
@@ -43,10 +43,48 @@ function toDto(s: SubRow | SubRowWithOrders): SubscriptionDto {
   };
 }
 
-async function ownPaymentMethod(userId: string, paymentMethodId: string) {
+export async function ownPaymentMethod(userId: string, paymentMethodId: string) {
   const pm = await prisma.paymentMethod.findFirst({ where: { id: paymentMethodId, userId, deletedAt: null } });
   if (!pm) throw new AppError("NOT_FOUND", "결제 수단을 찾을 수 없습니다.");
   return pm;
+}
+
+/** 첫 배송일은 오늘 + 결제 리드타임 이후여야 한다(결제일이 오늘 이전이 되지 않도록). */
+export function assertFirstDeliveryDate(firstDeliveryDate: string) {
+  const earliest = addDays(todayKst(), BILLING_LEAD_DAYS);
+  if (firstDeliveryDate < earliest) {
+    throw new AppError("VALIDATION_ERROR", `첫 배송일은 ${earliest} 이후여야 합니다.`, { firstDeliveryDate: [`${earliest} 이후`] });
+  }
+}
+
+export interface NewSubscription {
+  product: Pick<Product, "id" | "price" | "subscriptionDiscount">;
+  quantity: number;
+  cycleDays: number;
+  firstDeliveryDate: string;
+  /** 소유 확인이 끝난 결제수단 id. 없으면 PENDING 으로 만든다. */
+  paymentMethodId: string | null;
+}
+
+/** 트랜잭션 안에서 구독 한 건을 만들고, 결제수단이 있으면 '구독 시작' 알림 이력을 남긴다. 단건 생성과 장바구니 일괄 시작이 같이 쓴다. */
+export async function insertSubscription(tx: Prisma.TransactionClient, userId: string, input: NewSubscription): Promise<SubRow> {
+  const firstBilling = billingDateFor(input.firstDeliveryDate);
+  const s = await tx.subscription.create({
+    data: {
+      userId,
+      productId: input.product.id,
+      quantity: input.quantity,
+      cycleDays: input.cycleDays,
+      amount: subscriptionAmount(input.product.price, input.product.subscriptionDiscount, input.quantity),
+      firstDeliveryDate: toDbDate(input.firstDeliveryDate),
+      nextBillingDate: toDbDate(firstBilling),
+      status: input.paymentMethodId ? "ACTIVE" : "PENDING",
+      paymentMethodId: input.paymentMethodId,
+    },
+    include,
+  });
+  if (input.paymentMethodId) await tx.notification.create({ data: { userId, subscriptionId: s.id, type: "SUBSCRIPTION_STARTED", periodKey: firstBilling } });
+  return s;
 }
 
 async function ownSubscription(userId: string, id: string): Promise<SubRow> {
@@ -73,30 +111,11 @@ export async function create(userId: string, input: CreateSubscriptionInput): Pr
   const product = await prisma.product.findFirst({ where: { id: input.productId, isActive: true } });
   if (!product) throw new AppError("NOT_FOUND", "상품을 찾을 수 없습니다.");
   if (product.stock <= 0) throw new AppError("CONFLICT", "일시 품절된 상품입니다.");
-  const earliest = addDays(todayKst(), BILLING_LEAD_DAYS);
-  if (input.firstDeliveryDate < earliest) {
-    throw new AppError("VALIDATION_ERROR", `첫 배송일은 ${earliest} 이후여야 합니다.`, { firstDeliveryDate: [`${earliest} 이후`] });
-  }
+  assertFirstDeliveryDate(input.firstDeliveryDate);
   const paymentMethod = input.paymentMethodId ? await ownPaymentMethod(userId, input.paymentMethodId) : null;
-  const firstBilling = billingDateFor(input.firstDeliveryDate);
-  const created = await prisma.$transaction(async (tx) => {
-    const s = await tx.subscription.create({
-      data: {
-        userId,
-        productId: product.id,
-        quantity: input.quantity,
-        cycleDays: input.cycleDays,
-        amount: subscriptionAmount(product.price, product.subscriptionDiscount, input.quantity),
-        firstDeliveryDate: toDbDate(input.firstDeliveryDate),
-        nextBillingDate: toDbDate(firstBilling),
-        status: paymentMethod ? "ACTIVE" : "PENDING",
-        paymentMethodId: paymentMethod?.id ?? null,
-      },
-      include,
-    });
-    if (paymentMethod) await tx.notification.create({ data: { userId, subscriptionId: s.id, type: "SUBSCRIPTION_STARTED", periodKey: firstBilling } });
-    return s;
-  });
+  const created = await prisma.$transaction((tx) =>
+    insertSubscription(tx, userId, { product, quantity: input.quantity, cycleDays: input.cycleDays, firstDeliveryDate: input.firstDeliveryDate, paymentMethodId: paymentMethod?.id ?? null }),
+  );
   return toDto(created);
 }
 

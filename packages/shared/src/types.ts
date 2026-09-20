@@ -106,6 +106,12 @@ export interface SubscriptionListDto {
   activeCount: number;
 }
 
+/** 장바구니 일괄 구독 시작 결과: 만들어진 구독들과 비워진 장바구니 */
+export interface CartCheckoutResultDto {
+  subscriptions: SubscriptionDto[];
+  cart: CartDto;
+}
+
 export interface ProductAdminDto extends ProductDto {
   isActive: boolean;
   createdAt: string;

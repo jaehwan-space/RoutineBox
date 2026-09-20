@@ -30,6 +30,7 @@
 | GET | /cart | 내 장바구니 → `{ items[{ productId, quantity, product, lineTotal }], itemCount, total }` |
 | PUT | /cart/items | { productId, quantity } 추가·수량 변경(upsert). 비활성 상품 404 |
 | DELETE | /cart/items/:productId | 삭제 |
+| POST | /cart/checkout | 일괄 구독 시작. `{ firstDeliveryDate, paymentMethodId?, cycles?[{ productId, cycleDays }] }` → 담긴 상품마다 구독 생성(수량은 장바구니 값, 주기는 지정값 없으면 추천 주기, 결제수단 없으면 PENDING) 후 장바구니 비움 → 201 `{ subscriptions[], cart }`. 빈 장바구니 400, 품절 상품 포함 409(아무것도 만들지 않음) |
 
 ## 결제 수단 `/payment-methods` 🔒
 | POST | /payment-methods/billing-auth | { authKey, customerKey } → 토스 빌링키 발급·AES-256-GCM 암호화 저장. customerKey 는 `cust_{userId}` 여야 함(400) |

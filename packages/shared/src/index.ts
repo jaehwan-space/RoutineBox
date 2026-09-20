@@ -2,6 +2,7 @@ export * from "./constants";
 export * from "./schemas/auth";
 export * from "./schemas/payment";
 export * from "./schemas/product";
+export * from "./schemas/cart";
 export * from "./schemas/subscription";
 export * from "./schemas/order";
 export * from "./schemas/admin";

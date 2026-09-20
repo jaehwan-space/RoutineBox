@@ -1,9 +1,12 @@
 "use client";
 
 import { useMutation, useQuery, useQueryClient, type QueryClient } from "@tanstack/react-query";
+import { useRouter } from "next/navigation";
 import type { CartDto, ProductDto } from "@routinebox/shared";
 import { useToast } from "@/components/ui";
 import { useMe } from "@/features/auth/useMe";
+import { SUBS_KEY } from "@/features/subscription/useSubscriptions";
+import { ApiError } from "@/lib/api";
 import { useCartStore } from "@/store/cart";
 import { cartApi } from "./api";
 
@@ -18,9 +21,13 @@ export interface CartLineView {
   product?: ProductDto;
 }
 
+/** 서버 장바구니 줄(로그인 사용자): 상품 정보가 있어 장바구니에서 바로 구독을 만들 수 있다. */
+export type CartLineWithProduct = CartLineView & { product: ProductDto };
+export const hasProduct = (l: CartLineView): l is CartLineWithProduct => !!l.product;
+
 /** 로그인 사용자는 서버 장바구니, 비로그인은 로컬 스토어를 같은 형태로 돌려준다. */
 export function useCartLines() {
-  const { data: me } = useMe();
+  const { data: me, isPending: mePending } = useMe();
   const local = useCartStore((s) => s.lines);
   const query = useQuery<CartDto>({ queryKey: CART_KEY, queryFn: cartApi.get, enabled: !!me });
   const lines: CartLineView[] = me
@@ -31,7 +38,8 @@ export function useCartLines() {
     total: lines.reduce((n, l) => n + l.lineTotal, 0),
     itemCount: lines.reduce((n, l) => n + l.quantity, 0),
     isGuest: !me,
-    isLoading: !!me && query.isPending,
+    // 로그인 여부를 아직 모르면 로딩으로 본다(로그인 사용자에게 빈 게스트 장바구니가 잠깐 보이지 않도록).
+    isLoading: mePending || (!!me && query.isPending),
   };
 }
 
@@ -76,6 +84,29 @@ export function useCartActions() {
     remove: (productId: string) => (me ? remove.mutate(productId) : store.remove(productId)),
     isBusy: put.isPending || remove.isPending,
   };
+}
+
+/** 장바구니 일괄 구독 시작. 성공하면 장바구니 캐시를 비우고 내 구독으로 이동한다. */
+export function useCartCheckout() {
+  const qc = useQueryClient();
+  const toast = useToast();
+  const router = useRouter();
+  return useMutation({
+    mutationFn: cartApi.checkout,
+    onSuccess: async (result) => {
+      qc.setQueryData<CartDto>(CART_KEY, result.cart);
+      await qc.invalidateQueries({ queryKey: SUBS_KEY });
+      const n = result.subscriptions.length;
+      const first = result.subscriptions[0];
+      toast.success(
+        first && result.subscriptions.every((s) => s.status === "ACTIVE")
+          ? `구독 ${n}개를 시작했어요. 첫 결제일은 ${first.nextBillingDate} 입니다.`
+          : `구독 ${n}개를 만들었어요. 카드를 등록하면 시작됩니다.`,
+      );
+      router.push("/subscriptions");
+    },
+    onError: (err) => toast.error(err instanceof ApiError ? err.message : "구독을 시작하지 못했어요."),
+  });
 }
 
 /** 로그인 직후: 로컬 장바구니를 서버로 옮기고 비운다. */

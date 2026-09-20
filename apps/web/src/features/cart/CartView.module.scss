@@ -20,3 +20,5 @@
   > div { display: flex; justify-content: space-between; font-size: v.$font-sm; color: v.$color-text-secondary; dd { margin: 0; color: v.$color-text; } } }
 .summaryTotal { padding-top: v.$space-2; border-top: 1px solid v.$color-border; font-weight: 700; dt { color: v.$color-text !important; } dd { font-size: v.$font-lg; } }
 .summaryHelp { font-size: v.$font-xs; color: v.$color-muted; }
+.summaryWarn { font-size: v.$font-xs; color: v.$color-danger-text; }
+.soldOut { color: v.$color-danger-text; font-weight: 600; }
